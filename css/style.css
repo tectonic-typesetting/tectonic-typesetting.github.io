@@ -253,3 +253,8 @@ p.pitch {
   text-align: center;
   margin-top: 2rem;
 }
+
+.screenshot {
+  color: white;
+  background-color: black;
+}

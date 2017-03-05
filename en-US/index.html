@@ -19,3 +19,27 @@ title: The Tectonic Typesetting System
         <div class="release-date">{{ site.latest_date | date: "%B %-d, %Y" }}</div>
       </div>
     </div>
+
+    <h2>What’s in it for me?</h2>
+    <ul>
+      <li>Tectonic <b>automatically downloads support files</b> so you don’t
+        have to install a full LaTeX system in order to start using it. If you
+        start using a new LaTeX package, Tectonic just pulls down the files it
+        needs and continues processing. The underyling “bundle” technology
+        allows for <b>completely reproducible document compiles</b>.</li>
+      <li>The <tt>tectonic</tt> command-line program is <b>quiet and never
+          stops to ask for input</b>.</li>
+      <li>Thanks to the power of XeTeX, Tectonic can use <b>modern OpenType
+          fonts</b> and is <b>fully Unicode-enabled</b>.</li>
+      <li>The Tectonic engine has been extracted into a <b>completely
+          self-contained library</b> so that it can be embedded in other
+          applications.</li>
+      <li>Tectonic has been forked from the old-fashioned WEB2C implementation
+        of TeX and is <b>developed in the open</b>
+        on <a href="https://github.com/tectonic-typesetting/tectonic/">GitHub</a>
+        using modern tools like <a href="https://www.rust-lang.org/">the Rust
+        language</a>.</li>
+    </ul>
+
+    <pre class="screenshot"><span style="color:yellow;font-weight:bold;">user@host $</span> tectonic paper.tex
+{% include screenshot.html %}<span style="color:yellow;font-weight:bold;">user@host $</span></pre>
