@@ -11,4 +11,4 @@ aha=$HOME/sw/aha/aha
 
 set -e
 
-(cd $ttdir/tests/xenia && tectonic paper.tex |$aha -b -n) >_includes/screenshot.html
+(cd $ttdir/tests/xenia && tectonic paper.tex) |$aha -b -n |grep -v BETA >_includes/screenshot.html
