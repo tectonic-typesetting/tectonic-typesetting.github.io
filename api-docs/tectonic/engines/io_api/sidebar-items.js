@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["ttstub_input_close",""],["ttstub_input_get_size",""],["ttstub_input_getc",""],["ttstub_input_open",""],["ttstub_input_read",""],["ttstub_input_seek",""],["ttstub_output_close",""],["ttstub_output_flush",""],["ttstub_output_open",""],["ttstub_output_open_stdout",""],["ttstub_output_putc",""],["ttstub_output_write",""]]});

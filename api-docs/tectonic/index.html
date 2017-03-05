@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `tectonic` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, tectonic">
+
+    <title>tectonic - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'tectonic', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>tectonic</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/tectonic/lib.rs.html#5-59' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Tectonic is a complete
+<a href="https://www.tug.org/">TeX</a>/<a href="https://www.latex-project.org/">LaTeX</a> engine
+converted into a standalone library. It is derived from the
+<a href="http://xetex.sourceforge.net/">XeTeX</a> variant of TeX and uses the support
+files packages by the <a href="https://www.tug.org/texlive/">TeX Live</a> project.
+Tectonic would not be possible without the hard work that has gone into
+these projects.</p>
+
+<p>Because Tectonic is based on the XeTeX engine, it can take advantage of
+the features of modern fonts (TrueType, OpenType, etc.), outputs directly
+to the PDF file format, and supports Unicode inputs. Tectonic differs from
+other TeX engines in the following ways:</p>
+
+<ul>
+<li>Dependencies on environment variables and configuration files have been
+eliminated.</li>
+<li>All I/O is routed through pluggable backends. Support data can be fetched
+from a single “bundle” file, and the engine’s (copious) output can be
+hidden or postprocessed.</li>
+<li>The command-line frontend, <code>tectonic</code>, has a modernized user interface that
+never asks for user input.</li>
+<li>The frontend is just a thin shim over the Tectonic Rust crate, so that
+the full engine can be embedded anywhere you can run Rust code.</li>
+</ul>
+
+<p>Rust API documentation for Tectonic is currently very incomplete. As a
+stopgap, please see <a href="https://github.com/tectonic-typesetting/tectonic/blob/master/src/cli_driver.rs">the source to the CLI
+frontend</a>
+for a demonstration of how to run the engine.</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use engines::tex::<a class='struct' href='../tectonic/engines/tex/struct.TexEngine.html' title='tectonic::engines::tex::TexEngine'>TexEngine</a>;</code></td></tr><tr><td><code>pub use engines::tex::<a class='enum' href='../tectonic/engines/tex/enum.TexResult.html' title='tectonic::engines::tex::TexResult'>TexResult</a>;</code></td></tr><tr><td><code>pub use engines::xdvipdfmx::<a class='struct' href='../tectonic/engines/xdvipdfmx/struct.XdvipdfmxEngine.html' title='tectonic::engines::xdvipdfmx::XdvipdfmxEngine'>XdvipdfmxEngine</a>;</code></td></tr><tr><td><code>pub use errors::<a class='struct' href='../tectonic/errors/struct.Error.html' title='tectonic::errors::Error'>Error</a>;</code></td></tr><tr><td><code>pub use errors::<a class='enum' href='../tectonic/errors/enum.ErrorKind.html' title='tectonic::errors::ErrorKind'>ErrorKind</a>;</code></td></tr><tr><td><code>pub use errors::<a class='type' href='../tectonic/errors/type.Result.html' title='tectonic::errors::Result'>Result</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='config/index.html'
+                                  title='tectonic::config'>config</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='engines/index.html'
+                                  title='tectonic::engines'>engines</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='errors/index.html'
+                                  title='tectonic::errors'>errors</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='io/index.html'
+                                  title='tectonic::io'>io</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='status/index.html'
+                                  title='tectonic::status'>status</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.tt_error.html'
+                                  title='tectonic::tt_error'>tt_error</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.tt_error_styled.html'
+                                  title='tectonic::tt_error_styled'>tt_error_styled</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.tt_note.html'
+                                  title='tectonic::tt_note'>tt_note</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.tt_note_styled.html'
+                                  title='tectonic::tt_note_styled'>tt_note_styled</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.tt_warning.html'
+                                  title='tectonic::tt_warning'>tt_warning</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "tectonic";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

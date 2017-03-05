@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["OpenResult",""]],"fn":[["try_open_file",""]],"mod":[["filesystem",""],["genuine_stdout",""],["itarbundle",""],["local_cache",""],["memory",""],["stack",""],["testing",""],["zipbundle",""]],"trait":[["InputFeatures",""],["IoProvider",""]],"type":[["InputHandle",""],["OutputHandle",""]]});
