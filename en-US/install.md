@@ -6,7 +6,8 @@ title: Installation — The Tectonic Project
 # Installing Tectonic
 
 We distribute Tectonic for both Linux and MacOS machines. Installation
-requires that you be comfortable with using a terminal.
+requires that you be comfortable with using a terminal. So does using Tectonic
+itself, for that matter.
 
 Because Tectonic relies on a somewhat broad set of support libraries, the
 recommended installation method is based on
@@ -42,7 +43,7 @@ tectonic --help # test that the program works
 ```
 
 
-## If you need to install both Tectonic and Anaconda Python
+## If you need to install both Tectonic and Anaconda Python:
 
 We recommend that you use Continuum’s “Miniconda” installer to get set up
 quickly. First, install Miniconda
