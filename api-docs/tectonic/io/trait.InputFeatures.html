@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#31-34' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#26-29' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait InputFeatures: <a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a> {
     fn <a href='#tymethod.get_size' class='fnname'>get_size</a>(&amp;mut self) -&gt; <a class='type' href='../../tectonic/errors/type.Result.html' title='tectonic::errors::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;;
     fn <a href='#tymethod.try_seek' class='fnname'>try_seek</a>(&amp;mut self, pos: <a class='enum' href='https://doc.rust-lang.org/nightly/std/io/enum.SeekFrom.html' title='std::io::SeekFrom'>SeekFrom</a>) -&gt; <a class='type' href='../../tectonic/errors/type.Result.html' title='tectonic::errors::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>&gt;;
@@ -59,6 +59,7 @@
         <ul class='item-list' id='implementors-list'>
     <li><code>impl InputFeatures for <a class='struct' href='https://doc.rust-lang.org/nightly/std/fs/struct.File.html' title='std::fs::File'>File</a></code></li>
 <li><code>impl InputFeatures for <a class='struct' href='https://doc.rust-lang.org/nightly/std/io/buffered/struct.BufReader.html' title='std::io::buffered::BufReader'>BufReader</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/fs/struct.File.html' title='std::fs::File'>File</a>&gt;</code></li>
+<li><code>impl InputFeatures for <a class='struct' href='../../tectonic/io/struct.InputHandle.html' title='tectonic::io::InputHandle'>InputHandle</a></code></li>
 <li><code>impl&lt;R:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; InputFeatures for <a class='struct' href='../../flate2/gz/struct.DecoderReader.html' title='flate2::gz::DecoderReader'>GzDecoder</a>&lt;R&gt;</code></li>
 <li><code>impl InputFeatures for <a class='struct' href='https://doc.rust-lang.org/nightly/std/io/cursor/struct.Cursor.html' title='std::io::cursor::Cursor'>Cursor</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;&gt;</code></li>
 </ul><script type="text/javascript" async

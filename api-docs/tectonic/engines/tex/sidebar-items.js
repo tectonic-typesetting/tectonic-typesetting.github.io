@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["OutputFormat",""],["TexResult",""]],"struct":[["TexEngine",""]]});
+initSidebarItems({"enum":[["TexResult",""]],"struct":[["TexEngine",""]]});

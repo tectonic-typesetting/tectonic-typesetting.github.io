@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["tectonic"] = [];
 implementors["termcolor"] = [];
 
             if (window.register_implementors) {

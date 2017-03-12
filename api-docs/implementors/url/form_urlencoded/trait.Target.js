@@ -1,5 +1,6 @@
 (function() {var implementors = {};
 implementors["hyper"] = [];
+implementors["tectonic"] = [];
 implementors["url"] = [];
 
             if (window.register_implementors) {

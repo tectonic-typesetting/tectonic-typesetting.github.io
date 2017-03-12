@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["tt_error",""],["tt_error_styled",""],["tt_note",""],["tt_note_styled",""],["tt_warning",""]],"mod":[["config",""],["engines",""],["errors",""],["io",""],["status",""]]});
+initSidebarItems({"macro":[["tt_error",""],["tt_error_styled",""],["tt_note",""],["tt_note_styled",""],["tt_warning",""]],"mod":[["config",""],["digest","This module just have a few helpers to tidy up the computation of digests in various places."],["engines",""],["errors",""],["io",""],["status",""]]});

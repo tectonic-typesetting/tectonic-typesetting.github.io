@@ -137,15 +137,17 @@
 <span id="93">93</span>
 <span id="94">94</span>
 <span id="95">95</span>
+<span id="96">96</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/config.rs -- configuration for the Tectonic library.</span>
 <span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
 <span class='comment'>// Licensed under the MIT License.</span>
 
 <span class='doccomment'>/// Because Tectonic has a goal of having a high level of reproducibility, we</span>
-<span class='doccomment'>/// aim to *avoid* configuration options as much as possible. But, we at least</span>
-<span class='doccomment'>/// need a mechanism for specifying the default bundle to use when running the</span>
-<span class='doccomment'>/// command-line client. So we begrudgingly have a *little* configuration.</span>
+<span class='doccomment'>/// aim to *avoid* persistent configuration options as much as possible. But,</span>
+<span class='doccomment'>/// we at least need a mechanism for specifying the default bundle to use when</span>
+<span class='doccomment'>/// running the command-line client. So we begrudgingly have a *little*</span>
+<span class='doccomment'>/// configuration.</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Read</span>, <span class='ident'>Write</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>ErrorKind</span> <span class='kw'>as</span> <span class='ident'>IoErrorKind</span>;
@@ -167,7 +169,7 @@ url = &quot;http://purl.org/net/pkgwpub/tectonic-default&quot;
 
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Config</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>PersistentConfig</span> {
     <span class='ident'>default_bundles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>BundleInfo</span><span class='op'>&gt;</span>,
 }
 
@@ -177,8 +179,8 @@ url = &quot;http://purl.org/net/pkgwpub/tectonic-default&quot;
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>Config</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>open</span>(<span class='ident'>auto_create_config_file</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Config</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span> <span class='ident'>PersistentConfig</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>open</span>(<span class='ident'>auto_create_config_file</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>PersistentConfig</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cfg_path</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>auto_create_config_file</span> {
             <span class='ident'>app_root</span>(<span class='ident'>AppDataType</span>::<span class='ident'>UserConfig</span>, <span class='kw-2'>&amp;</span>::<span class='ident'>APP_INFO</span>)<span class='question-mark'>?</span>
         } <span class='kw'>else</span> {

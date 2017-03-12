@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["tectonic"] = ["impl <a class='trait' href='serde/ser/trait.Error.html' title='serde::ser::Error'>Error</a> for <a class='enum' href='toml/ser/enum.Error.html' title='toml::ser::Error'>Error</a>",];
 implementors["toml"] = ["impl <a class='trait' href='serde/ser/trait.Error.html' title='serde::ser::Error'>Error</a> for <a class='enum' href='toml/ser/enum.Error.html' title='toml::ser::Error'>Error</a>",];
 
             if (window.register_implementors) {

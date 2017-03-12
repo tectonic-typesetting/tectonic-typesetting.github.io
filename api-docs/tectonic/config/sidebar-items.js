@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["BundleInfo",""],["Config",""]]});
+initSidebarItems({"struct":[["BundleInfo",""],["PersistentConfig",""]]});

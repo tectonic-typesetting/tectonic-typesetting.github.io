@@ -91,6 +91,10 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/engines/c_api.rs -- exposing the C/C++ API</span>
 <span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
@@ -112,6 +116,8 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tt_run_engine</span>(<span class='ident'>input_file_name</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i8</span>) <span class='op'>-&gt;</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dvipdfmx_simple_main</span>(<span class='ident'>dviname</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i8</span>, <span class='ident'>pdfname</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i8</span>) <span class='op'>-&gt;</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bibtex_simple_main</span>(<span class='ident'>aux_file_name</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i8</span>) <span class='op'>-&gt;</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
 }
 
 
@@ -121,6 +127,8 @@
         <span class='number'>1</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>Pk</span>),
         <span class='number'>3</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>TFM</span>),
         <span class='number'>4</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>AFM</span>),
+        <span class='number'>6</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>Bib</span>),
+        <span class='number'>7</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>Bst</span>),
         <span class='number'>10</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>Format</span>),
         <span class='number'>11</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>FontMap</span>),
         <span class='number'>20</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>FileFormat</span>::<span class='ident'>Ofm</span>),

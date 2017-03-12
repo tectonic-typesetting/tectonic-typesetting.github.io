@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["tectonic"] = [];
 implementors["toml"] = [];
 
             if (window.register_implementors) {

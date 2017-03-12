@@ -69,11 +69,14 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/io/genuine_stdout.rs -- I/O to the current processes&#39; actual stdout</span>
 <span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
 <span class='comment'>// Licensed under the MIT License.</span>
 
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>stdout</span>;
 
 <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>IoProvider</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
@@ -94,7 +97,8 @@
 
 <span class='kw'>impl</span> <span class='ident'>IoProvider</span> <span class='kw'>for</span> <span class='ident'>GenuineStdoutIo</span> {
     <span class='kw'>fn</span> <span class='ident'>output_open_stdout</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-        <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>stdout</span>()))
+        <span class='comment'>// NOTE: keep in sync with io::memory::MemoryIo::stdout_key()</span>
+        <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>OutputHandle</span>::<span class='ident'>new</span>(<span class='ident'>OsStr</span>::<span class='ident'>new</span>(<span class='string'>&quot;&quot;</span>), <span class='ident'>stdout</span>()))
     }
 }
 </pre>

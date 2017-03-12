@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#5-159' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#5-288' title='goto source code'>[src]</a></span></h1>
 <h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use self::<a class='mod'
                                        href='./filesystem/index.html'>filesystem</a>::<a class='struct' href='../../tectonic/io/filesystem/struct.FilesystemIo.html' title='tectonic::io::filesystem::FilesystemIo'>FilesystemIo</a>;</code></td></tr><tr><td><code>pub use self::<a class='mod'
@@ -110,6 +110,24 @@
                            <td class='docblock-short'>
                                 
                            </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.InputHandle.html'
+                                  title='tectonic::io::InputHandle'>InputHandle</a></td>
+                           <td class='docblock-short'>
+                                <p>Input handles basically Read objects with a few extras. We don&#39;t require
+the standard io::Seek because we need to provide a dummy implementation
+for GZip streams, which we wouldn&#39;t be allowed to do because both the
+trait and the target struct are outside of our crate.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.OutputHandle.html'
+                                  title='tectonic::io::OutputHandle'>OutputHandle</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -138,21 +156,6 @@
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.try_open_file.html'
                                   title='tectonic::io::try_open_file'>try_open_file</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='type' href='type.InputHandle.html'
-                                  title='tectonic::io::InputHandle'>InputHandle</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='type' href='type.OutputHandle.html'
-                                  title='tectonic::io::OutputHandle'>OutputHandle</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

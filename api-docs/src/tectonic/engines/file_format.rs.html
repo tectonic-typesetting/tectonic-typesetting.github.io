@@ -93,6 +93,10 @@
 <span id="49">49</span>
 <span id="50">50</span>
 <span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/engines/file_format.rs -- different file formats that the C code cares about</span>
 <span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
@@ -102,6 +106,8 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FileFormat</span> {
     <span class='ident'>AFM</span>,
+    <span class='ident'>Bib</span>,
+    <span class='ident'>Bst</span>,
     <span class='ident'>Cmap</span>,
     <span class='ident'>Enc</span>,
     <span class='ident'>Format</span>,
@@ -125,6 +131,8 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>format_to_extension</span> (<span class='ident'>format</span>: <span class='ident'>FileFormat</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> {
     <span class='kw'>match</span> <span class='ident'>format</span> {
         <span class='ident'>FileFormat</span>::<span class='ident'>AFM</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.afm&quot;</span>,
+        <span class='ident'>FileFormat</span>::<span class='ident'>Bib</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.bib&quot;</span>,
+        <span class='ident'>FileFormat</span>::<span class='ident'>Bst</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.bst&quot;</span>,
         <span class='ident'>FileFormat</span>::<span class='ident'>Cmap</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.cmap&quot;</span>, <span class='comment'>/* XXX: kpathsea doesn&#39;t define any suffixes for this */</span>
         <span class='ident'>FileFormat</span>::<span class='ident'>Enc</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.enc&quot;</span>,
         <span class='ident'>FileFormat</span>::<span class='ident'>Format</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.fmt&quot;</span>,

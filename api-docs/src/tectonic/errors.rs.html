@@ -123,6 +123,11 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/errors.rs -- error types</span>
 <span class='comment'>// Copyright 2016 the Tectonic Project</span>
@@ -154,6 +159,11 @@
     }
 
     <span class='ident'>errors</span> {
+        <span class='ident'>BadLength</span>(<span class='ident'>expected</span>: <span class='ident'>usize</span>, <span class='ident'>observed</span>: <span class='ident'>usize</span>) {
+            <span class='ident'>description</span>(<span class='string'>&quot;the item is not the expected length&quot;</span>)
+            <span class='ident'>display</span>(<span class='string'>&quot;expected length {}; found {}&quot;</span>, <span class='ident'>expected</span>, <span class='ident'>observed</span>)
+        }
+
         <span class='ident'>NotSeekable</span> {
             <span class='ident'>description</span>(<span class='string'>&quot;this stream is not seekable&quot;</span>)
             <span class='ident'>display</span>(<span class='string'>&quot;this stream is not seekable&quot;</span>)
