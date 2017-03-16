@@ -190,7 +190,7 @@
 
 <span class='kw'>use</span> <span class='ident'>errors</span>::<span class='prelude-ty'>Result</span>;
 <span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>InputFeatures</span>, <span class='ident'>InputHandle</span>, <span class='ident'>IoProvider</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
+<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>InputFeatures</span>, <span class='ident'>InputHandle</span>, <span class='ident'>InputOrigin</span>, <span class='ident'>IoProvider</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
 
 
 <span class='comment'>// MemoryIo is an IoProvider that stores &quot;files&quot; in in-memory buffers.</span>
@@ -307,7 +307,7 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>name</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span>, <span class='string'>&quot;name must be non-empty&quot;</span>);
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>files</span>.<span class='ident'>borrow</span>().<span class='ident'>contains_key</span>(<span class='ident'>name</span>) {
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>MemoryIoItem</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>files</span>, <span class='ident'>name</span>)))
+            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>MemoryIoItem</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>files</span>, <span class='ident'>name</span>), <span class='ident'>InputOrigin</span>::<span class='ident'>Other</span>))
         } <span class='kw'>else</span> {
             <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
         }

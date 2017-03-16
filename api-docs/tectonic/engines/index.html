@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/engines/mod.rs.html#5-430' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/tectonic/engines/mod.rs.html#5-336' title='goto source code'>[src]</a></span></h1>
 <h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use self::<a class='mod'
                                        href='./tex/index.html'>tex</a>::<a class='struct' href='../../tectonic/engines/tex/struct.TexEngine.html' title='tectonic::engines::tex::TexEngine'>TexEngine</a>;</code></td></tr><tr><td><code>pub use self::<a class='mod'
@@ -98,22 +98,22 @@
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.FileSummary.html'
-                                  title='tectonic::engines::FileSummary'>FileSummary</a></td>
+                           <td><a class='struct' href='struct.NoopIoEventBackend.html'
+                                  title='tectonic::engines::NoopIoEventBackend'>NoopIoEventBackend</a></td>
                            <td class='docblock-short'>
-                                <p>A summary of the I/O that happened on a file. We record its access
-pattern, the cryptographic digest of the file when it was last read, and
-the cryptographic digest of the file as it was last written.</p>
+                                <p>This struct implements the IoEventBackend trait but does nothing.</p>
                            </td>
-                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.AccessPattern.html'
-                                  title='tectonic::engines::AccessPattern'>AccessPattern</a></td>
+                           <td><a class='trait' href='trait.IoEventBackend.html'
+                                  title='tectonic::engines::IoEventBackend'>IoEventBackend</a></td>
                            <td class='docblock-short'>
-                                <p>Different patterns with which files may have been accessed by the
-underlying engines. Once a file is marked as ReadThenWritten or
-WrittenThenRead, its pattern does not evolve further.</p>
+                                <p>The IoEventBackend trait allows the program driving the TeX engines to
+track its input and output access patterns. The CLI program uses this
+information to intelligently decide when to rerun the TeX engine, to
+choose which files to actually save to disk, and to emit Makefile rules
+describing the dependency of the outputs on the inputs.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

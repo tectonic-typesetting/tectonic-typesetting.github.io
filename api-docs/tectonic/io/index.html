@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#5-288' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#5-355' title='goto source code'>[src]</a></span></h1>
 <h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use self::<a class='mod'
                                        href='./filesystem/index.html'>filesystem</a>::<a class='struct' href='../../tectonic/io/filesystem/struct.FilesystemIo.html' title='tectonic::io::filesystem::FilesystemIo'>FilesystemIo</a>;</code></td></tr><tr><td><code>pub use self::<a class='mod'
@@ -116,10 +116,10 @@
                            <td><a class='struct' href='struct.InputHandle.html'
                                   title='tectonic::io::InputHandle'>InputHandle</a></td>
                            <td class='docblock-short'>
-                                <p>Input handles basically Read objects with a few extras. We don&#39;t require
-the standard io::Seek because we need to provide a dummy implementation
-for GZip streams, which we wouldn&#39;t be allowed to do because both the
-trait and the target struct are outside of our crate.</p>
+                                <p>Input handles are basically Read objects with a few extras. We don&#39;t
+require the standard io::Seek because we need to provide a dummy
+implementation for GZip streams, which we wouldn&#39;t be allowed to do
+because both the trait and the target struct are outside of our crate.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -130,6 +130,16 @@ trait and the target struct are outside of our crate.</p>
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.InputOrigin.html'
+                                  title='tectonic::io::InputOrigin'>InputOrigin</a></td>
+                           <td class='docblock-short'>
+                                <p>What kind of source an input file ultimately came from. We keep track of
+this in order to be able to emit Makefile-style dependencies for input
+files. Right now, we only provide enough options to achieve this goal; we
+could add more.</p>
+                           </td>
+                       </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.OpenResult.html'
                                   title='tectonic::io::OpenResult'>OpenResult</a></td>

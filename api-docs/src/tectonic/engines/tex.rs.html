@@ -113,19 +113,17 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
-<span id="72">72</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/engines/tex.rs -- Rustic interface to the core TeX engine.</span>
 <span class='comment'>// Copyright 2017 the Tectonic Project</span>
 <span class='comment'>// Licensed under the MIT License.</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>CStr</span>, <span class='ident'>CString</span>, <span class='ident'>OsString</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>CStr</span>, <span class='ident'>CString</span>};
 
 <span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>ErrorKind</span>, <span class='prelude-ty'>Result</span>};
 <span class='kw'>use</span> <span class='ident'>io</span>::<span class='ident'>IoStack</span>;
 <span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>assign_global_state</span>, <span class='ident'>c_api</span>, <span class='ident'>ExecutionState</span>, <span class='ident'>FileSummary</span>};
+<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>assign_global_state</span>, <span class='ident'>c_api</span>, <span class='ident'>IoEventBackend</span>, <span class='ident'>ExecutionState</span>};
 
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Debug</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
@@ -161,13 +159,13 @@
     <span class='comment'>// complete type.</span>
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>process</span> (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>io</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>IoStack</span>,
-                    <span class='ident'>summaries</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OsString</span>, <span class='ident'>FileSummary</span><span class='op'>&gt;&gt;</span>,
+                    <span class='ident'>events</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>IoEventBackend</span>,
                     <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>,
                     <span class='ident'>format_file_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>input_file_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>TexResult</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>cformat</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>format_file_name</span>)<span class='question-mark'>?</span>;
         <span class='kw'>let</span> <span class='ident'>cinput</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>input_file_name</span>)<span class='question-mark'>?</span>;
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>ExecutionState</span>::<span class='ident'>new</span>(<span class='ident'>io</span>, <span class='ident'>summaries</span>, <span class='ident'>status</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>ExecutionState</span>::<span class='ident'>new</span>(<span class='ident'>io</span>, <span class='ident'>events</span>, <span class='ident'>status</span>);
 
         <span class='kw'>unsafe</span> {
             <span class='ident'>assign_global_state</span> (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>, <span class='op'>||</span> {

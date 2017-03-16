@@ -378,100 +378,6 @@
 <span id="334">334</span>
 <span id="335">335</span>
 <span id="336">336</span>
-<span id="337">337</span>
-<span id="338">338</span>
-<span id="339">339</span>
-<span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
-<span id="348">348</span>
-<span id="349">349</span>
-<span id="350">350</span>
-<span id="351">351</span>
-<span id="352">352</span>
-<span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
-<span id="357">357</span>
-<span id="358">358</span>
-<span id="359">359</span>
-<span id="360">360</span>
-<span id="361">361</span>
-<span id="362">362</span>
-<span id="363">363</span>
-<span id="364">364</span>
-<span id="365">365</span>
-<span id="366">366</span>
-<span id="367">367</span>
-<span id="368">368</span>
-<span id="369">369</span>
-<span id="370">370</span>
-<span id="371">371</span>
-<span id="372">372</span>
-<span id="373">373</span>
-<span id="374">374</span>
-<span id="375">375</span>
-<span id="376">376</span>
-<span id="377">377</span>
-<span id="378">378</span>
-<span id="379">379</span>
-<span id="380">380</span>
-<span id="381">381</span>
-<span id="382">382</span>
-<span id="383">383</span>
-<span id="384">384</span>
-<span id="385">385</span>
-<span id="386">386</span>
-<span id="387">387</span>
-<span id="388">388</span>
-<span id="389">389</span>
-<span id="390">390</span>
-<span id="391">391</span>
-<span id="392">392</span>
-<span id="393">393</span>
-<span id="394">394</span>
-<span id="395">395</span>
-<span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
-<span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
-<span id="424">424</span>
-<span id="425">425</span>
-<span id="426">426</span>
-<span id="427">427</span>
-<span id="428">428</span>
-<span id="429">429</span>
-<span id="430">430</span>
 </pre><pre class='rust '>
 <span class='comment'>// src/engines/mod.rs -- interface to Tectonic engines written in C</span>
 <span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
@@ -479,7 +385,6 @@
 
 <span class='kw'>use</span> <span class='ident'>flate2</span>::{<span class='ident'>Compression</span>, <span class='ident'>GzBuilder</span>};
 <span class='kw'>use</span> <span class='ident'>flate2</span>::<span class='ident'>read</span>::{<span class='ident'>GzDecoder</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>OsStr</span>, <span class='ident'>OsString</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Read</span>, <span class='ident'>SeekFrom</span>, <span class='ident'>Write</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
@@ -487,7 +392,7 @@
 
 <span class='kw'>use</span> <span class='ident'>digest</span>::<span class='ident'>DigestData</span>;
 <span class='kw'>use</span> <span class='ident'>errors</span>::<span class='prelude-ty'>Result</span>;
-<span class='kw'>use</span> <span class='ident'>io</span>::{<span class='ident'>IoProvider</span>, <span class='ident'>IoStack</span>, <span class='ident'>InputFeatures</span>, <span class='ident'>InputHandle</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
+<span class='kw'>use</span> <span class='ident'>io</span>::{<span class='ident'>InputOrigin</span>, <span class='ident'>IoProvider</span>, <span class='ident'>IoStack</span>, <span class='ident'>InputFeatures</span>, <span class='ident'>InputHandle</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
 <span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>file_format</span>::{<span class='ident'>format_to_extension</span>, <span class='ident'>FileFormat</span>};
 
@@ -514,49 +419,52 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>bibtex</span>::<span class='ident'>BibtexEngine</span>;
 
 
-<span class='doccomment'>/// Different patterns with which files may have been accessed by the</span>
-<span class='doccomment'>/// underlying engines. Once a file is marked as ReadThenWritten or</span>
-<span class='doccomment'>/// WrittenThenRead, its pattern does not evolve further.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Debug</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AccessPattern</span> {
-    <span class='doccomment'>/// This file is only ever read.</span>
-    <span class='ident'>Read</span>,
+<span class='doccomment'>/// The IoEventBackend trait allows the program driving the TeX engines to</span>
+<span class='doccomment'>/// track its input and output access patterns. The CLI program uses this</span>
+<span class='doccomment'>/// information to intelligently decide when to rerun the TeX engine, to</span>
+<span class='doccomment'>/// choose which files to actually save to disk, and to emit Makefile rules</span>
+<span class='doccomment'>/// describing the dependency of the outputs on the inputs.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// All of the trait methods have default implementations that do nothing.</span>
 
-    <span class='doccomment'>/// This file is only ever written. This suggests that it is</span>
-    <span class='doccomment'>/// a final output of the processing session.</span>
-    <span class='ident'>Written</span>,
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IoEventBackend</span> {
+    <span class='doccomment'>/// This function is called when a file is opened for output.</span>
+    <span class='kw'>fn</span> <span class='ident'>output_opened</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) {}
 
-    <span class='doccomment'>/// This file is read, then written. We call this a &quot;circular&quot; access</span>
-    <span class='doccomment'>/// pattern. Multiple passes of an engine will result in outputs that</span>
-    <span class='doccomment'>/// change if this file&#39;s contents change, or if the file did not exist at</span>
-    <span class='doccomment'>/// the time of the first pass.</span>
-    <span class='ident'>ReadThenWritten</span>,
+    <span class='doccomment'>/// This function is called when the wrapped &quot;standard output&quot;</span>
+    <span class='doccomment'>/// (&quot;console&quot;, &quot;terminal&quot;) stream is opened.</span>
+    <span class='kw'>fn</span> <span class='ident'>stdout_opened</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {}
 
-    <span class='doccomment'>/// This file is written, then read. We call this a &quot;temporary&quot; access</span>
-    <span class='doccomment'>/// pattern. This file is likely a temporary buffer that is not of</span>
-    <span class='doccomment'>/// interest to the user.</span>
-    <span class='ident'>WrittenThenRead</span>,
+    <span class='doccomment'>/// This function is called when an output file is closed. The &quot;digest&quot;</span>
+    <span class='doccomment'>/// argument specifies the cryptographic digest of the data that were</span>
+    <span class='doccomment'>/// written. Note that this function takes ownership of the name and</span>
+    <span class='doccomment'>/// digest.</span>
+    <span class='kw'>fn</span> <span class='ident'>output_closed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='ident'>OsString</span>, <span class='ident'>_digest</span>: <span class='ident'>DigestData</span>) {}
+
+    <span class='doccomment'>/// This function is called when a file is opened for input.</span>
+    <span class='kw'>fn</span> <span class='ident'>input_opened</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>_origin</span>: <span class='ident'>InputOrigin</span>) {}
+
+    <span class='doccomment'>/// This function is called when the engine attempted to open a file of</span>
+    <span class='doccomment'>/// the specified name but it was not available.</span>
+    <span class='kw'>fn</span> <span class='ident'>input_not_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) {}
+
+    <span class='doccomment'>/// This function is called when an input file is closed. The &quot;digest&quot;</span>
+    <span class='doccomment'>/// argument specifies the cryptographic digest of the data that were</span>
+    <span class='doccomment'>/// read, if available. This digest is not always available, if the engine</span>
+    <span class='doccomment'>/// used seeks while reading the file. Note that this function takes</span>
+    <span class='doccomment'>/// ownership of the name and digest.</span>
+    <span class='kw'>fn</span> <span class='ident'>input_closed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='ident'>OsString</span>, <span class='ident'>_digest</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DigestData</span><span class='op'>&gt;</span>) {}
 }
 
-<span class='doccomment'>/// A summary of the I/O that happened on a file. We record its access</span>
-<span class='doccomment'>/// pattern, the cryptographic digest of the file when it was last read, and</span>
-<span class='doccomment'>/// the cryptographic digest of the file as it was last written.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FileSummary</span> {
-    <span class='kw'>pub</span> <span class='ident'>access_pattern</span>: <span class='ident'>AccessPattern</span>,
-    <span class='kw'>pub</span> <span class='ident'>read_digest</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DigestData</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>write_digest</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DigestData</span><span class='op'>&gt;</span>,
+
+<span class='doccomment'>/// This struct implements the IoEventBackend trait but does nothing.</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>NoopIoEventBackend</span> {}
+
+<span class='kw'>impl</span> <span class='ident'>NoopIoEventBackend</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>NoopIoEventBackend</span> { <span class='ident'>NoopIoEventBackend</span> {} }
 }
 
-<span class='kw'>impl</span> <span class='ident'>FileSummary</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>access_pattern</span>: <span class='ident'>AccessPattern</span>) <span class='op'>-&gt;</span> <span class='ident'>FileSummary</span> {
-        <span class='ident'>FileSummary</span> {
-            <span class='ident'>access_pattern</span>: <span class='ident'>access_pattern</span>,
-            <span class='ident'>read_digest</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>write_digest</span>: <span class='prelude-val'>None</span>,
-        }
-    }
-}
+<span class='kw'>impl</span> <span class='ident'>IoEventBackend</span> <span class='kw'>for</span> <span class='ident'>NoopIoEventBackend</span> { }
 
 
 <span class='comment'>// The private interface for executing various engines implemented in C.</span>
@@ -567,15 +475,9 @@
 <span class='comment'>// course, this is totally un-thread-safe, etc., because the underlying C code</span>
 <span class='comment'>// is.</span>
 
-<span class='comment'>// The double-boxing of the handles in ExecutionState isn&#39;t nice. I *think*</span>
-<span class='comment'>// that in principle we could turn the inner boxes into pointers and pass</span>
-<span class='comment'>// those around. But I can&#39;t get it to work in practice -- it may be Boxes of</span>
-<span class='comment'>// trait objects become fat pointers themselves. It&#39;s really not a big deal so</span>
-<span class='comment'>// let&#39;s just roll with it for now.</span>
-
 <span class='kw'>struct</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>IoProvider</span><span class='op'>&gt;</span>  {
     <span class='ident'>io</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>I</span>,
-    <span class='ident'>summaries</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OsString</span>, <span class='ident'>FileSummary</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>events</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>IoEventBackend</span>,
     <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>,
     <span class='ident'>input_handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>output_handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;&gt;</span>,
@@ -583,11 +485,11 @@
 
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>IoProvider</span><span class='op'>&gt;</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span> (<span class='ident'>io</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>I</span>, <span class='ident'>summaries</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OsString</span>, <span class='ident'>FileSummary</span><span class='op'>&gt;&gt;</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span> (<span class='ident'>io</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>I</span>, <span class='ident'>events</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>IoEventBackend</span>,
                 <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
         <span class='ident'>ExecutionState</span> {
             <span class='ident'>io</span>: <span class='ident'>io</span>,
-            <span class='ident'>summaries</span>: <span class='ident'>summaries</span>,
+            <span class='ident'>events</span>: <span class='ident'>events</span>,
             <span class='ident'>status</span>: <span class='ident'>status</span>,
             <span class='ident'>output_handles</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
             <span class='ident'>input_handles</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
@@ -630,8 +532,10 @@
 
         <span class='kw'>match</span> <span class='ident'>base</span> {
             <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>ih</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>ih</span>.<span class='ident'>origin</span>();
+
                 <span class='kw'>match</span> <span class='ident'>GzDecoder</span>::<span class='ident'>new</span>(<span class='ident'>ih</span>) {
-                    <span class='prelude-val'>Ok</span>(<span class='ident'>dr</span>) <span class='op'>=&gt;</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>dr</span>)),
+                    <span class='prelude-val'>Ok</span>(<span class='ident'>dr</span>) <span class='op'>=&gt;</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>dr</span>, <span class='ident'>origin</span>)),
                     <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>()),
                 }
             },
@@ -651,30 +555,12 @@
             }
         };
 
-        <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>oh</span>.<span class='ident'>name</span>().<span class='ident'>to_os_string</span>(); <span class='comment'>// mainly for symmetry with input_open()</span>
-
         <span class='kw'>if</span> <span class='ident'>is_gz</span> {
+            <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>oh</span>.<span class='ident'>name</span>().<span class='ident'>to_os_string</span>();
             <span class='ident'>oh</span> <span class='op'>=</span> <span class='ident'>OutputHandle</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>, <span class='ident'>GzBuilder</span>::<span class='ident'>new</span>().<span class='ident'>write</span>(<span class='ident'>oh</span>, <span class='ident'>Compression</span>::<span class='ident'>Default</span>));
         }
 
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>summaries</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>summaries</span> {
-            <span class='comment'>// Borrow-checker fight.</span>
-            <span class='kw'>if</span> {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>summ</span>) <span class='op'>=</span> <span class='ident'>summaries</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>) {
-                    <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> {
-                        <span class='ident'>AccessPattern</span>::<span class='ident'>Read</span> <span class='op'>=&gt;</span> <span class='ident'>AccessPattern</span>::<span class='ident'>ReadThenWritten</span>,
-                        <span class='ident'>c</span> <span class='op'>=&gt;</span> <span class='ident'>c</span>, <span class='comment'>// identity mapping makes sense for remaining options</span>
-                    };
-                    <span class='bool-val'>false</span> <span class='comment'>// no, do not insert a new item</span>
-                } <span class='kw'>else</span> {
-                    <span class='bool-val'>true</span> <span class='comment'>// yes, insert a new item</span>
-                }
-            } {
-                <span class='comment'>// The &#39;else&#39; branch above returned &#39;true&#39;.</span>
-                <span class='ident'>summaries</span>.<span class='ident'>insert</span>(<span class='ident'>name</span>, <span class='ident'>FileSummary</span>::<span class='ident'>new</span>(<span class='ident'>AccessPattern</span>::<span class='ident'>Written</span>));
-            }
-        }
-
+        <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>output_opened</span>(<span class='ident'>oh</span>.<span class='ident'>name</span>());
         <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>oh</span>));
         <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>output_handles</span>[<span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>]
     }
@@ -689,27 +575,7 @@
             }
         };
 
-        <span class='comment'>// Life is easier if we track stdout in the same way that we do other</span>
-        <span class='comment'>// output files.</span>
-
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>summaries</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>summaries</span> {
-            <span class='comment'>// Borrow-checker fight.</span>
-            <span class='kw'>if</span> {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>summ</span>) <span class='op'>=</span> <span class='ident'>summaries</span>.<span class='ident'>get_mut</span>(<span class='ident'>OsStr</span>::<span class='ident'>new</span>(<span class='string'>&quot;&quot;</span>)) {
-                    <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> {
-                        <span class='ident'>AccessPattern</span>::<span class='ident'>Read</span> <span class='op'>=&gt;</span> <span class='ident'>AccessPattern</span>::<span class='ident'>ReadThenWritten</span>,
-                        <span class='ident'>c</span> <span class='op'>=&gt;</span> <span class='ident'>c</span>, <span class='comment'>// identity mapping makes sense for remaining options</span>
-                    };
-                    <span class='bool-val'>false</span> <span class='comment'>// no, do not insert a new item</span>
-                } <span class='kw'>else</span> {
-                    <span class='bool-val'>true</span> <span class='comment'>// yes, insert a new item</span>
-                }
-            } {
-                <span class='comment'>// The &#39;else&#39; branch above returned &#39;true&#39;.</span>
-                <span class='ident'>summaries</span>.<span class='ident'>insert</span>(<span class='ident'>OsString</span>::<span class='ident'>from</span>(<span class='string'>&quot;&quot;</span>), <span class='ident'>FileSummary</span>::<span class='ident'>new</span>(<span class='ident'>AccessPattern</span>::<span class='ident'>Written</span>));
-            }
-        }
-
+        <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>stdout_opened</span>();
         <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>oh</span>));
         <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>output_handles</span>[<span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>]
     }
@@ -749,12 +615,7 @@
             <span class='kw'>if</span> <span class='ident'>p</span> <span class='op'>==</span> <span class='ident'>handle</span> {
                 <span class='kw'>let</span> <span class='ident'>oh</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>swap_remove</span>(<span class='ident'>i</span>);
                 <span class='kw'>let</span> (<span class='ident'>name</span>, <span class='ident'>digest</span>) <span class='op'>=</span> <span class='ident'>oh</span>.<span class='ident'>into_name_digest</span>();
-
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>summaries</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>summaries</span> {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>summ</span> <span class='op'>=</span> <span class='ident'>summaries</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>).<span class='ident'>expect</span>(<span class='string'>&quot;closing file that wasn&#39;t opened?&quot;</span>);
-                    <span class='ident'>summ</span>.<span class='ident'>write_digest</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>digest</span>);
-                }
-
+                <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>output_closed</span>(<span class='ident'>name</span>, <span class='ident'>digest</span>);
                 <span class='kw'>break</span>;
             }
         }
@@ -766,37 +627,7 @@
         <span class='kw'>let</span> <span class='ident'>ih</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>input_open_name_format_gz</span>(<span class='ident'>name</span>, <span class='ident'>format</span>, <span class='ident'>is_gz</span>) {
             <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>ih</span>) <span class='op'>=&gt;</span> <span class='ident'>ih</span>,
             <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span> <span class='op'>=&gt;</span> {
-                <span class='comment'>// For the purposes of file access pattern tracking, an</span>
-                <span class='comment'>// attempt to open a nonexistent file counts as a read of a</span>
-                <span class='comment'>// zero-size file. I don&#39;t see how such a file could have</span>
-                <span class='comment'>// previously been written, but let&#39;s use the full update</span>
-                <span class='comment'>// logic just in case.</span>
-
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>summaries</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>summaries</span> {
-                    <span class='comment'>// Borrow-checker fight.</span>
-                    <span class='kw'>if</span> {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>summ</span>) <span class='op'>=</span> <span class='ident'>summaries</span>.<span class='ident'>get_mut</span>(<span class='ident'>name</span>) {
-                            <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> {
-                                <span class='ident'>AccessPattern</span>::<span class='ident'>Written</span> <span class='op'>=&gt;</span> <span class='ident'>AccessPattern</span>::<span class='ident'>WrittenThenRead</span>,
-                                <span class='ident'>c</span> <span class='op'>=&gt;</span> <span class='ident'>c</span>, <span class='comment'>// identity mapping makes sense for remaining options</span>
-                            };
-                            <span class='bool-val'>false</span> <span class='comment'>// no, do not insert a new item</span>
-                        } <span class='kw'>else</span> {
-                            <span class='bool-val'>true</span> <span class='comment'>// yes, insert a new item</span>
-                        }
-                    } {
-                        <span class='comment'>// The &#39;else&#39; branch above returned &#39;true&#39;. Unlike</span>
-                        <span class='comment'>// other cases, here we need to fill in the</span>
-                        <span class='comment'>// read_digest. `None` is not an appropriate value</span>
-                        <span class='comment'>// since, if the file is written and then read again</span>
-                        <span class='comment'>// later, the `None` will be overwritten; but what</span>
-                        <span class='comment'>// matters is the contents of the file the very first</span>
-                        <span class='comment'>// time it was read.</span>
-                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>fs</span> <span class='op'>=</span> <span class='ident'>FileSummary</span>::<span class='ident'>new</span>(<span class='ident'>AccessPattern</span>::<span class='ident'>Read</span>);
-                        <span class='ident'>fs</span>.<span class='ident'>read_digest</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>DigestData</span>::<span class='ident'>of_nothing</span>());
-                        <span class='ident'>summaries</span>.<span class='ident'>insert</span>(<span class='ident'>name</span>.<span class='ident'>to_os_string</span>(), <span class='ident'>fs</span>);
-                    }
-                }
+                <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>input_not_available</span>(<span class='ident'>name</span>);
                 <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>();
             },
             <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
@@ -805,26 +636,8 @@
             },
         };
 
-        <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>ih</span>.<span class='ident'>name</span>().<span class='ident'>to_os_string</span>(); <span class='comment'>// final name may have had an extension added, etc.</span>
-
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>summaries</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>summaries</span> {
-            <span class='comment'>// Borrow-checker fight.</span>
-            <span class='kw'>if</span> {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>summ</span>) <span class='op'>=</span> <span class='ident'>summaries</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>) {
-                    <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>summ</span>.<span class='ident'>access_pattern</span> {
-                        <span class='ident'>AccessPattern</span>::<span class='ident'>Written</span> <span class='op'>=&gt;</span> <span class='ident'>AccessPattern</span>::<span class='ident'>WrittenThenRead</span>,
-                        <span class='ident'>c</span> <span class='op'>=&gt;</span> <span class='ident'>c</span>, <span class='comment'>// identity mapping makes sense for remaining options</span>
-                    };
-                    <span class='bool-val'>false</span> <span class='comment'>// no, do not insert a new item</span>
-                } <span class='kw'>else</span> {
-                    <span class='bool-val'>true</span> <span class='comment'>// yes, insert a new item</span>
-                }
-            } {
-                <span class='comment'>// The &#39;else&#39; branch above returned &#39;true&#39;.</span>
-                <span class='ident'>summaries</span>.<span class='ident'>insert</span>(<span class='ident'>name</span>, <span class='ident'>FileSummary</span>::<span class='ident'>new</span>(<span class='ident'>AccessPattern</span>::<span class='ident'>Read</span>));
-            }
-        }
-
+        <span class='comment'>// the file name may have had an extension added, so we use ih.name() here:</span>
+        <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>input_opened</span>(<span class='ident'>ih</span>.<span class='ident'>name</span>(), <span class='ident'>ih</span>.<span class='ident'>origin</span>());
         <span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>ih</span>));
         <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>input_handles</span>[<span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>]
     }
@@ -856,6 +669,16 @@
         <span class='prelude-val'>Ok</span>(<span class='ident'>rhandle</span>.<span class='ident'>read_exact</span>(<span class='ident'>buf</span>)<span class='question-mark'>?</span>)
     }
 
+    <span class='kw'>fn</span> <span class='ident'>input_getc</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
+        <span class='ident'>rhandle</span>.<span class='ident'>getc</span>()
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>input_ungetc</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>, <span class='ident'>byte</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
+        <span class='ident'>rhandle</span>.<span class='ident'>ungetc</span>(<span class='ident'>byte</span>)
+    }
+
     <span class='kw'>fn</span> <span class='ident'>input_close</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>len</span>();
 
@@ -865,18 +688,7 @@
             <span class='kw'>if</span> <span class='ident'>p</span> <span class='op'>==</span> <span class='ident'>handle</span> {
                 <span class='kw'>let</span> <span class='ident'>ih</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>swap_remove</span>(<span class='ident'>i</span>);
                 <span class='kw'>let</span> (<span class='ident'>name</span>, <span class='ident'>digest_opt</span>) <span class='op'>=</span> <span class='ident'>ih</span>.<span class='ident'>into_name_digest</span>();
-
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>summaries</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>summaries</span> {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>summ</span> <span class='op'>=</span> <span class='ident'>summaries</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>).<span class='ident'>expect</span>(<span class='string'>&quot;closing file that wasn&#39;t opened?&quot;</span>);
-
-                    <span class='comment'>// It&#39;s what was in the file the *first* time that it was</span>
-                    <span class='comment'>// read that matters, so don&#39;t replace the read digest if</span>
-                    <span class='comment'>// it&#39;s already got one.</span>
-
-                    <span class='kw'>if</span> <span class='ident'>summ</span>.<span class='ident'>read_digest</span>.<span class='ident'>is_none</span>() {
-                        <span class='ident'>summ</span>.<span class='ident'>read_digest</span> <span class='op'>=</span> <span class='ident'>digest_opt</span>;
-                    }
-                }
+                <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>input_closed</span>(<span class='ident'>name</span>, <span class='ident'>digest_opt</span>);
                 <span class='kw'>return</span> <span class='bool-val'>false</span>;
             }
         }
