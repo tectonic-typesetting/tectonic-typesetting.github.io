@@ -9,6 +9,7 @@
 
     <title>tectonic::status::StatusBackend - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,22 +43,22 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>tectonic</a>::<wbr><a href='index.html'>status</a>::<wbr><a class='trait' href=''>StatusBackend</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>tectonic</a>::<wbr><a href='index.html'>status</a>::<wbr><a class="trait" href=''>StatusBackend</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/tectonic/status/mod.rs.html#50-52' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait StatusBackend {
-    fn <a href='#tymethod.report' class='fnname'>report</a>(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kind: <a class='enum' href='../../tectonic/status/enum.MessageKind.html' title='tectonic::status::MessageKind'>MessageKind</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; args: <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; err: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../tectonic/errors/struct.Error.html' title='tectonic::errors::Error'>Error</a>&gt;);
+    fn <a href='#tymethod.report' class='fnname'>report</a>(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kind: <a class="enum" href="../../tectonic/status/enum.MessageKind.html" title="enum tectonic::status::MessageKind">MessageKind</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; args: <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html" title="struct core::fmt::Arguments">Arguments</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; err: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../tectonic/errors/struct.Error.html" title="struct tectonic::errors::Error">Error</a>&gt;);
 }</pre>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.report' class='method stab '><span id='report.v' class='invisible'><code>fn <a href='#tymethod.report' class='fnname'>report</a>(&amp;mut self, kind: <a class='enum' href='../../tectonic/status/enum.MessageKind.html' title='tectonic::status::MessageKind'>MessageKind</a>, args: <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>, err: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../tectonic/errors/struct.Error.html' title='tectonic::errors::Error'>Error</a>&gt;)</code></span></h3></div>
+        <h3 id='tymethod.report' class='method'><span id='report.v' class='invisible'><code>fn <a href='#tymethod.report' class='fnname'>report</a>(&amp;mut self, kind: <a class="enum" href="../../tectonic/status/enum.MessageKind.html" title="enum tectonic::status::MessageKind">MessageKind</a>, args: <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html" title="struct core::fmt::Arguments">Arguments</a>, err: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../tectonic/errors/struct.Error.html" title="struct tectonic::errors::Error">Error</a>&gt;)</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl StatusBackend for <a class='struct' href='../../tectonic/status/termcolor/struct.TermcolorStatusBackend.html' title='tectonic::status::termcolor::TermcolorStatusBackend'>TermcolorStatusBackend</a></code></li>
-<li><code>impl StatusBackend for <a class='struct' href='../../tectonic/status/struct.NoopStatusBackend.html' title='tectonic::status::NoopStatusBackend'>NoopStatusBackend</a></code></li>
+    <li><code>impl StatusBackend for <a class="struct" href="../../tectonic/status/termcolor/struct.TermcolorStatusBackend.html" title="struct tectonic::status::termcolor::TermcolorStatusBackend">TermcolorStatusBackend</a></code></li>
+<li><code>impl StatusBackend for <a class="struct" href="../../tectonic/status/struct.NoopStatusBackend.html" title="struct tectonic::status::NoopStatusBackend">NoopStatusBackend</a></code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/tectonic/status/trait.StatusBackend.js">
                  </script></section>

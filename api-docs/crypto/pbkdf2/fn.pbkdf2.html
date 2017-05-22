@@ -9,6 +9,7 @@
 
     <title>crypto::pbkdf2::pbkdf2 - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>crypto</a>::<wbr><a href='index.html'>pbkdf2</a>::<wbr><a class='fn' href=''>pbkdf2</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>crypto</a>::<wbr><a href='index.html'>pbkdf2</a>::<wbr><a class="fn" href=''>pbkdf2</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/crypto/pbkdf2.rs.html#84-110' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn pbkdf2&lt;M:&nbsp;<a class='trait' href='../../crypto/mac/trait.Mac.html' title='crypto::mac::Mac'>Mac</a>&gt;(mac: &amp;mut M, salt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, c: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, output: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>)</pre><div class='docblock'><p>Execute the PBKDF2 Key Derivation Function. The Scrypt Key Derivation Function generally provides
+<pre class='rust fn'>pub fn pbkdf2&lt;M:&nbsp;<a class="trait" href="../../crypto/mac/trait.Mac.html" title="trait crypto::mac::Mac">Mac</a>&gt;(mac: &amp;mut M, salt: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>, c: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, output: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;mut [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>)</pre><div class='docblock'><p>Execute the PBKDF2 Key Derivation Function. The Scrypt Key Derivation Function generally provides
 better security, so, applications that do not have a requirement to use PBKDF2 specifically
 should consider using that function instead.</p>
 

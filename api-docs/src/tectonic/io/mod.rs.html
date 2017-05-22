@@ -9,6 +9,7 @@
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -397,358 +398,458 @@
 <span id="353">353</span>
 <span id="354">354</span>
 <span id="355">355</span>
-</pre><pre class='rust '>
-<span class='comment'>// src/io/mod.rs -- input/output interfaces for Tectonic.</span>
-<span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
-<span class='comment'>// Licensed under the MIT License.</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+</pre><pre class="rust ">
+<span class="comment">// src/io/mod.rs -- input/output interfaces for Tectonic.</span>
+<span class="comment">// Copyright 2016-2017 the Tectonic Project</span>
+<span class="comment">// Licensed under the MIT License.</span>
 
-<span class='kw'>use</span> <span class='ident'>flate2</span>::<span class='ident'>read</span>::<span class='ident'>GzDecoder</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>OsStr</span>, <span class='ident'>OsString</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>Cursor</span>, <span class='ident'>Read</span>, <span class='ident'>Seek</span>, <span class='ident'>SeekFrom</span>, <span class='ident'>Write</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
+<span class="kw">use</span> <span class="ident">flate2</span>::<span class="ident">read</span>::<span class="ident">GzDecoder</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">OsStr</span>, <span class="ident">OsString</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Cursor</span>, <span class="ident">Read</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>, <span class="ident">Write</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
-<span class='kw'>use</span> <span class='ident'>digest</span>::{<span class='self'>self</span>, <span class='ident'>Digest</span>, <span class='ident'>DigestData</span>};
-<span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>Error</span>, <span class='ident'>ErrorKind</span>, <span class='prelude-ty'>Result</span>};
-<span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
+<span class="kw">use</span> <span class="ident">digest</span>::{<span class="self">self</span>, <span class="ident">Digest</span>, <span class="ident">DigestData</span>};
+<span class="kw">use</span> <span class="ident">errors</span>::{<span class="ident">Error</span>, <span class="ident">ErrorKind</span>, <span class="prelude-ty">Result</span>};
+<span class="kw">use</span> <span class="ident">status</span>::<span class="ident">StatusBackend</span>;
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>filesystem</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>genuine_stdout</span>;
-<span class='comment'>//pub mod hyper_seekable; -- Not currently used, but nice code to keep around.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>itarbundle</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>local_cache</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>memory</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>stack</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>zipbundle</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">filesystem</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">genuine_stdout</span>;
+<span class="comment">//pub mod hyper_seekable; -- Not currently used, but nice code to keep around.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">itarbundle</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">local_cache</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">memory</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">stack</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zipbundle</span>;
 
 
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>InputFeatures</span>: <span class='ident'>Read</span> {
-    <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>try_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">InputFeatures</span>: <span class="ident">Read</span> {
+    <span class="kw">fn</span> <span class="ident">get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">try_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>;
 }
 
 
-<span class='doccomment'>/// What kind of source an input file ultimately came from. We keep track of</span>
-<span class='doccomment'>/// this in order to be able to emit Makefile-style dependencies for input</span>
-<span class='doccomment'>/// files. Right now, we only provide enough options to achieve this goal; we</span>
-<span class='doccomment'>/// could add more.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Debug</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>InputOrigin</span> {
-    <span class='doccomment'>/// This file lives on the filesystem and might change under us. (That is</span>
-    <span class='doccomment'>/// it is not a cached bundle file.)</span>
-    <span class='ident'>Filesystem</span>,
+<span class="doccomment">/// What kind of source an input file ultimately came from. We keep track of</span>
+<span class="doccomment">/// this in order to be able to emit Makefile-style dependencies for input</span>
+<span class="doccomment">/// files. Right now, we only provide enough options to achieve this goal; we</span>
+<span class="doccomment">/// could add more.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Copy</span>,<span class="ident">Debug</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InputOrigin</span> {
+    <span class="doccomment">/// This file lives on the filesystem and might change under us. (That is</span>
+    <span class="doccomment">/// it is not a cached bundle file.)</span>
+    <span class="ident">Filesystem</span>,
 
-    <span class='doccomment'>/// This file was never used as an input.</span>
-    <span class='ident'>NotInput</span>,
+    <span class="doccomment">/// This file was never used as an input.</span>
+    <span class="ident">NotInput</span>,
 
-    <span class='doccomment'>/// This file is none of the above.</span>
-    <span class='ident'>Other</span>,
+    <span class="doccomment">/// This file is none of the above.</span>
+    <span class="ident">Other</span>,
 }
 
 
-<span class='doccomment'>/// Input handles are basically Read objects with a few extras. We don&#39;t</span>
-<span class='doccomment'>/// require the standard io::Seek because we need to provide a dummy</span>
-<span class='doccomment'>/// implementation for GZip streams, which we wouldn&#39;t be allowed to do</span>
-<span class='doccomment'>/// because both the trait and the target struct are outside of our crate.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// An important role for the InputHandle struct is computing a cryptographic</span>
-<span class='doccomment'>/// digest of the input file. The driver uses this information in order to</span>
-<span class='doccomment'>/// figure out if the TeX engine needs rerunning. TeX makes our life more</span>
-<span class='doccomment'>/// difficult, though, since it has somewhat funky file access patterns. LaTeX</span>
-<span class='doccomment'>/// file opens work by opening a file and immediately closing it, which tests</span>
-<span class='doccomment'>/// whether the file exists, and then by opening it again for real. Under the</span>
-<span class='doccomment'>/// hood, XeTeX reads a couple of bytes from each file upon open to sniff its</span>
-<span class='doccomment'>/// encoding. So we can&#39;t just stream data from `read()` calls into the SHA2</span>
-<span class='doccomment'>/// computer, since we end up seeking and reading redundant data.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The current system maintains some internal state that, so far, helps us Do</span>
-<span class='doccomment'>/// The Right Thing given all this. If there&#39;s a seek on the file, we give up</span>
-<span class='doccomment'>/// on our digest computation. But if there&#39;s a seek back to the file</span>
-<span class='doccomment'>/// beginning, we are open to the possibility of restarting the computation.</span>
-<span class='doccomment'>/// But if nothing is ever read from the file, we once again give up on the</span>
-<span class='doccomment'>/// computation. The `ExecutionState` code then has further pieces that track</span>
-<span class='doccomment'>/// access to nonexistent files, which we treat as being equivalent to an</span>
-<span class='doccomment'>/// existing empty file for these purposes.</span>
+<span class="doccomment">/// Input handles are basically Read objects with a few extras. We don&#39;t</span>
+<span class="doccomment">/// require the standard io::Seek because we need to provide a dummy</span>
+<span class="doccomment">/// implementation for GZip streams, which we wouldn&#39;t be allowed to do</span>
+<span class="doccomment">/// because both the trait and the target struct are outside of our crate.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// An important role for the InputHandle struct is computing a cryptographic</span>
+<span class="doccomment">/// digest of the input file. The driver uses this information in order to</span>
+<span class="doccomment">/// figure out if the TeX engine needs rerunning. TeX makes our life more</span>
+<span class="doccomment">/// difficult, though, since it has somewhat funky file access patterns. LaTeX</span>
+<span class="doccomment">/// file opens work by opening a file and immediately closing it, which tests</span>
+<span class="doccomment">/// whether the file exists, and then by opening it again for real. Under the</span>
+<span class="doccomment">/// hood, XeTeX reads a couple of bytes from each file upon open to sniff its</span>
+<span class="doccomment">/// encoding. So we can&#39;t just stream data from `read()` calls into the SHA2</span>
+<span class="doccomment">/// computer, since we end up seeking and reading redundant data.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The current system maintains some internal state that, so far, helps us Do</span>
+<span class="doccomment">/// The Right Thing given all this. If there&#39;s a seek on the file, we give up</span>
+<span class="doccomment">/// on our digest computation. But if there&#39;s a seek back to the file</span>
+<span class="doccomment">/// beginning, we are open to the possibility of restarting the computation.</span>
+<span class="doccomment">/// But if nothing is ever read from the file, we once again give up on the</span>
+<span class="doccomment">/// computation. The `ExecutionState` code then has further pieces that track</span>
+<span class="doccomment">/// access to nonexistent files, which we treat as being equivalent to an</span>
+<span class="doccomment">/// existing empty file for these purposes.</span>
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>InputHandle</span> {
-    <span class='ident'>name</span>: <span class='ident'>OsString</span>,
-    <span class='ident'>inner</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>InputFeatures</span><span class='op'>&gt;</span>,
-    <span class='ident'>digest</span>: <span class='ident'>digest</span>::<span class='ident'>DigestComputer</span>,
-    <span class='ident'>origin</span>: <span class='ident'>InputOrigin</span>,
-    <span class='ident'>ever_read</span>: <span class='ident'>bool</span>,
-    <span class='ident'>did_unhandled_seek</span>: <span class='ident'>bool</span>,
-    <span class='ident'>ungetc_char</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InputHandle</span> {
+    <span class="ident">name</span>: <span class="ident">OsString</span>,
+    <span class="ident">inner</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InputFeatures</span><span class="op">&gt;</span>,
+    <span class="ident">digest</span>: <span class="ident">digest</span>::<span class="ident">DigestComputer</span>,
+    <span class="ident">origin</span>: <span class="ident">InputOrigin</span>,
+    <span class="ident">ever_read</span>: <span class="ident">bool</span>,
+    <span class="ident">did_unhandled_seek</span>: <span class="ident">bool</span>,
+    <span class="ident">ungetc_char</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>InputHandle</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>InputFeatures</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>inner</span>: <span class='ident'>T</span>, <span class='ident'>origin</span>: <span class='ident'>InputOrigin</span>) <span class='op'>-&gt;</span> <span class='ident'>InputHandle</span> {
-        <span class='ident'>InputHandle</span> {
-            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_os_string</span>(),
-            <span class='ident'>inner</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>),
-            <span class='ident'>digest</span>: <span class='ident'>digest</span>::<span class='ident'>create</span>(),
-            <span class='ident'>origin</span>: <span class='ident'>origin</span>,
-            <span class='ident'>ever_read</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>did_unhandled_seek</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>ungetc_char</span>: <span class='prelude-val'>None</span>,
+<span class="kw">impl</span> <span class="ident">InputHandle</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">InputFeatures</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">inner</span>: <span class="ident">T</span>, <span class="ident">origin</span>: <span class="ident">InputOrigin</span>) <span class="op">-&gt;</span> <span class="ident">InputHandle</span> {
+        <span class="ident">InputHandle</span> {
+            <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">to_os_string</span>(),
+            <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">inner</span>),
+            <span class="ident">digest</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
+            <span class="ident">origin</span>: <span class="ident">origin</span>,
+            <span class="ident">ever_read</span>: <span class="bool-val">false</span>,
+            <span class="ident">did_unhandled_seek</span>: <span class="bool-val">false</span>,
+            <span class="ident">ungetc_char</span>: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span> {
-        <span class='self'>self</span>.<span class='ident'>name</span>.<span class='ident'>as_os_str</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">OsStr</span> {
+        <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">as_os_str</span>()
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>origin</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>InputOrigin</span> {
-        <span class='self'>self</span>.<span class='ident'>origin</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">origin</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">InputOrigin</span> {
+        <span class="self">self</span>.<span class="ident">origin</span>
     }
 
-    <span class='doccomment'>/// Consumes the object and returns the SHA256 sum of the content that was</span>
-    <span class='doccomment'>/// written. No digest is returned if there was ever a seek on the input</span>
-    <span class='doccomment'>/// stream, since in that case the results will not be reliable. We also</span>
-    <span class='doccomment'>/// return None if the stream was never read, which is another common</span>
-    <span class='doccomment'>/// TeX access pattern: files are opened, immediately closed, and then</span>
-    <span class='doccomment'>/// opened again.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>into_name_digest</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>OsString</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DigestData</span><span class='op'>&gt;</span>) {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>did_unhandled_seek</span> <span class='op'>||</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>ever_read</span> {
-            (<span class='self'>self</span>.<span class='ident'>name</span>, <span class='prelude-val'>None</span>)
-        } <span class='kw'>else</span> {
-            (<span class='self'>self</span>.<span class='ident'>name</span>, <span class='prelude-val'>Some</span>(<span class='ident'>DigestData</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>digest</span>)))
+    <span class="doccomment">/// Consumes the object and returns the underlying readable handle that</span>
+    <span class="doccomment">/// it references.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InputFeatures</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner</span>
+    }
+
+    <span class="doccomment">/// Consumes the object and returns the SHA256 sum of the content that was</span>
+    <span class="doccomment">/// written. No digest is returned if there was ever a seek on the input</span>
+    <span class="doccomment">/// stream, since in that case the results will not be reliable. We also</span>
+    <span class="doccomment">/// return None if the stream was never read, which is another common</span>
+    <span class="doccomment">/// TeX access pattern: files are opened, immediately closed, and then</span>
+    <span class="doccomment">/// opened again.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_name_digest</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">OsString</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DigestData</span><span class="op">&gt;</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">did_unhandled_seek</span> <span class="op">||</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">ever_read</span> {
+            (<span class="self">self</span>.<span class="ident">name</span>, <span class="prelude-val">None</span>)
+        } <span class="kw">else</span> {
+            (<span class="self">self</span>.<span class="ident">name</span>, <span class="prelude-val">Some</span>(<span class="ident">DigestData</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">digest</span>)))
         }
     }
 
-    <span class='doccomment'>/// Various piece of TeX want to use the libc `ungetc()` function a lot.</span>
-    <span class='doccomment'>/// It&#39;s kind of gross, but happens often enough that we provide special</span>
-    <span class='doccomment'>/// support for it. Here&#39;s `getc()` emulation that can return a previously</span>
-    <span class='doccomment'>/// `ungetc()`-ed character.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>getc</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ungetc_char</span> {
-            <span class='self'>self</span>.<span class='ident'>ungetc_char</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>c</span>);
+    <span class="doccomment">/// Various piece of TeX want to use the libc `ungetc()` function a lot.</span>
+    <span class="doccomment">/// It&#39;s kind of gross, but happens often enough that we provide special</span>
+    <span class="doccomment">/// support for it. Here&#39;s `getc()` emulation that can return a previously</span>
+    <span class="doccomment">/// `ungetc()`-ed character.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">getc</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">ungetc_char</span> {
+            <span class="self">self</span>.<span class="ident">ungetc_char</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">c</span>);
         }
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>byte</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>1</span>];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">byte</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">1</span>];
 
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>byte</span>[..<span class='number'>1</span>])<span class='question-mark'>?</span> <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='comment'>// EOF</span>
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>UnexpectedEof</span>, <span class='string'>&quot;EOF in getc&quot;</span>).<span class='ident'>into</span>());
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">byte</span>[..<span class="number">1</span>])<span class="question-mark">?</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="comment">// EOF</span>
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span>, <span class="string">&quot;EOF in getc&quot;</span>).<span class="ident">into</span>());
         }
 
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>byte</span>[<span class='number'>0</span>])
+        <span class="prelude-val">Ok</span>(<span class="ident">byte</span>[<span class="number">0</span>])
     }
 
-    <span class='doccomment'>/// Here&#39;s the `ungetc()` emulation.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ungetc</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>byte</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>ungetc_char</span>.<span class='ident'>is_some</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ErrorKind</span>::<span class='ident'>Msg</span>(<span class='string'>&quot;internal problem: cannot ungetc() more than once in a row&quot;</span>.<span class='ident'>into</span>()).<span class='ident'>into</span>());
+    <span class="doccomment">/// Here&#39;s the `ungetc()` emulation.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ungetc</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">byte</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ungetc_char</span>.<span class="ident">is_some</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ErrorKind</span>::<span class="ident">Msg</span>(<span class="string">&quot;internal problem: cannot ungetc() more than once in a row&quot;</span>.<span class="ident">into</span>()).<span class="ident">into</span>());
         }
 
-        <span class='self'>self</span>.<span class='ident'>ungetc_char</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>byte</span>);
-        <span class='prelude-val'>Ok</span>(())
+        <span class="self">self</span>.<span class="ident">ungetc_char</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">byte</span>);
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Read</span> <span class='kw'>for</span> <span class='ident'>InputHandle</span> {
-    <span class='kw'>fn</span> <span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ungetc_char</span> {
-                <span class='comment'>// This does sometimes happen, so we need to deal with it. It&#39;s not that bad really.</span>
-                <span class='ident'>buf</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>c</span>;
-                <span class='self'>self</span>.<span class='ident'>ungetc_char</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-                <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>[<span class='number'>1</span>..])<span class='question-mark'>?</span> <span class='op'>+</span> <span class='number'>1</span>);
+<span class="kw">impl</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">InputHandle</span> {
+    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">ungetc_char</span> {
+                <span class="comment">// This does sometimes happen, so we need to deal with it. It&#39;s not that bad really.</span>
+                <span class="ident">buf</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">c</span>;
+                <span class="self">self</span>.<span class="ident">ungetc_char</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>[<span class="number">1</span>..])<span class="question-mark">?</span> <span class="op">+</span> <span class="number">1</span>);
             }
         }
 
-        <span class='self'>self</span>.<span class='ident'>ever_read</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-        <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>inner</span>.<span class='ident'>read</span>(<span class='ident'>buf</span>)<span class='question-mark'>?</span>;
-        <span class='self'>self</span>.<span class='ident'>digest</span>.<span class='ident'>input</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>[..<span class='ident'>n</span>]);
-        <span class='prelude-val'>Ok</span>(<span class='ident'>n</span>)
+        <span class="self">self</span>.<span class="ident">ever_read</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">read</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">digest</span>.<span class="ident">input</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">n</span>]);
+        <span class="prelude-val">Ok</span>(<span class="ident">n</span>)
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>InputFeatures</span> <span class='kw'>for</span> <span class='ident'>InputHandle</span> {
-    <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>inner</span>.<span class='ident'>get_size</span>()
+<span class="kw">impl</span> <span class="ident">InputFeatures</span> <span class="kw">for</span> <span class="ident">InputHandle</span> {
+    <span class="kw">fn</span> <span class="ident">get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">get_size</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>try_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='ident'>pos</span> {
-            <span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>0</span>) <span class='op'>=&gt;</span> {
-                <span class='comment'>// As describe above, there is a common pattern in TeX file</span>
-                <span class='comment'>// accesses: read a few bytes to sniff, then go back to the</span>
-                <span class='comment'>// beginning. We should tidy up the I/O to just buffer instead</span>
-                <span class='comment'>// of seeking, but in the meantime, we can handle this.</span>
-                <span class='self'>self</span>.<span class='ident'>digest</span>.<span class='ident'>reset</span>();
-                <span class='self'>self</span>.<span class='ident'>ever_read</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+    <span class="kw">fn</span> <span class="ident">try_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">pos</span> {
+            <span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>) <span class="op">=&gt;</span> {
+                <span class="comment">// As describe above, there is a common pattern in TeX file</span>
+                <span class="comment">// accesses: read a few bytes to sniff, then go back to the</span>
+                <span class="comment">// beginning. We should tidy up the I/O to just buffer instead</span>
+                <span class="comment">// of seeking, but in the meantime, we can handle this.</span>
+                <span class="self">self</span>.<span class="ident">digest</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+                <span class="self">self</span>.<span class="ident">ever_read</span> <span class="op">=</span> <span class="bool-val">false</span>;
             }
-            <span class='ident'>SeekFrom</span>::<span class='ident'>Current</span>(<span class='number'>0</span>) <span class='op'>=&gt;</span> {
-                <span class='comment'>// Noop.</span>
+            <span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="number">0</span>) <span class="op">=&gt;</span> {
+                <span class="comment">// Noop.</span>
             },
-            _ <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>did_unhandled_seek</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            _ <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">did_unhandled_seek</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
         }
-        <span class='self'>self</span>.<span class='ident'>inner</span>.<span class='ident'>try_seek</span>(<span class='ident'>pos</span>)
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">try_seek</span>(<span class="ident">pos</span>)
     }
 }
 
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OutputHandle</span> {
-    <span class='ident'>name</span>: <span class='ident'>OsString</span>,
-    <span class='ident'>inner</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Write</span><span class='op'>&gt;</span>,
-    <span class='ident'>digest</span>: <span class='ident'>digest</span>::<span class='ident'>DigestComputer</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OutputHandle</span> {
+    <span class="ident">name</span>: <span class="ident">OsString</span>,
+    <span class="ident">inner</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Write</span><span class="op">&gt;</span>,
+    <span class="ident">digest</span>: <span class="ident">digest</span>::<span class="ident">DigestComputer</span>,
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>OutputHandle</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>inner</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>OutputHandle</span> {
-        <span class='ident'>OutputHandle</span> {
-            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_os_string</span>(),
-            <span class='ident'>inner</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>),
-            <span class='ident'>digest</span>: <span class='ident'>digest</span>::<span class='ident'>create</span>(),
+<span class="kw">impl</span> <span class="ident">OutputHandle</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Write</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">inner</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">OutputHandle</span> {
+        <span class="ident">OutputHandle</span> {
+            <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">to_os_string</span>(),
+            <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">inner</span>),
+            <span class="ident">digest</span>: <span class="ident">digest</span>::<span class="ident">create</span>(),
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span> {
-        <span class='self'>self</span>.<span class='ident'>name</span>.<span class='ident'>as_os_str</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">OsStr</span> {
+        <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">as_os_str</span>()
     }
 
-    <span class='doccomment'>/// Consumes the object and returns the SHA256 sum of the content that was</span>
-    <span class='doccomment'>/// written.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>into_name_digest</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>OsString</span>, <span class='ident'>DigestData</span>) {
-        (<span class='self'>self</span>.<span class='ident'>name</span>, <span class='ident'>DigestData</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>digest</span>))
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>Write</span> <span class='kw'>for</span> <span class='ident'>OutputHandle</span> {
-    <span class='kw'>fn</span> <span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>digest</span>.<span class='ident'>input</span>(<span class='ident'>buf</span>);
-        <span class='self'>self</span>.<span class='ident'>inner</span>.<span class='ident'>write</span>(<span class='ident'>buf</span>)
+    <span class="doccomment">/// Consumes the object and returns the underlying writable handle that</span>
+    <span class="doccomment">/// it references.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Write</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>flush</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>inner</span>.<span class='ident'>flush</span>()
+    <span class="doccomment">/// Consumes the object and returns the SHA256 sum of the content that was</span>
+    <span class="doccomment">/// written.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_name_digest</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">OsString</span>, <span class="ident">DigestData</span>) {
+        (<span class="self">self</span>.<span class="ident">name</span>, <span class="ident">DigestData</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">digest</span>))
     }
 }
 
-
-<span class='comment'>// An Io provider is a source of handles. One wrinkle is that it&#39;s good to be</span>
-<span class='comment'>// able to distinguish between unavailability of a given name and error</span>
-<span class='comment'>// accessing it. We take file paths as OsStrs, although since we parse input</span>
-<span class='comment'>// files as Unicode it may not be possible to actually express zany</span>
-<span class='comment'>// non-Unicode Unix paths inside the engine.</span>
-
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='prelude-val'>Ok</span>(<span class='ident'>T</span>),
-    <span class='ident'>NotAvailable</span>,
-    <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>)
-}
-
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IoProvider</span> {
-    <span class='kw'>fn</span> <span class='ident'>output_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-        <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+<span class="kw">impl</span> <span class="ident">Write</span> <span class="kw">for</span> <span class="ident">OutputHandle</span> {
+    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">write</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">digest</span>.<span class="ident">input</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">n</span>]);
+        <span class="prelude-val">Ok</span>(<span class="ident">n</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>output_open_stdout</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-        <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
-    }
-
-    <span class='kw'>fn</span> <span class='ident'>input_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>_status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;</span> {
-        <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">flush</span>()
     }
 }
 
 
-<span class='comment'>// Some generically helpful InputFeatures impls</span>
+<span class="comment">// An Io provider is a source of handles. One wrinkle is that it&#39;s good to be</span>
+<span class="comment">// able to distinguish between unavailability of a given name and error</span>
+<span class="comment">// accessing it. We take file paths as OsStrs, although since we parse input</span>
+<span class="comment">// files as Unicode it may not be possible to actually express zany</span>
+<span class="comment">// non-Unicode Unix paths inside the engine.</span>
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> <span class='ident'>InputFeatures</span> <span class='kw'>for</span> <span class='ident'>GzDecoder</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Err</span>(<span class='ident'>ErrorKind</span>::<span class='ident'>NotSizeable</span>.<span class='ident'>into</span>())
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="prelude-val">Ok</span>(<span class="ident">T</span>),
+    <span class="ident">NotAvailable</span>,
+    <span class="prelude-val">Err</span>(<span class="ident">Error</span>)
+}
+
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">t</span>,
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;expected an open file&quot;</span>),
+        }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>try_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Err</span>(<span class='ident'>ErrorKind</span>::<span class='ident'>NotSeekable</span>.<span class='ident'>into</span>())
+    <span class="doccomment">/// Returns true if this result is of the NotAvailable variant.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_not_available</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="kw-2">&amp;</span><span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span> <span class="op">=</span> <span class="self">self</span> {
+            <span class="bool-val">true</span>
+        } <span class="kw">else</span> {
+            <span class="bool-val">false</span>
+        }
     }
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>InputFeatures</span> <span class='kw'>for</span> <span class='ident'>Cursor</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>get_ref</span>().<span class='ident'>len</span>())
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IoProvider</span> {
+    <span class="kw">fn</span> <span class="ident">output_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;</span> {
+        <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>try_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>seek</span>(<span class='ident'>pos</span>)<span class='question-mark'>?</span>)
+    <span class="kw">fn</span> <span class="ident">output_open_stdout</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;</span> {
+        <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
+    }
+
+    <span class="kw">fn</span> <span class="ident">input_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">_status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+        <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
+    }
+
+    <span class="doccomment">/// Open a format file with the specified name. Format files have a</span>
+    <span class="doccomment">/// specialized entry point because IOProviders may wish to handle them</span>
+    <span class="doccomment">/// specially: namely, to munge the filename to one that includes the</span>
+    <span class="doccomment">/// current version of the Tectonic engine, since the format contents</span>
+    <span class="doccomment">/// depend sensitively on the engine internals.</span>
+    <span class="kw">fn</span> <span class="ident">input_open_format</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">input_open_name</span>(<span class="ident">name</span>, <span class="ident">status</span>)
+    }
+
+    <span class="doccomment">/// Save an a format dump in some way that this provider may be able to</span>
+    <span class="doccomment">/// recover in the future. This awkward interface is needed for to write</span>
+    <span class="doccomment">/// formats with their special munged file names.</span>
+    <span class="kw">fn</span> <span class="ident">write_format</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">_status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">ErrorKind</span>::<span class="ident">Msg</span>(<span class="string">&quot;this I/O layer cannot save format files&quot;</span>.<span class="ident">to_owned</span>()).<span class="ident">into</span>())
     }
 }
 
 
-<span class='comment'>// Reexports</span>
+<span class="comment">// Some generically helpful InputFeatures impls</span>
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>filesystem</span>::<span class='ident'>FilesystemIo</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>genuine_stdout</span>::<span class='ident'>GenuineStdoutIo</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>memory</span>::<span class='ident'>MemoryIo</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>stack</span>::<span class='ident'>IoStack</span>;
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">InputFeatures</span> <span class="kw">for</span> <span class="ident">GzDecoder</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotSizeable</span>.<span class="ident">into</span>())
+    }
+
+    <span class="kw">fn</span> <span class="ident">try_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, _: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotSeekable</span>.<span class="ident">into</span>())
+    }
+}
 
 
-<span class='comment'>// Helpful.</span>
+<span class="kw">impl</span> <span class="ident">InputFeatures</span> <span class="kw">for</span> <span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">get_ref</span>().<span class="ident">len</span>())
+    }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>try_open_file</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>NotFound</span>;
+    <span class="kw">fn</span> <span class="ident">try_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">seek</span>(<span class="ident">pos</span>)<span class="question-mark">?</span>)
+    }
+}
 
-    <span class='kw'>match</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>) {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>f</span>),
-        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-            <span class='kw'>if</span> <span class='ident'>e</span>.<span class='ident'>kind</span>() <span class='op'>==</span> <span class='ident'>NotFound</span> {
-                <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
-            } <span class='kw'>else</span> {
-                <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>())
+
+<span class="comment">// Reexports</span>
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">filesystem</span>::<span class="ident">FilesystemIo</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">genuine_stdout</span>::<span class="ident">GenuineStdoutIo</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">memory</span>::<span class="ident">MemoryIo</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">stack</span>::<span class="ident">IoStack</span>;
+
+
+<span class="comment">// Helpful.</span>
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_open_file</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>;
+
+    <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="ident">path</span>) {
+        <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">f</span>),
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+            <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">NotFound</span> {
+                <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
+            } <span class="kw">else</span> {
+                <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
             }
         },
     }
 }
 
 
-<span class='comment'>// Helper for testing. FIXME: I want this to be conditionally compiled with</span>
-<span class='comment'>// #[cfg(test)] but things break if I do that.</span>
+<span class="comment">// Helper for testing. FIXME: I want this to be conditionally compiled with</span>
+<span class="comment">// #[cfg(test)] but things break if I do that.</span>
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>testing</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>OsStr</span>, <span class='ident'>OsString</span>};
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">testing</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">OsStr</span>, <span class="ident">OsString</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SingleInputFileIo</span> {
-        <span class='ident'>name</span>: <span class='ident'>OsString</span>,
-        <span class='ident'>full_path</span>: <span class='ident'>PathBuf</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SingleInputFileIo</span> {
+        <span class="ident">name</span>: <span class="ident">OsString</span>,
+        <span class="ident">full_path</span>: <span class="ident">PathBuf</span>
     }
 
-    <span class='kw'>impl</span> <span class='ident'>SingleInputFileIo</span> {
-        <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>SingleInputFileIo</span> {
-            <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>to_path_buf</span>();
+    <span class="kw">impl</span> <span class="ident">SingleInputFileIo</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">SingleInputFileIo</span> {
+            <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_path_buf</span>();
 
-            <span class='ident'>SingleInputFileIo</span> {
-                <span class='ident'>name</span>: <span class='ident'>p</span>.<span class='ident'>file_name</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_os_string</span>(),
-                <span class='ident'>full_path</span>: <span class='ident'>p</span>,
+            <span class="ident">SingleInputFileIo</span> {
+                <span class="ident">name</span>: <span class="ident">p</span>.<span class="ident">file_name</span>().<span class="ident">unwrap</span>().<span class="ident">to_os_string</span>(),
+                <span class="ident">full_path</span>: <span class="ident">p</span>,
             }
         }
     }
 
-    <span class='kw'>impl</span> <span class='ident'>IoProvider</span> <span class='kw'>for</span> <span class='ident'>SingleInputFileIo</span> {
-        <span class='kw'>fn</span> <span class='ident'>output_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-            <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+    <span class="kw">impl</span> <span class="ident">IoProvider</span> <span class="kw">for</span> <span class="ident">SingleInputFileIo</span> {
+        <span class="kw">fn</span> <span class="ident">output_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;</span> {
+            <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
         }
 
-        <span class='kw'>fn</span> <span class='ident'>output_open_stdout</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-            <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+        <span class="kw">fn</span> <span class="ident">output_open_stdout</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;</span> {
+            <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
         }
 
-        <span class='kw'>fn</span> <span class='ident'>input_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>_status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;</span> {
-            <span class='kw'>if</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>name</span> {
-                <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>full_path</span>).<span class='ident'>unwrap</span>(), <span class='ident'>InputOrigin</span>::<span class='ident'>Filesystem</span>))
-            } <span class='kw'>else</span> {
-                <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+        <span class="kw">fn</span> <span class="ident">input_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">_status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+            <span class="kw">if</span> <span class="ident">name</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">name</span> {
+                <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">InputHandle</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">full_path</span>).<span class="ident">unwrap</span>(), <span class="ident">InputOrigin</span>::<span class="ident">Filesystem</span>))
+            } <span class="kw">else</span> {
+                <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
             }
         }
     }

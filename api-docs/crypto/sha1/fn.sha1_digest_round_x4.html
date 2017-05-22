@@ -9,6 +9,7 @@
 
     <title>crypto::sha1::sha1_digest_round_x4 - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>crypto</a>::<wbr><a href='index.html'>sha1</a>::<wbr><a class='fn' href=''>sha1_digest_round_x4</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>crypto</a>::<wbr><a href='index.html'>sha1</a>::<wbr><a class="fn" href=''>sha1_digest_round_x4</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/crypto/sha1.rs.html#121-134' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn sha1_digest_round_x4(abcd: u32x4, work: u32x4, i: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a>) -&gt; u32x4</pre><div class='docblock'><p>Emulates <code>llvm.x86.sha1rnds4</code> intrinsic.
+<pre class='rust fn'>pub fn sha1_digest_round_x4(abcd: u32x4, work: u32x4, i: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i8.html">i8</a>) -&gt; u32x4</pre><div class='docblock'><p>Emulates <code>llvm.x86.sha1rnds4</code> intrinsic.
 Performs 4 rounds of the message block digest.</p>
 </div></section>
     <section id='search' class="content hidden"></section>

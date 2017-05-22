@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -102,64 +103,64 @@
 <span id="58">58</span>
 <span id="59">59</span>
 <span id="60">60</span>
-</pre><pre class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
-<span class='doccomment'>//! *Put your app&#39;s data in the right place on every platform*</span>
-<span class='doccomment'>//! # Usage</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! extern crate app_dirs;</span>
-<span class='doccomment'>//! use app_dirs::*;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! const APP_INFO: AppInfo = AppInfo{name: &quot;CoolApp&quot;, author: &quot;SuperDev&quot;};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! fn main () {</span>
-<span class='doccomment'>//!     // Where should I store my app&#39;s per-user configuration data?</span>
-<span class='doccomment'>//!     println!(&quot;{:?}&quot;, get_app_root(AppDataType::UserConfig, &amp;APP_INFO));</span>
-<span class='doccomment'>//!     // Windows: &quot;%APPDATA%\SuperDev\CoolApp&quot;</span>
-<span class='doccomment'>//!     //   (e.g.: &quot;C:\Users\Rusty\AppData\Roaming\SuperDev\CoolApp&quot;)</span>
-<span class='doccomment'>//!     //   macOS: &quot;$HOME/Library/Application Support/CoolApp&quot;</span>
-<span class='doccomment'>//!     //   (e.g.: &quot;/Users/Rusty/Library/Application Support/CoolApp&quot;)</span>
-<span class='doccomment'>//!     //    *nix: &quot;$HOME/.config/CoolApp&quot; (or &quot;$XDG_CONFIG_HOME/CoolApp&quot;, if defined)</span>
-<span class='doccomment'>//!     //   (e.g.: &quot;/home/rusty/.config/CoolApp&quot;)</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     // How about nested cache data?</span>
-<span class='doccomment'>//!     println!(&quot;{:?}&quot;, get_app_dir(AppDataType::UserCache, &amp;APP_INFO, &quot;cache/images&quot;));</span>
-<span class='doccomment'>//!     // Windows: &quot;%LOCALAPPDATA%\SuperDev\CoolApp\cache\images&quot;</span>
-<span class='doccomment'>//!     //   (e.g.: &quot;C:\Users\Rusty\AppData\Local\SuperDev\CoolApp\cache\images&quot;)</span>
-<span class='doccomment'>//!     //   macOS: &quot;$HOME/Library/Caches/CoolApp/cache/images&quot;</span>
-<span class='doccomment'>//!     //   (e.g.: &quot;/Users/Rusty/Library/Caches/CoolApp/cache/images&quot;)</span>
-<span class='doccomment'>//!     //    *nix: &quot;$HOME/.cache/CoolApp/cache/images&quot;</span>
-<span class='doccomment'>//!     //          (or &quot;$XDG_CACHE_HOME/CoolApp/cache/images&quot;, if defined)</span>
-<span class='doccomment'>//!     //   (e.g.: &quot;/home/rusty/.cache/CoolApp/cache/images&quot;)</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     // Remove &quot;get_&quot; prefix to recursively create nonexistent directories:</span>
-<span class='doccomment'>//!     // app_root(AppDataType::UserConfig, &amp;APP_INFO)</span>
-<span class='doccomment'>//!     // app_dir(AppDataType::UserCache, &amp;APP_INFO, &quot;cache/images&quot;)</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! ```</span>
-<span class='kw'>mod</span> <span class='ident'>common</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>common</span>::<span class='op'>*</span>;
-<span class='kw'>mod</span> <span class='ident'>imp</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>imp</span>::<span class='op'>*</span>;
-<span class='kw'>mod</span> <span class='ident'>utils</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>utils</span>::<span class='op'>*</span>;
+</pre><pre class="rust ">
+<span class="attribute">#<span class="op">!</span>[<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="doccomment">//! *Put your app&#39;s data in the right place on every platform*</span>
+<span class="doccomment">//! # Usage</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! extern crate app_dirs;</span>
+<span class="doccomment">//! use app_dirs::*;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! const APP_INFO: AppInfo = AppInfo{name: &quot;CoolApp&quot;, author: &quot;SuperDev&quot;};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn main () {</span>
+<span class="doccomment">//!     // Where should I store my app&#39;s per-user configuration data?</span>
+<span class="doccomment">//!     println!(&quot;{:?}&quot;, get_app_root(AppDataType::UserConfig, &amp;APP_INFO));</span>
+<span class="doccomment">//!     // Windows: &quot;%APPDATA%\SuperDev\CoolApp&quot;</span>
+<span class="doccomment">//!     //   (e.g.: &quot;C:\Users\Rusty\AppData\Roaming\SuperDev\CoolApp&quot;)</span>
+<span class="doccomment">//!     //   macOS: &quot;$HOME/Library/Application Support/CoolApp&quot;</span>
+<span class="doccomment">//!     //   (e.g.: &quot;/Users/Rusty/Library/Application Support/CoolApp&quot;)</span>
+<span class="doccomment">//!     //    *nix: &quot;$HOME/.config/CoolApp&quot; (or &quot;$XDG_CONFIG_HOME/CoolApp&quot;, if defined)</span>
+<span class="doccomment">//!     //   (e.g.: &quot;/home/rusty/.config/CoolApp&quot;)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // How about nested cache data?</span>
+<span class="doccomment">//!     println!(&quot;{:?}&quot;, get_app_dir(AppDataType::UserCache, &amp;APP_INFO, &quot;cache/images&quot;));</span>
+<span class="doccomment">//!     // Windows: &quot;%LOCALAPPDATA%\SuperDev\CoolApp\cache\images&quot;</span>
+<span class="doccomment">//!     //   (e.g.: &quot;C:\Users\Rusty\AppData\Local\SuperDev\CoolApp\cache\images&quot;)</span>
+<span class="doccomment">//!     //   macOS: &quot;$HOME/Library/Caches/CoolApp/cache/images&quot;</span>
+<span class="doccomment">//!     //   (e.g.: &quot;/Users/Rusty/Library/Caches/CoolApp/cache/images&quot;)</span>
+<span class="doccomment">//!     //    *nix: &quot;$HOME/.cache/CoolApp/cache/images&quot;</span>
+<span class="doccomment">//!     //          (or &quot;$XDG_CACHE_HOME/CoolApp/cache/images&quot;, if defined)</span>
+<span class="doccomment">//!     //   (e.g.: &quot;/home/rusty/.cache/CoolApp/cache/images&quot;)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     // Remove &quot;get_&quot; prefix to recursively create nonexistent directories:</span>
+<span class="doccomment">//!     // app_root(AppDataType::UserConfig, &amp;APP_INFO)</span>
+<span class="doccomment">//!     // app_dir(AppDataType::UserCache, &amp;APP_INFO, &quot;cache/images&quot;)</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! ```</span>
+<span class="kw">mod</span> <span class="ident">common</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">common</span>::<span class="kw-2">*</span>;
+<span class="kw">mod</span> <span class="ident">imp</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">imp</span>::<span class="kw-2">*</span>;
+<span class="kw">mod</span> <span class="ident">utils</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utils</span>::<span class="kw-2">*</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>AppDataType</span>::<span class='op'>*</span>;
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>it_works</span>() {
-        <span class='kw'>let</span> <span class='ident'>info</span> <span class='op'>=</span> <span class='ident'>AppInfo</span> {
-            <span class='ident'>name</span>: <span class='string'>&quot;Awesome App&quot;</span>.<span class='ident'>into</span>(),
-            <span class='ident'>author</span>: <span class='string'>&quot;Dedicated Dev&quot;</span>.<span class='ident'>into</span>(),
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">AppDataType</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">it_works</span>() {
+        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="ident">AppInfo</span> {
+            <span class="ident">name</span>: <span class="string">&quot;Awesome App&quot;</span>.<span class="ident">into</span>(),
+            <span class="ident">author</span>: <span class="string">&quot;Dedicated Dev&quot;</span>.<span class="ident">into</span>(),
         };
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='string'>&quot;/.not-hidden/subfolder!/with?/uni.code/¡Olé!/&quot;</span>;
-        <span class='kw'>let</span> <span class='ident'>types</span> <span class='op'>=</span> [<span class='ident'>UserConfig</span>, <span class='ident'>UserData</span>, <span class='ident'>UserCache</span>, <span class='ident'>SharedData</span>, <span class='ident'>SharedConfig</span>];
-        <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>t</span> <span class='kw'>in</span> <span class='ident'>types</span>.<span class='ident'>iter</span>() {
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?} data root = {:?}&quot;</span>, <span class='ident'>t</span>, <span class='ident'>get_data_root</span>(<span class='ident'>t</span>));
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?} app root = {:?}&quot;</span>, <span class='ident'>t</span>, <span class='ident'>get_app_root</span>(<span class='ident'>t</span>, <span class='kw-2'>&amp;</span><span class='ident'>info</span>));
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?} data dir = {:?}&quot;</span>, <span class='ident'>t</span>, <span class='ident'>get_app_dir</span>(<span class='ident'>t</span>, <span class='kw-2'>&amp;</span><span class='ident'>info</span>, <span class='kw-2'>&amp;</span><span class='ident'>path</span>));
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="string">&quot;/.not-hidden/subfolder!/with?/uni.code/¡Olé!/&quot;</span>;
+        <span class="kw">let</span> <span class="ident">types</span> <span class="op">=</span> [<span class="ident">UserConfig</span>, <span class="ident">UserData</span>, <span class="ident">UserCache</span>, <span class="ident">SharedData</span>, <span class="ident">SharedConfig</span>];
+        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">t</span> <span class="kw">in</span> <span class="ident">types</span>.<span class="ident">iter</span>() {
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?} data root = {:?}&quot;</span>, <span class="ident">t</span>, <span class="ident">get_data_root</span>(<span class="ident">t</span>));
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?} app root = {:?}&quot;</span>, <span class="ident">t</span>, <span class="ident">get_app_root</span>(<span class="ident">t</span>, <span class="kw-2">&amp;</span><span class="ident">info</span>));
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?} data dir = {:?}&quot;</span>, <span class="ident">t</span>, <span class="ident">get_app_dir</span>(<span class="ident">t</span>, <span class="kw-2">&amp;</span><span class="ident">info</span>, <span class="kw-2">&amp;</span><span class="ident">path</span>));
         }
     }
 }

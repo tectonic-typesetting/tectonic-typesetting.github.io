@@ -9,6 +9,7 @@
 
     <title>itarbundle.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -272,235 +273,247 @@
 <span id="228">228</span>
 <span id="229">229</span>
 <span id="230">230</span>
-</pre><pre class='rust '>
-<span class='comment'>// src/io/itarbundle.rs -- I/O on files in an indexed tar file &quot;bundle&quot;</span>
-<span class='comment'>// Copyright 2017 the Tectonic Project</span>
-<span class='comment'>// Licensed under the MIT License.</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+</pre><pre class="rust ">
+<span class="comment">// src/io/itarbundle.rs -- I/O on files in an indexed tar file &quot;bundle&quot;</span>
+<span class="comment">// Copyright 2017 the Tectonic Project</span>
+<span class="comment">// Licensed under the MIT License.</span>
 
-<span class='kw'>use</span> <span class='ident'>flate2</span>::<span class='ident'>read</span>::<span class='ident'>GzDecoder</span>;
-<span class='kw'>use</span> <span class='ident'>hyper</span>::{<span class='self'>self</span>, <span class='ident'>Client</span>};
-<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>client</span>::<span class='ident'>Response</span>;
-<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>Headers</span>, <span class='ident'>Range</span>};
-<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>status</span>::<span class='ident'>StatusCode</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>OsStr</span>, <span class='ident'>OsString</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufRead</span>, <span class='ident'>BufReader</span>, <span class='ident'>Cursor</span>, <span class='ident'>Read</span>};
+<span class="kw">use</span> <span class="ident">flate2</span>::<span class="ident">read</span>::<span class="ident">GzDecoder</span>;
+<span class="kw">use</span> <span class="ident">hyper</span>::{<span class="self">self</span>, <span class="ident">Client</span>};
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">net</span>::<span class="ident">HttpsConnector</span>;
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">Response</span>;
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">header</span>::{<span class="ident">Headers</span>, <span class="ident">Range</span>};
+<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">status</span>::<span class="ident">StatusCode</span>;
+<span class="kw">use</span> <span class="ident">hyper_native_tls</span>::<span class="ident">NativeTlsClient</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">OsStr</span>, <span class="ident">OsString</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufRead</span>, <span class="ident">BufReader</span>, <span class="ident">Cursor</span>, <span class="ident">Read</span>};
 
-<span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>Error</span>, <span class='prelude-ty'>Result</span>, <span class='ident'>ResultExt</span>};
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>InputHandle</span>, <span class='ident'>InputOrigin</span>, <span class='ident'>IoProvider</span>, <span class='ident'>OpenResult</span>};
-<span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
+<span class="kw">use</span> <span class="ident">errors</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">ResultExt</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">InputHandle</span>, <span class="ident">InputOrigin</span>, <span class="ident">IoProvider</span>, <span class="ident">OpenResult</span>};
+<span class="kw">use</span> <span class="ident">status</span>::<span class="ident">StatusBackend</span>;
 
 
-<span class='comment'>// A simple way to read chunks out of a big seekable byte stream. You could</span>
-<span class='comment'>// implement this for io::File pretty trivially but that&#39;s not currently</span>
-<span class='comment'>// needed.</span>
+<span class="comment">// A simple way to read chunks out of a big seekable byte stream. You could</span>
+<span class="comment">// implement this for io::File pretty trivially but that&#39;s not currently</span>
+<span class="comment">// needed.</span>
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>RangeRead</span> {
-    <span class='kw'>type</span> <span class='ident'>InnerRead</span>: <span class='ident'>Read</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RangeRead</span> {
+    <span class="kw">type</span> <span class="ident">InnerRead</span>: <span class="ident">Read</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>read_range</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>offset</span>: <span class='ident'>u64</span>, <span class='ident'>length</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>InnerRead</span><span class='op'>&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">read_range</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">offset</span>: <span class="ident">u64</span>, <span class="ident">length</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">InnerRead</span><span class="op">&gt;</span>;
 }
 
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HttpRangeReader</span> {
-    <span class='ident'>url</span>: <span class='ident'>String</span>,
-    <span class='ident'>client</span>: <span class='ident'>Client</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpRangeReader</span> {
+    <span class="ident">url</span>: <span class="ident">String</span>,
+    <span class="ident">client</span>: <span class="ident">Client</span>,
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>HttpRangeReader</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>HttpRangeReader</span> {
-        <span class='kw'>let</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>();
+<span class="kw">impl</span> <span class="ident">HttpRangeReader</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">url</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">HttpRangeReader</span> {
+        <span class="kw">let</span> <span class="ident">ssl</span> <span class="op">=</span> <span class="ident">NativeTlsClient</span>::<span class="ident">new</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">HttpsConnector</span>::<span class="ident">new</span>(<span class="ident">ssl</span>);
+        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Client</span>::<span class="ident">with_connector</span>(<span class="ident">connector</span>);
 
-        <span class='ident'>HttpRangeReader</span> {
-            <span class='ident'>url</span>: <span class='ident'>url</span>.<span class='ident'>to_owned</span>(),
-            <span class='ident'>client</span>: <span class='ident'>client</span>,
+        <span class="ident">HttpRangeReader</span> {
+            <span class="ident">url</span>: <span class="ident">url</span>.<span class="ident">to_owned</span>(),
+            <span class="ident">client</span>: <span class="ident">client</span>,
         }
     }
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>RangeRead</span> <span class='kw'>for</span> <span class='ident'>HttpRangeReader</span> {
-    <span class='kw'>type</span> <span class='ident'>InnerRead</span> <span class='op'>=</span> <span class='ident'>Response</span>;
+<span class="kw">impl</span> <span class="ident">RangeRead</span> <span class="kw">for</span> <span class="ident">HttpRangeReader</span> {
+    <span class="kw">type</span> <span class="ident">InnerRead</span> <span class="op">=</span> <span class="ident">Response</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>read_range</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>offset</span>: <span class='ident'>u64</span>, <span class='ident'>length</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Response</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>end_inclusive</span> <span class='op'>=</span> <span class='ident'>offset</span> <span class='op'>+</span> <span class='ident'>length</span> <span class='kw'>as</span> <span class='ident'>u64</span> <span class='op'>-</span> <span class='number'>1</span>;
+    <span class="kw">fn</span> <span class="ident">read_range</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">offset</span>: <span class="ident">u64</span>, <span class="ident">length</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">end_inclusive</span> <span class="op">=</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">length</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">-</span> <span class="number">1</span>;
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>headers</span> <span class='op'>=</span> <span class='ident'>Headers</span>::<span class='ident'>new</span>();
-        <span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>Range</span>::<span class='ident'>bytes</span>(<span class='ident'>offset</span>, <span class='ident'>end_inclusive</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">Headers</span>::<span class="ident">new</span>();
+        <span class="ident">headers</span>.<span class="ident">set</span>(<span class="ident">Range</span>::<span class="ident">bytes</span>(<span class="ident">offset</span>, <span class="ident">end_inclusive</span>));
 
-        <span class='kw'>let</span> <span class='ident'>req</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>client</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>).<span class='ident'>headers</span>(<span class='ident'>headers</span>);
-        <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>req</span>.<span class='ident'>send</span>()<span class='question-mark'>?</span>;
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">client</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">url</span>).<span class="ident">headers</span>(<span class="ident">headers</span>);
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">send</span>()<span class="question-mark">?</span>;
 
-        <span class='kw'>if</span> <span class='ident'>res</span>.<span class='ident'>status</span> <span class='op'>!=</span> <span class='ident'>StatusCode</span>::<span class='ident'>PartialContent</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>hyper</span>::<span class='ident'>Error</span>::<span class='ident'>Status</span>.<span class='ident'>into</span>());
+        <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">status</span> <span class="op">!=</span> <span class="ident">StatusCode</span>::<span class="ident">PartialContent</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">hyper</span>::<span class="ident">Error</span>::<span class="ident">Status</span>.<span class="ident">into</span>());
         }
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>res</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">res</span>)
     }
 }
 
 
-<span class='comment'>// The IoProvider. We jump through some hoops so that web-based bundles can</span>
-<span class='comment'>// be created without immediately connecting to the network.</span>
+<span class="comment">// The IoProvider. We jump through some hoops so that web-based bundles can</span>
+<span class="comment">// be created without immediately connecting to the network.</span>
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ITarIoFactory</span> {
-    <span class='kw'>type</span> <span class='ident'>IndexReader</span>: <span class='ident'>Read</span>;
-    <span class='kw'>type</span> <span class='ident'>DataReader</span>: <span class='ident'>RangeRead</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ITarIoFactory</span> {
+    <span class="kw">type</span> <span class="ident">IndexReader</span>: <span class="ident">Read</span>;
+    <span class="kw">type</span> <span class="ident">DataReader</span>: <span class="ident">RangeRead</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>get_index</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>IndexReader</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>get_data</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>DataReader</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>report_fetch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>);
+    <span class="kw">fn</span> <span class="ident">get_index</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">IndexReader</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">DataReader</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">report_fetch</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>);
 }
 
-<span class='kw'>struct</span> <span class='ident'>FileInfo</span> {
-    <span class='ident'>offset</span>: <span class='ident'>u64</span>,
-    <span class='ident'>length</span>: <span class='ident'>u64</span>
+<span class="kw">struct</span> <span class="ident">FileInfo</span> {
+    <span class="ident">offset</span>: <span class="ident">u64</span>,
+    <span class="ident">length</span>: <span class="ident">u64</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ITarBundle</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>ITarIoFactory</span><span class='op'>&gt;</span> {
-    <span class='ident'>factory</span>: <span class='ident'>F</span>,
-    <span class='ident'>data</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>F</span>::<span class='ident'>DataReader</span><span class='op'>&gt;</span>,
-    <span class='ident'>index</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OsString</span>,<span class='ident'>FileInfo</span><span class='op'>&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ITarBundle</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">ITarIoFactory</span><span class="op">&gt;</span> {
+    <span class="ident">factory</span>: <span class="ident">F</span>,
+    <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">F</span>::<span class="ident">DataReader</span><span class="op">&gt;</span>,
+    <span class="ident">index</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">OsString</span>,<span class="ident">FileInfo</span><span class="op">&gt;</span>,
 }
 
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>ITarIoFactory</span><span class='op'>&gt;</span> <span class='ident'>ITarBundle</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>construct</span> (<span class='ident'>factory</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>ITarBundle</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> {
-        <span class='ident'>ITarBundle</span> {
-            <span class='ident'>factory</span>: <span class='ident'>factory</span>,
-            <span class='ident'>data</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>index</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">ITarIoFactory</span><span class="op">&gt;</span> <span class="ident">ITarBundle</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">construct</span> (<span class="ident">factory</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">ITarBundle</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
+        <span class="ident">ITarBundle</span> {
+            <span class="ident">factory</span>: <span class="ident">factory</span>,
+            <span class="ident">data</span>: <span class="prelude-val">None</span>,
+            <span class="ident">index</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>ensure_loaded</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>is_some</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+    <span class="kw">fn</span> <span class="ident">ensure_loaded</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">is_some</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
 
-        <span class='comment'>// We need to initialize. First, the index ...</span>
+        <span class="comment">// We need to initialize. First, the index ...</span>
 
-        <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>factory</span>.<span class='ident'>get_index</span>(<span class='ident'>status</span>)<span class='question-mark'>?</span>;
-        <span class='kw'>let</span> <span class='ident'>br</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>index</span>);
+        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">get_index</span>(<span class="ident">status</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">br</span> <span class="op">=</span> <span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">index</span>);
 
-        <span class='kw'>for</span> <span class='ident'>res</span> <span class='kw'>in</span> <span class='ident'>br</span>.<span class='ident'>lines</span>() {
-            <span class='kw'>let</span> <span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>res</span><span class='question-mark'>?</span>;
-            <span class='kw'>let</span> <span class='ident'>bits</span> <span class='op'>=</span> <span class='ident'>line</span>.<span class='ident'>split_whitespace</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
+        <span class="kw">for</span> <span class="ident">res</span> <span class="kw">in</span> <span class="ident">br</span>.<span class="ident">lines</span>() {
+            <span class="kw">let</span> <span class="ident">line</span> <span class="op">=</span> <span class="ident">res</span><span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">bits</span> <span class="op">=</span> <span class="ident">line</span>.<span class="ident">split_whitespace</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;&gt;</span>();
 
-            <span class='kw'>if</span> <span class='ident'>bits</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>3</span> {
-                <span class='kw'>continue</span>; <span class='comment'>// TODO: preserve the warning info or something!</span>
+            <span class="kw">if</span> <span class="ident">bits</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">3</span> {
+                <span class="kw">continue</span>; <span class="comment">// TODO: preserve the warning info or something!</span>
             }
 
-            <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>OsString</span>::<span class='ident'>from</span>(<span class='ident'>bits</span>[<span class='number'>0</span>]);
-            <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='ident'>bits</span>[<span class='number'>1</span>].<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>()<span class='question-mark'>?</span>;
-            <span class='kw'>let</span> <span class='ident'>length</span> <span class='op'>=</span> <span class='ident'>bits</span>[<span class='number'>2</span>].<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>()<span class='question-mark'>?</span>;
-            <span class='self'>self</span>.<span class='ident'>index</span>.<span class='ident'>insert</span>(<span class='ident'>name</span>, <span class='ident'>FileInfo</span> { <span class='ident'>offset</span>: <span class='ident'>offset</span>, <span class='ident'>length</span>: <span class='ident'>length</span> });
+            <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">OsString</span>::<span class="ident">from</span>(<span class="ident">bits</span>[<span class="number">0</span>]);
+            <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">bits</span>[<span class="number">1</span>].<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="ident">bits</span>[<span class="number">2</span>].<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">index</span>.<span class="ident">insert</span>(<span class="ident">name</span>, <span class="ident">FileInfo</span> { <span class="ident">offset</span>: <span class="ident">offset</span>, <span class="ident">length</span>: <span class="ident">length</span> });
         }
 
-        <span class='comment'>// ... then, the data reader.</span>
+        <span class="comment">// ... then, the data reader.</span>
 
-        <span class='self'>self</span>.<span class='ident'>data</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>factory</span>.<span class='ident'>get_data</span>()<span class='question-mark'>?</span>);
-        <span class='prelude-val'>Ok</span>(())
+        <span class="self">self</span>.<span class="ident">data</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">get_data</span>()<span class="question-mark">?</span>);
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>ITarIoFactory</span><span class='op'>&gt;</span> <span class='ident'>IoProvider</span> <span class='kw'>for</span> <span class='ident'>ITarBundle</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>input_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ensure_loaded</span>(<span class='ident'>status</span>) {
-            <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>());
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">ITarIoFactory</span><span class="op">&gt;</span> <span class="ident">IoProvider</span> <span class="kw">for</span> <span class="ident">ITarBundle</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">input_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">ensure_loaded</span>(<span class="ident">status</span>) {
+            <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>());
         }
 
-        <span class='comment'>// In principle it&#39;d be cool to return a handle right to the HTTP</span>
-        <span class='comment'>// response, but those can&#39;t be seekable, and doing so introduces</span>
-        <span class='comment'>// lifetime-related issues. So for now we just slurp the whole thing</span>
-        <span class='comment'>// into RAM.</span>
+        <span class="comment">// In principle it&#39;d be cool to return a handle right to the HTTP</span>
+        <span class="comment">// response, but those can&#39;t be seekable, and doing so introduces</span>
+        <span class="comment">// lifetime-related issues. So for now we just slurp the whole thing</span>
+        <span class="comment">// into RAM.</span>
 
-        <span class='kw'>let</span> <span class='ident'>info</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>index</span>.<span class='ident'>get</span> (<span class='ident'>name</span>) {
-            <span class='prelude-val'>Some</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>,
+        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">index</span>.<span class="ident">get</span> (<span class="ident">name</span>) {
+            <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=&gt;</span> <span class="ident">i</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>,
         };
 
-        <span class='self'>self</span>.<span class='ident'>factory</span>.<span class='ident'>report_fetch</span>(<span class='ident'>name</span>, <span class='ident'>status</span>);
+        <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">report_fetch</span>(<span class="ident">name</span>, <span class="ident">status</span>);
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stream</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>data</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>().<span class='ident'>read_range</span>(<span class='ident'>info</span>.<span class='ident'>offset</span>, <span class='ident'>info</span>.<span class='ident'>length</span> <span class='kw'>as</span> <span class='ident'>usize</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>r</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>())
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>().<span class="ident">read_range</span>(<span class="ident">info</span>.<span class="ident">offset</span>, <span class="ident">info</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
         };
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>info</span>.<span class='ident'>length</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>stream</span>.<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>) {
-            <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">info</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>) {
+            <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>());
         }
 
-        <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>buf</span>), <span class='ident'>InputOrigin</span>::<span class='ident'>Other</span>))
+        <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">InputHandle</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">buf</span>), <span class="ident">InputOrigin</span>::<span class="ident">Other</span>))
     }
 }
 
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HttpITarIoFactory</span> {
-    <span class='ident'>url</span>: <span class='ident'>String</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpITarIoFactory</span> {
+    <span class="ident">url</span>: <span class="ident">String</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>ITarIoFactory</span> <span class='kw'>for</span> <span class='ident'>HttpITarIoFactory</span> {
-    <span class='kw'>type</span> <span class='ident'>IndexReader</span> <span class='op'>=</span> <span class='ident'>GzDecoder</span><span class='op'>&lt;</span><span class='ident'>Response</span><span class='op'>&gt;</span>;
-    <span class='kw'>type</span> <span class='ident'>DataReader</span> <span class='op'>=</span> <span class='ident'>HttpRangeReader</span>;
+<span class="kw">impl</span> <span class="ident">ITarIoFactory</span> <span class="kw">for</span> <span class="ident">HttpITarIoFactory</span> {
+    <span class="kw">type</span> <span class="ident">IndexReader</span> <span class="op">=</span> <span class="ident">GzDecoder</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">DataReader</span> <span class="op">=</span> <span class="ident">HttpRangeReader</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>get_index</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>GzDecoder</span><span class='op'>&lt;</span><span class='ident'>Response</span><span class='op'>&gt;&gt;</span> {
-        <span class='macro'>tt_note</span><span class='macro'>!</span>(<span class='ident'>status</span>, <span class='string'>&quot;indexing {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>url</span>);
+    <span class="kw">fn</span> <span class="ident">get_index</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GzDecoder</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&gt;&gt;</span> {
+        <span class="macro">tt_note</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="string">&quot;indexing {}&quot;</span>, <span class="self">self</span>.<span class="ident">url</span>);
 
-        <span class='kw'>let</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>Client</span>::<span class='ident'>new</span>();
+        <span class="kw">let</span> <span class="ident">ssl</span> <span class="op">=</span> <span class="ident">NativeTlsClient</span>::<span class="ident">new</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">HttpsConnector</span>::<span class="ident">new</span>(<span class="ident">ssl</span>);
+        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Client</span>::<span class="ident">with_connector</span>(<span class="ident">connector</span>);
 
-        <span class='comment'>// First, we actually do a HEAD request on the URL for the data file.</span>
-        <span class='comment'>// If it&#39;s redirected, we update our URL to follow the redirects. If</span>
-        <span class='comment'>// we didn&#39;t do this separately, the index file would have to be the</span>
-        <span class='comment'>// one with the redirect setup, which would be confusing and annoying.</span>
+        <span class="comment">// First, we actually do a HEAD request on the URL for the data file.</span>
+        <span class="comment">// If it&#39;s redirected, we update our URL to follow the redirects. If</span>
+        <span class="comment">// we didn&#39;t do this separately, the index file would have to be the</span>
+        <span class="comment">// one with the redirect setup, which would be confusing and annoying.</span>
 
-        <span class='kw'>let</span> <span class='ident'>req</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>head</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>);
-        <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>req</span>.<span class='ident'>send</span>()<span class='question-mark'>?</span>;
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">head</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">url</span>);
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">send</span>()<span class="question-mark">?</span>;
 
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>res</span>.<span class='ident'>status</span>.<span class='ident'>is_success</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>from</span>(<span class='ident'>hyper</span>::<span class='ident'>Error</span>::<span class='ident'>Status</span>)).<span class='ident'>chain_err</span>(
-                <span class='op'>||</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;couldn\&#39;t probe {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>url</span>)
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">res</span>.<span class="ident">status</span>.<span class="ident">is_success</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">from</span>(<span class="ident">hyper</span>::<span class="ident">Error</span>::<span class="ident">Status</span>)).<span class="ident">chain_err</span>(
+                <span class="op">||</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;couldn\&#39;t probe {}&quot;</span>, <span class="self">self</span>.<span class="ident">url</span>)
             );
         }
 
-        <span class='kw'>let</span> <span class='ident'>final_url</span> <span class='op'>=</span> <span class='ident'>res</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>().<span class='ident'>into_string</span>();
+        <span class="kw">let</span> <span class="ident">final_url</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">url</span>.<span class="ident">clone</span>().<span class="ident">into_string</span>();
 
-        <span class='kw'>if</span> <span class='ident'>final_url</span> <span class='op'>!=</span> <span class='self'>self</span>.<span class='ident'>url</span> {
-            <span class='macro'>tt_note</span><span class='macro'>!</span>(<span class='ident'>status</span>, <span class='string'>&quot;resolved to {}&quot;</span>, <span class='ident'>final_url</span>);
-            <span class='self'>self</span>.<span class='ident'>url</span> <span class='op'>=</span> <span class='ident'>final_url</span>;
+        <span class="kw">if</span> <span class="ident">final_url</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">url</span> {
+            <span class="macro">tt_note</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="string">&quot;resolved to {}&quot;</span>, <span class="ident">final_url</span>);
+            <span class="self">self</span>.<span class="ident">url</span> <span class="op">=</span> <span class="ident">final_url</span>;
         }
 
-        <span class='comment'>// Now let&#39;s actually go for the index.</span>
+        <span class="comment">// Now let&#39;s actually go for the index.</span>
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>index_url</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>();
-        <span class='ident'>index_url</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;.index.gz&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index_url</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">url</span>.<span class="ident">clone</span>();
+        <span class="ident">index_url</span>.<span class="ident">push_str</span>(<span class="string">&quot;.index.gz&quot;</span>);
 
-        <span class='kw'>let</span> <span class='ident'>req</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>index_url</span>);
-        <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>req</span>.<span class='ident'>send</span>()<span class='question-mark'>?</span>;
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>res</span>.<span class='ident'>status</span>.<span class='ident'>is_success</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>from</span>(<span class='ident'>hyper</span>::<span class='ident'>Error</span>::<span class='ident'>Status</span>)).<span class='ident'>chain_err</span>(
-                <span class='op'>||</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;couldn\&#39;t fetch {}&quot;</span>, <span class='ident'>index_url</span>)
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">index_url</span>);
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">send</span>()<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">res</span>.<span class="ident">status</span>.<span class="ident">is_success</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">from</span>(<span class="ident">hyper</span>::<span class="ident">Error</span>::<span class="ident">Status</span>)).<span class="ident">chain_err</span>(
+                <span class="op">||</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;couldn\&#39;t fetch {}&quot;</span>, <span class="ident">index_url</span>)
             );
         }
 
-        <span class='prelude-val'>Ok</span>(<span class='ident'>GzDecoder</span>::<span class='ident'>new</span>(<span class='ident'>res</span>)<span class='question-mark'>?</span>) <span class='comment'>// &lt;- needed to convert Error types</span>
+        <span class="prelude-val">Ok</span>(<span class="ident">GzDecoder</span>::<span class="ident">new</span>(<span class="ident">res</span>)<span class="question-mark">?</span>) <span class="comment">// &lt;- needed to convert Error types</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>get_data</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HttpRangeReader</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>HttpRangeReader</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>))
+    <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HttpRangeReader</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">HttpRangeReader</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">url</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>report_fetch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) {
-        <span class='macro'>tt_note</span><span class='macro'>!</span>(<span class='ident'>status</span>, <span class='string'>&quot;downloading {}&quot;</span>, <span class='ident'>name</span>.<span class='ident'>to_string_lossy</span>());
+    <span class="kw">fn</span> <span class="ident">report_fetch</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) {
+        <span class="macro">tt_note</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="string">&quot;downloading {}&quot;</span>, <span class="ident">name</span>.<span class="ident">to_string_lossy</span>());
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>ITarBundle</span><span class='op'>&lt;</span><span class='ident'>HttpITarIoFactory</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span> (<span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>ITarBundle</span><span class='op'>&lt;</span><span class='ident'>HttpITarIoFactory</span><span class='op'>&gt;</span> {
-        <span class='self'>Self</span>::<span class='ident'>construct</span>(<span class='ident'>HttpITarIoFactory</span> { <span class='ident'>url</span>: <span class='ident'>url</span>.<span class='ident'>to_owned</span>() })
+<span class="kw">impl</span> <span class="ident">ITarBundle</span><span class="op">&lt;</span><span class="ident">HttpITarIoFactory</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span> (<span class="ident">url</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">ITarBundle</span><span class="op">&lt;</span><span class="ident">HttpITarIoFactory</span><span class="op">&gt;</span> {
+        <span class="self">Self</span>::<span class="ident">construct</span>(<span class="ident">HttpITarIoFactory</span> { <span class="ident">url</span>: <span class="ident">url</span>.<span class="ident">to_owned</span>() })
     }
 }
 </pre>

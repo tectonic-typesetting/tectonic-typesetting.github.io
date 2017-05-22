@@ -9,6 +9,7 @@
 
     <title>app_dirs::get_app_root - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>app_dirs</a>::<wbr><a class='fn' href=''>get_app_root</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>app_dirs</a>::<wbr><a class="fn" href=''>get_app_root</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/app_dirs/imp/mod.rs.html#85-96' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn get_app_root(t: <a class='enum' href='../app_dirs/enum.AppDataType.html' title='app_dirs::AppDataType'>AppDataType</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; app: &amp;<a class='struct' href='../app_dirs/struct.AppInfo.html' title='app_dirs::AppInfo'>AppInfo</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>, <a class='enum' href='../app_dirs/enum.AppDirsError.html' title='app_dirs::AppDirsError'>AppDirsError</a>&gt;</pre><div class='docblock'><p>Returns (but <strong>does not create</strong>) path to <strong>app-specific</strong> data directory
+<pre class='rust fn'>pub fn get_app_root(t: <a class="enum" href="../app_dirs/enum.AppDataType.html" title="enum app_dirs::AppDataType">AppDataType</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; app: &amp;<a class="struct" href="../app_dirs/struct.AppInfo.html" title="struct app_dirs::AppInfo">AppInfo</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>, <a class="enum" href="../app_dirs/enum.AppDirsError.html" title="enum app_dirs::AppDirsError">AppDirsError</a>&gt;</pre><div class='docblock'><p>Returns (but <strong>does not create</strong>) path to <strong>app-specific</strong> data directory
 for provided data type.</p>
 
 <p>A result of <code>Ok</code> means that we determined where the data SHOULD go, but

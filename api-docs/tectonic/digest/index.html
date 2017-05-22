@@ -9,6 +9,7 @@
 
     <title>tectonic::digest - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,65 +43,65 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>tectonic</a>::<wbr><a class='mod' href=''>digest</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>tectonic</a>::<wbr><a class="mod" href=''>digest</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/digest.rs.html#5-107' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/tectonic/digest.rs.html#5-105' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This module just have a few helpers to tidy up
 the computation of digests in various places.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.DigestComputer.html'
-                                  title='tectonic::digest::DigestComputer'>DigestComputer</a></td>
+                           <td><a class="struct" href="struct.DigestComputer.html"
+                                  title='struct tectonic::digest::DigestComputer'>DigestComputer</a></td>
                            <td class='docblock-short'>
                                 <p>The SHA-256 hash algorithm with the SHA-256 initial hash value.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.DigestData.html'
-                                  title='tectonic::digest::DigestData'>DigestData</a></td>
+                           <td><a class="struct" href="struct.DigestData.html"
+                                  title='struct tectonic::digest::DigestData'>DigestData</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='constant' href='constant.DIGEST_NAME.html'
-                                  title='tectonic::digest::DIGEST_NAME'>DIGEST_NAME</a></td>
+                           <td><a class="constant" href="constant.DIGEST_NAME.html"
+                                  title='constant tectonic::digest::DIGEST_NAME'>DIGEST_NAME</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='trait' href='trait.Digest.html'
-                                  title='tectonic::digest::Digest'>Digest</a></td>
+                           <td><a class="trait" href="trait.Digest.html"
+                                  title='trait tectonic::digest::Digest'>Digest</a></td>
                            <td class='docblock-short'>
-                                <p>The Digest trait specifies an interface common to digest functions, such as SHA-1 and the SHA-2
-family of digest functions.</p>
+                                <p>The Digest trait specifies an interface common to digest functions. It&#39;s a
+convinience wrapper around <code>Input</code> and <code>FixedResult</code> traits</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.bytes_to_hex.html'
-                                  title='tectonic::digest::bytes_to_hex'>bytes_to_hex</a></td>
+                           <td><a class="fn" href="fn.bytes_to_hex.html"
+                                  title='fn tectonic::digest::bytes_to_hex'>bytes_to_hex</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.create.html'
-                                  title='tectonic::digest::create'>create</a></td>
+                           <td><a class="fn" href="fn.create.html"
+                                  title='fn tectonic::digest::create'>create</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.hex_to_bytes.html'
-                                  title='tectonic::digest::hex_to_bytes'>hex_to_bytes</a></td>
+                           <td><a class="fn" href="fn.hex_to_bytes.html"
+                                  title='fn tectonic::digest::hex_to_bytes'>hex_to_bytes</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

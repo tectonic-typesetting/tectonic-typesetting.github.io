@@ -9,6 +9,7 @@
 
     <title>filesystem.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -170,133 +171,133 @@
 <span id="126">126</span>
 <span id="127">127</span>
 <span id="128">128</span>
-</pre><pre class='rust '>
-<span class='comment'>// src/io/filesystem.rs -- I/O on the local filesystem.</span>
-<span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
-<span class='comment'>// Licensed under the MIT License.</span>
+</pre><pre class="rust ">
+<span class="comment">// src/io/filesystem.rs -- I/O on the local filesystem.</span>
+<span class="comment">// Copyright 2016-2017 the Tectonic Project</span>
+<span class="comment">// Licensed under the MIT License.</span>
 
-<span class='kw'>use</span> <span class='ident'>libc</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashSet</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>BufReader</span>, <span class='ident'>Seek</span>, <span class='ident'>SeekFrom</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
+<span class="kw">use</span> <span class="ident">libc</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashSet</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsStr</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">BufReader</span>, <span class="ident">Seek</span>, <span class="ident">SeekFrom</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
 
-<span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>ErrorKind</span>, <span class='prelude-ty'>Result</span>};
-<span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>InputFeatures</span>, <span class='ident'>InputHandle</span>, <span class='ident'>InputOrigin</span>, <span class='ident'>IoProvider</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
+<span class="kw">use</span> <span class="ident">errors</span>::{<span class="ident">ErrorKind</span>, <span class="prelude-ty">Result</span>};
+<span class="kw">use</span> <span class="ident">status</span>::<span class="ident">StatusBackend</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">InputFeatures</span>, <span class="ident">InputHandle</span>, <span class="ident">InputOrigin</span>, <span class="ident">IoProvider</span>, <span class="ident">OpenResult</span>, <span class="ident">OutputHandle</span>};
 
 
-<span class='comment'>// FilesystemIo is an I/O provider that reads, and optionally writes, files</span>
-<span class='comment'>// from a given root directory. NOTE: no effort is made to contain I/O within</span>
-<span class='comment'>// the specified root!! We have an option to disallow absolute paths, but we</span>
-<span class='comment'>// don&#39;t do anything about &quot;../../../....&quot; paths.</span>
+<span class="comment">// FilesystemIo is an I/O provider that reads, and optionally writes, files</span>
+<span class="comment">// from a given root directory. NOTE: no effort is made to contain I/O within</span>
+<span class="comment">// the specified root!! We have an option to disallow absolute paths, but we</span>
+<span class="comment">// don&#39;t do anything about &quot;../../../....&quot; paths.</span>
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FilesystemIo</span> {
-    <span class='ident'>root</span>: <span class='ident'>PathBuf</span>,
-    <span class='ident'>writes_allowed</span>: <span class='ident'>bool</span>,
-    <span class='ident'>absolute_allowed</span>: <span class='ident'>bool</span>,
-    <span class='ident'>hidden_input_paths</span>: <span class='ident'>HashSet</span><span class='op'>&lt;</span><span class='ident'>PathBuf</span><span class='op'>&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FilesystemIo</span> {
+    <span class="ident">root</span>: <span class="ident">PathBuf</span>,
+    <span class="ident">writes_allowed</span>: <span class="ident">bool</span>,
+    <span class="ident">absolute_allowed</span>: <span class="ident">bool</span>,
+    <span class="ident">hidden_input_paths</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>FilesystemIo</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>root</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>, <span class='ident'>writes_allowed</span>: <span class='ident'>bool</span>, <span class='ident'>absolute_allowed</span>: <span class='ident'>bool</span>,
-                  <span class='ident'>hidden_input_paths</span>: <span class='ident'>HashSet</span><span class='op'>&lt;</span><span class='ident'>PathBuf</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>FilesystemIo</span> {
-        <span class='ident'>FilesystemIo</span> {
-            <span class='ident'>root</span>: <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='ident'>root</span>),
-            <span class='ident'>writes_allowed</span>: <span class='ident'>writes_allowed</span>,
-            <span class='ident'>absolute_allowed</span>: <span class='ident'>absolute_allowed</span>,
-            <span class='ident'>hidden_input_paths</span>: <span class='ident'>hidden_input_paths</span>,
+<span class="kw">impl</span> <span class="ident">FilesystemIo</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">root</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">writes_allowed</span>: <span class="ident">bool</span>, <span class="ident">absolute_allowed</span>: <span class="ident">bool</span>,
+                  <span class="ident">hidden_input_paths</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">FilesystemIo</span> {
+        <span class="ident">FilesystemIo</span> {
+            <span class="ident">root</span>: <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">root</span>),
+            <span class="ident">writes_allowed</span>: <span class="ident">writes_allowed</span>,
+            <span class="ident">absolute_allowed</span>: <span class="ident">absolute_allowed</span>,
+            <span class="ident">hidden_input_paths</span>: <span class="ident">hidden_input_paths</span>,
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>construct_path</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>PathBuf</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='ident'>name</span>);
+    <span class="kw">fn</span> <span class="ident">construct_path</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">name</span>);
 
-        <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>is_absolute</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>absolute_allowed</span> {
-            <span class='kw'>let</span> <span class='ident'>as_str</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>path</span>.<span class='ident'>to_string_lossy</span>());
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ErrorKind</span>::<span class='ident'>PathForbidden</span>(<span class='ident'>as_str</span>).<span class='ident'>into</span>());
+        <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_absolute</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">absolute_allowed</span> {
+            <span class="kw">let</span> <span class="ident">as_str</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">path</span>.<span class="ident">to_string_lossy</span>());
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ErrorKind</span>::<span class="ident">PathForbidden</span>(<span class="ident">as_str</span>).<span class="ident">into</span>());
         }
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>combined</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root</span>);
-        <span class='ident'>combined</span>.<span class='ident'>push</span>(<span class='ident'>path</span>);
-        <span class='prelude-val'>Ok</span>(<span class='ident'>combined</span>)
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">combined</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">root</span>);
+        <span class="ident">combined</span>.<span class="ident">push</span>(<span class="ident">path</span>);
+        <span class="prelude-val">Ok</span>(<span class="ident">combined</span>)
     }
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>IoProvider</span> <span class='kw'>for</span> <span class='ident'>FilesystemIo</span> {
-    <span class='kw'>fn</span> <span class='ident'>output_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>writes_allowed</span> {
-            <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>;
+<span class="kw">impl</span> <span class="ident">IoProvider</span> <span class="kw">for</span> <span class="ident">FilesystemIo</span> {
+    <span class="kw">fn</span> <span class="ident">output_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">writes_allowed</span> {
+            <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>;
         }
 
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>construct_path</span>(<span class='ident'>name</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>())
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">construct_path</span>(<span class="ident">name</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
         };
 
-        <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>File</span>::<span class='ident'>create</span> (<span class='ident'>path</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='ident'>f</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>())
+        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">create</span> (<span class="ident">path</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> <span class="ident">f</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
         };
 
-        <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>OutputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>f</span>))
+        <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">OutputHandle</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="ident">f</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>output_open_stdout</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;</span> {
-        <span class='comment'>// TODO: option to record &quot;stdout&quot; into a file with a particular name?</span>
-        <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+    <span class="kw">fn</span> <span class="ident">output_open_stdout</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;</span> {
+        <span class="comment">// TODO: option to record &quot;stdout&quot; into a file with a particular name?</span>
+        <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_open_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>_status</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>construct_path</span>(<span class='ident'>name</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>())
+    <span class="kw">fn</span> <span class="ident">input_open_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">_status</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">construct_path</span>(<span class="ident">name</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">p</span>) <span class="op">=&gt;</span> <span class="ident">p</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
         };
 
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>hidden_input_paths</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>) {
-            <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>;
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">hidden_input_paths</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
+            <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>;
         }
 
-        <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>File</span>::<span class='ident'>open</span> (<span class='ident'>path</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='ident'>f</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='kw'>if</span> <span class='ident'>e</span>.<span class='ident'>kind</span>() <span class='op'>==</span> <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>NotFound</span> {
-                <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
-            } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>libc</span>::<span class='ident'>ENOTDIR</span>) <span class='op'>=</span> <span class='ident'>e</span>.<span class='ident'>raw_os_error</span> () {
-                <span class='comment'>// xdvipdfmx has a code path that basically tries to open a</span>
-                <span class='comment'>// font path assuming that it is a directory, which causes an</span>
-                <span class='comment'>// ENOTDIR to happen (i.e., it tries the equivalent of</span>
-                <span class='comment'>// open(&quot;/etc/passwd/subdir&quot;). This circumstance is harmless.</span>
-                <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
-            } <span class='kw'>else</span> {
-                <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>())
+        <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">File</span>::<span class="ident">open</span> (<span class="ident">path</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> <span class="ident">f</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> {
+                <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">libc</span>::<span class="ident">ENOTDIR</span>) <span class="op">=</span> <span class="ident">e</span>.<span class="ident">raw_os_error</span> () {
+                <span class="comment">// xdvipdfmx has a code path that basically tries to open a</span>
+                <span class="comment">// font path assuming that it is a directory, which causes an</span>
+                <span class="comment">// ENOTDIR to happen (i.e., it tries the equivalent of</span>
+                <span class="comment">// open(&quot;/etc/passwd/subdir&quot;). This circumstance is harmless.</span>
+                <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
+            } <span class="kw">else</span> {
+                <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
             }
         };
 
-        <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>f</span>), <span class='ident'>InputOrigin</span>::<span class='ident'>Filesystem</span>))
+        <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">InputHandle</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="ident">BufReader</span>::<span class="ident">new</span>(<span class="ident">f</span>), <span class="ident">InputOrigin</span>::<span class="ident">Filesystem</span>))
     }
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>InputFeatures</span> <span class='kw'>for</span> <span class='ident'>File</span> {
-    <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>metadata</span>()<span class='question-mark'>?</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>usize</span>)
+<span class="kw">impl</span> <span class="ident">InputFeatures</span> <span class="kw">for</span> <span class="ident">File</span> {
+    <span class="kw">fn</span> <span class="ident">get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">metadata</span>()<span class="question-mark">?</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">usize</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>try_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>seek</span>(<span class='ident'>pos</span>)<span class='question-mark'>?</span>)
+    <span class="kw">fn</span> <span class="ident">try_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">seek</span>(<span class="ident">pos</span>)<span class="question-mark">?</span>)
     }
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>InputFeatures</span> <span class='kw'>for</span> <span class='ident'>BufReader</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>get_mut</span>().<span class='ident'>metadata</span>()<span class='question-mark'>?</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>usize</span>)
+<span class="kw">impl</span> <span class="ident">InputFeatures</span> <span class="kw">for</span> <span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">get_mut</span>().<span class="ident">metadata</span>()<span class="question-mark">?</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">usize</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>try_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='self'>self</span>.<span class='ident'>seek</span>(<span class='ident'>pos</span>)<span class='question-mark'>?</span>)
+    <span class="kw">fn</span> <span class="ident">try_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">pos</span>: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">seek</span>(<span class="ident">pos</span>)<span class="question-mark">?</span>)
     }
 }
 </pre>

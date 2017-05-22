@@ -9,6 +9,7 @@
 
     <title>unix.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -63,27 +64,27 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>xdg</span>;
-<span class='kw'>use</span> <span class='ident'>AppDataType</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>common</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>xdg</span>::<span class='ident'>BaseDirectories</span> <span class='kw'>as</span> <span class='ident'>Xdg</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">xdg</span>;
+<span class="kw">use</span> <span class="ident">AppDataType</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">common</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">xdg</span>::<span class="ident">BaseDirectories</span> <span class="kw">as</span> <span class="ident">Xdg</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>;
 
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>USE_AUTHOR</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">USE_AUTHOR</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_app_dir</span>(<span class='ident'>t</span>: <span class='ident'>AppDataType</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>PathBuf</span>, <span class='ident'>AppDirsError</span><span class='op'>&gt;</span> {
-    <span class='ident'>Xdg</span>::<span class='ident'>new</span>()
-        .<span class='ident'>ok</span>()
-        .<span class='ident'>as_ref</span>()
-        .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>t</span> {
-            <span class='ident'>UserConfig</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>.<span class='ident'>get_config_home</span>()),
-            <span class='ident'>UserData</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>.<span class='ident'>get_data_home</span>()),
-            <span class='ident'>UserCache</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>.<span class='ident'>get_cache_home</span>()),
-            <span class='ident'>SharedData</span> <span class='op'>=&gt;</span> <span class='ident'>x</span>.<span class='ident'>get_data_dirs</span>().<span class='ident'>into_iter</span>().<span class='ident'>next</span>(),
-            <span class='ident'>SharedConfig</span> <span class='op'>=&gt;</span> <span class='ident'>x</span>.<span class='ident'>get_config_dirs</span>().<span class='ident'>into_iter</span>().<span class='ident'>next</span>(),
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_app_dir</span>(<span class="ident">t</span>: <span class="ident">AppDataType</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">AppDirsError</span><span class="op">&gt;</span> {
+    <span class="ident">Xdg</span>::<span class="ident">new</span>()
+        .<span class="ident">ok</span>()
+        .<span class="ident">as_ref</span>()
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">t</span> {
+            <span class="ident">UserConfig</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">get_config_home</span>()),
+            <span class="ident">UserData</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">get_data_home</span>()),
+            <span class="ident">UserCache</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">get_cache_home</span>()),
+            <span class="ident">SharedData</span> <span class="op">=&gt;</span> <span class="ident">x</span>.<span class="ident">get_data_dirs</span>().<span class="ident">into_iter</span>().<span class="ident">next</span>(),
+            <span class="ident">SharedConfig</span> <span class="op">=&gt;</span> <span class="ident">x</span>.<span class="ident">get_config_dirs</span>().<span class="ident">into_iter</span>().<span class="ident">next</span>(),
         })
-        .<span class='ident'>ok_or_else</span>(<span class='op'>||</span> <span class='ident'>AppDirsError</span>::<span class='ident'>NotSupported</span>)
+        .<span class="ident">ok_or_else</span>(<span class="op">||</span> <span class="ident">AppDirsError</span>::<span class="ident">NotSupported</span>)
 }
 </pre>
 </section>

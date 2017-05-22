@@ -9,6 +9,7 @@
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -378,342 +379,370 @@
 <span id="334">334</span>
 <span id="335">335</span>
 <span id="336">336</span>
-</pre><pre class='rust '>
-<span class='comment'>// src/engines/mod.rs -- interface to Tectonic engines written in C</span>
-<span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
-<span class='comment'>// Licensed under the MIT License.</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+</pre><pre class="rust ">
+<span class="comment">// src/engines/mod.rs -- interface to Tectonic engines written in C</span>
+<span class="comment">// Copyright 2016-2017 the Tectonic Project</span>
+<span class="comment">// Licensed under the MIT License.</span>
 
-<span class='kw'>use</span> <span class='ident'>flate2</span>::{<span class='ident'>Compression</span>, <span class='ident'>GzBuilder</span>};
-<span class='kw'>use</span> <span class='ident'>flate2</span>::<span class='ident'>read</span>::{<span class='ident'>GzDecoder</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>OsStr</span>, <span class='ident'>OsString</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Read</span>, <span class='ident'>SeekFrom</span>, <span class='ident'>Write</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
+<span class="kw">use</span> <span class="ident">flate2</span>::{<span class="ident">Compression</span>, <span class="ident">GzBuilder</span>};
+<span class="kw">use</span> <span class="ident">flate2</span>::<span class="ident">read</span>::{<span class="ident">GzDecoder</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">OsStr</span>, <span class="ident">OsString</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Read</span>, <span class="ident">SeekFrom</span>, <span class="ident">Write</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ptr</span>;
 
-<span class='kw'>use</span> <span class='ident'>digest</span>::<span class='ident'>DigestData</span>;
-<span class='kw'>use</span> <span class='ident'>errors</span>::<span class='prelude-ty'>Result</span>;
-<span class='kw'>use</span> <span class='ident'>io</span>::{<span class='ident'>InputOrigin</span>, <span class='ident'>IoProvider</span>, <span class='ident'>IoStack</span>, <span class='ident'>InputFeatures</span>, <span class='ident'>InputHandle</span>, <span class='ident'>OpenResult</span>, <span class='ident'>OutputHandle</span>};
-<span class='kw'>use</span> <span class='ident'>status</span>::<span class='ident'>StatusBackend</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>file_format</span>::{<span class='ident'>format_to_extension</span>, <span class='ident'>FileFormat</span>};
-
-
-<span class='comment'>// Internal sub-modules. Some of these must be public so that their symbols are</span>
-<span class='comment'>// exported for the C library to see them. That could be changed if we gave</span>
-<span class='comment'>// the C code a struct with pointers to the functions.</span>
-
-<span class='kw'>mod</span> <span class='ident'>c_api</span>;
-<span class='kw'>mod</span> <span class='ident'>file_format</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>io_api</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>kpse_api</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>md5_api</span>;
-
-
-<span class='comment'>// Public sub-modules and reexports.</span>
-
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>tex</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>xdvipdfmx</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bibtex</span>;
-
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>tex</span>::<span class='ident'>TexEngine</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>xdvipdfmx</span>::<span class='ident'>XdvipdfmxEngine</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>bibtex</span>::<span class='ident'>BibtexEngine</span>;
+<span class="kw">use</span> <span class="ident">digest</span>::<span class="ident">DigestData</span>;
+<span class="kw">use</span> <span class="ident">errors</span>::<span class="prelude-ty">Result</span>;
+<span class="kw">use</span> <span class="ident">io</span>::{<span class="ident">InputOrigin</span>, <span class="ident">IoProvider</span>, <span class="ident">IoStack</span>, <span class="ident">InputFeatures</span>, <span class="ident">InputHandle</span>, <span class="ident">OpenResult</span>, <span class="ident">OutputHandle</span>};
+<span class="kw">use</span> <span class="ident">status</span>::<span class="ident">StatusBackend</span>;
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">file_format</span>::{<span class="ident">format_to_extension</span>, <span class="ident">FileFormat</span>};
 
 
-<span class='doccomment'>/// The IoEventBackend trait allows the program driving the TeX engines to</span>
-<span class='doccomment'>/// track its input and output access patterns. The CLI program uses this</span>
-<span class='doccomment'>/// information to intelligently decide when to rerun the TeX engine, to</span>
-<span class='doccomment'>/// choose which files to actually save to disk, and to emit Makefile rules</span>
-<span class='doccomment'>/// describing the dependency of the outputs on the inputs.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// All of the trait methods have default implementations that do nothing.</span>
+<span class="comment">// Internal sub-modules. Some of these must be public so that their symbols are</span>
+<span class="comment">// exported for the C library to see them. That could be changed if we gave</span>
+<span class="comment">// the C code a struct with pointers to the functions.</span>
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IoEventBackend</span> {
-    <span class='doccomment'>/// This function is called when a file is opened for output.</span>
-    <span class='kw'>fn</span> <span class='ident'>output_opened</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) {}
+<span class="kw">mod</span> <span class="ident">c_api</span>;
+<span class="kw">mod</span> <span class="ident">file_format</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">io_api</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">kpse_api</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">md5_api</span>;
 
-    <span class='doccomment'>/// This function is called when the wrapped &quot;standard output&quot;</span>
-    <span class='doccomment'>/// (&quot;console&quot;, &quot;terminal&quot;) stream is opened.</span>
-    <span class='kw'>fn</span> <span class='ident'>stdout_opened</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {}
 
-    <span class='doccomment'>/// This function is called when an output file is closed. The &quot;digest&quot;</span>
-    <span class='doccomment'>/// argument specifies the cryptographic digest of the data that were</span>
-    <span class='doccomment'>/// written. Note that this function takes ownership of the name and</span>
-    <span class='doccomment'>/// digest.</span>
-    <span class='kw'>fn</span> <span class='ident'>output_closed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='ident'>OsString</span>, <span class='ident'>_digest</span>: <span class='ident'>DigestData</span>) {}
+<span class="comment">// Public sub-modules and reexports.</span>
 
-    <span class='doccomment'>/// This function is called when a file is opened for input.</span>
-    <span class='kw'>fn</span> <span class='ident'>input_opened</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>_origin</span>: <span class='ident'>InputOrigin</span>) {}
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tex</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">xdvipdfmx</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bibtex</span>;
 
-    <span class='doccomment'>/// This function is called when the engine attempted to open a file of</span>
-    <span class='doccomment'>/// the specified name but it was not available.</span>
-    <span class='kw'>fn</span> <span class='ident'>input_not_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) {}
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tex</span>::<span class="ident">TexEngine</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">xdvipdfmx</span>::<span class="ident">XdvipdfmxEngine</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">bibtex</span>::<span class="ident">BibtexEngine</span>;
 
-    <span class='doccomment'>/// This function is called when an input file is closed. The &quot;digest&quot;</span>
-    <span class='doccomment'>/// argument specifies the cryptographic digest of the data that were</span>
-    <span class='doccomment'>/// read, if available. This digest is not always available, if the engine</span>
-    <span class='doccomment'>/// used seeks while reading the file. Note that this function takes</span>
-    <span class='doccomment'>/// ownership of the name and digest.</span>
-    <span class='kw'>fn</span> <span class='ident'>input_closed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_name</span>: <span class='ident'>OsString</span>, <span class='ident'>_digest</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DigestData</span><span class='op'>&gt;</span>) {}
+
+<span class="doccomment">/// The IoEventBackend trait allows the program driving the TeX engines to</span>
+<span class="doccomment">/// track its input and output access patterns. The CLI program uses this</span>
+<span class="doccomment">/// information to intelligently decide when to rerun the TeX engine, to</span>
+<span class="doccomment">/// choose which files to actually save to disk, and to emit Makefile rules</span>
+<span class="doccomment">/// describing the dependency of the outputs on the inputs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// All of the trait methods have default implementations that do nothing.</span>
+
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IoEventBackend</span> {
+    <span class="doccomment">/// This function is called when a file is opened for output.</span>
+    <span class="kw">fn</span> <span class="ident">output_opened</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) {}
+
+    <span class="doccomment">/// This function is called when the wrapped &quot;standard output&quot;</span>
+    <span class="doccomment">/// (&quot;console&quot;, &quot;terminal&quot;) stream is opened.</span>
+    <span class="kw">fn</span> <span class="ident">stdout_opened</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
+
+    <span class="doccomment">/// This function is called when an output file is closed. The &quot;digest&quot;</span>
+    <span class="doccomment">/// argument specifies the cryptographic digest of the data that were</span>
+    <span class="doccomment">/// written. Note that this function takes ownership of the name and</span>
+    <span class="doccomment">/// digest.</span>
+    <span class="kw">fn</span> <span class="ident">output_closed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="ident">OsString</span>, <span class="ident">_digest</span>: <span class="ident">DigestData</span>) {}
+
+    <span class="doccomment">/// This function is called when a file is opened for input.</span>
+    <span class="kw">fn</span> <span class="ident">input_opened</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">_origin</span>: <span class="ident">InputOrigin</span>) {}
+
+    <span class="doccomment">/// This function is called when the engine attempted to open a file of</span>
+    <span class="doccomment">/// the specified name but it was not available.</span>
+    <span class="kw">fn</span> <span class="ident">input_not_available</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>) {}
+
+    <span class="doccomment">/// This function is called when an input file is closed. The &quot;digest&quot;</span>
+    <span class="doccomment">/// argument specifies the cryptographic digest of the data that were</span>
+    <span class="doccomment">/// read, if available. This digest is not always available, if the engine</span>
+    <span class="doccomment">/// used seeks while reading the file. Note that this function takes</span>
+    <span class="doccomment">/// ownership of the name and digest.</span>
+    <span class="kw">fn</span> <span class="ident">input_closed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_name</span>: <span class="ident">OsString</span>, <span class="ident">_digest</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DigestData</span><span class="op">&gt;</span>) {}
 }
 
 
-<span class='doccomment'>/// This struct implements the IoEventBackend trait but does nothing.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>NoopIoEventBackend</span> {}
+<span class="doccomment">/// This struct implements the IoEventBackend trait but does nothing.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NoopIoEventBackend</span> {}
 
-<span class='kw'>impl</span> <span class='ident'>NoopIoEventBackend</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>NoopIoEventBackend</span> { <span class='ident'>NoopIoEventBackend</span> {} }
+<span class="kw">impl</span> <span class="ident">NoopIoEventBackend</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">NoopIoEventBackend</span> { <span class="ident">NoopIoEventBackend</span> {} }
 }
 
-<span class='kw'>impl</span> <span class='ident'>IoEventBackend</span> <span class='kw'>for</span> <span class='ident'>NoopIoEventBackend</span> { }
+<span class="kw">impl</span> <span class="ident">IoEventBackend</span> <span class="kw">for</span> <span class="ident">NoopIoEventBackend</span> { }
 
 
-<span class='comment'>// The private interface for executing various engines implemented in C.</span>
-<span class='comment'>//</span>
-<span class='comment'>// The C code relies on an enormous number of global variables so, despite our</span>
-<span class='comment'>// fancy API, we can only ever safely run one backend at a time in any given</span>
-<span class='comment'>// process. (For now.) Here we set up the infrastructure to manage this. Of</span>
-<span class='comment'>// course, this is totally un-thread-safe, etc., because the underlying C code</span>
-<span class='comment'>// is.</span>
+<span class="comment">// The private interface for executing various engines implemented in C.</span>
+<span class="comment">//</span>
+<span class="comment">// The C code relies on an enormous number of global variables so, despite our</span>
+<span class="comment">// fancy API, we can only ever safely run one backend at a time in any given</span>
+<span class="comment">// process. (For now.) Here we set up the infrastructure to manage this. Of</span>
+<span class="comment">// course, this is totally un-thread-safe, etc., because the underlying C code</span>
+<span class="comment">// is.</span>
 
-<span class='kw'>struct</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>IoProvider</span><span class='op'>&gt;</span>  {
-    <span class='ident'>io</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>I</span>,
-    <span class='ident'>events</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>IoEventBackend</span>,
-    <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>,
-    <span class='ident'>input_handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>output_handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>OutputHandle</span><span class='op'>&gt;&gt;</span>,
+<span class="kw">struct</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">IoProvider</span><span class="op">&gt;</span>  {
+    <span class="ident">io</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">I</span>,
+    <span class="ident">events</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">IoEventBackend</span>,
+    <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">StatusBackend</span>,
+    <span class="ident">input_handles</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">output_handles</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">OutputHandle</span><span class="op">&gt;&gt;</span>,
 }
 
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>IoProvider</span><span class='op'>&gt;</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span> (<span class='ident'>io</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>I</span>, <span class='ident'>events</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>IoEventBackend</span>,
-                <span class='ident'>status</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>StatusBackend</span>) <span class='op'>-&gt;</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
-        <span class='ident'>ExecutionState</span> {
-            <span class='ident'>io</span>: <span class='ident'>io</span>,
-            <span class='ident'>events</span>: <span class='ident'>events</span>,
-            <span class='ident'>status</span>: <span class='ident'>status</span>,
-            <span class='ident'>output_handles</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>input_handles</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">IoProvider</span><span class="op">&gt;</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span> (<span class="ident">io</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">I</span>, <span class="ident">events</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">IoEventBackend</span>,
+                <span class="ident">status</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">StatusBackend</span>) <span class="op">-&gt;</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span> {
+        <span class="ident">ExecutionState</span> {
+            <span class="ident">io</span>: <span class="ident">io</span>,
+            <span class="ident">events</span>: <span class="ident">events</span>,
+            <span class="ident">status</span>: <span class="ident">status</span>,
+            <span class="ident">output_handles</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">input_handles</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
         }
     }
 
-    <span class='comment'>// Helpers.</span>
+    <span class="comment">// Helpers.</span>
 
-    <span class='kw'>fn</span> <span class='ident'>input_open_name_format</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>format</span>: <span class='ident'>FileFormat</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;</span> {
-        <span class='comment'>// TODO: for some formats we should check multiple extensions, not</span>
-        <span class='comment'>// just one.</span>
+    <span class="kw">fn</span> <span class="ident">input_open_name_format</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">format</span>: <span class="ident">FileFormat</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+        <span class="comment">// TODO: for some formats we should check multiple extensions, not</span>
+        <span class="comment">// just one.</span>
 
-        <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>io</span>.<span class='ident'>input_open_name</span>(<span class='ident'>name</span>, <span class='self'>self</span>.<span class='ident'>status</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span> <span class='op'>=</span> <span class='ident'>r</span> {
-        } <span class='kw'>else</span> {
-            <span class='kw'>return</span> <span class='ident'>r</span>;
+        <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">FileFormat</span>::<span class="ident">Format</span> <span class="op">=</span> <span class="ident">format</span> {
+            <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">input_open_format</span>(<span class="ident">name</span>, <span class="self">self</span>.<span class="ident">status</span>)
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">input_open_name</span>(<span class="ident">name</span>, <span class="self">self</span>.<span class="ident">status</span>)
+        };
+
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span> <span class="op">=</span> <span class="ident">r</span> {
+        } <span class="kw">else</span> {
+            <span class="kw">return</span> <span class="ident">r</span>;
         }
 
-        <span class='comment'>// Maybe there&#39;s a nicer way to alter the extension without turning</span>
-        <span class='comment'>// `name` into a Path?</span>
+        <span class="comment">// Maybe there&#39;s a nicer way to alter the extension without turning</span>
+        <span class="comment">// `name` into a Path?</span>
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ext</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='ident'>name</span>);
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ename</span> <span class='op'>=</span> <span class='ident'>OsString</span>::<span class='ident'>from</span>(<span class='kw'>match</span> <span class='ident'>ext</span>.<span class='ident'>file_name</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>s</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ext</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">name</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ename</span> <span class="op">=</span> <span class="ident">OsString</span>::<span class="ident">from</span>(<span class="kw">match</span> <span class="ident">ext</span>.<span class="ident">file_name</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>
         });
-        <span class='ident'>ename</span>.<span class='ident'>push</span>(<span class='ident'>format_to_extension</span>(<span class='ident'>format</span>));
-        <span class='ident'>ext</span>.<span class='ident'>set_file_name</span>(<span class='ident'>ename</span>);
+        <span class="ident">ename</span>.<span class="ident">push</span>(<span class="ident">format_to_extension</span>(<span class="ident">format</span>));
+        <span class="ident">ext</span>.<span class="ident">set_file_name</span>(<span class="ident">ename</span>);
 
-        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>io</span>.<span class='ident'>input_open_name</span>(<span class='kw-2'>&amp;</span><span class='ident'>ext</span>.<span class='ident'>into_os_string</span>(), <span class='self'>self</span>.<span class='ident'>status</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">FileFormat</span>::<span class="ident">Format</span> <span class="op">=</span> <span class="ident">format</span> {
+            <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">input_open_format</span>(<span class="kw-2">&amp;</span><span class="ident">ext</span>.<span class="ident">into_os_string</span>(), <span class="self">self</span>.<span class="ident">status</span>)
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">input_open_name</span>(<span class="kw-2">&amp;</span><span class="ident">ext</span>.<span class="ident">into_os_string</span>(), <span class="self">self</span>.<span class="ident">status</span>)
+        }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_open_name_format_gz</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>format</span>: <span class='ident'>FileFormat</span>,
-                                 <span class='ident'>is_gz</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>OpenResult</span><span class='op'>&lt;</span><span class='ident'>InputHandle</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>base</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input_open_name_format</span>(<span class='ident'>name</span>, <span class='ident'>format</span>);
+    <span class="kw">fn</span> <span class="ident">input_open_name_format_gz</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">format</span>: <span class="ident">FileFormat</span>,
+                                 <span class="ident">is_gz</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">OpenResult</span><span class="op">&lt;</span><span class="ident">InputHandle</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input_open_name_format</span>(<span class="ident">name</span>, <span class="ident">format</span>);
 
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_gz</span> {
-            <span class='kw'>return</span> <span class='ident'>base</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_gz</span> {
+            <span class="kw">return</span> <span class="ident">base</span>;
         }
 
-        <span class='kw'>match</span> <span class='ident'>base</span> {
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>ih</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>ih</span>.<span class='ident'>origin</span>();
+        <span class="kw">match</span> <span class="ident">base</span> {
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">ih</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">ih</span>.<span class="ident">origin</span>();
 
-                <span class='kw'>match</span> <span class='ident'>GzDecoder</span>::<span class='ident'>new</span>(<span class='ident'>ih</span>) {
-                    <span class='prelude-val'>Ok</span>(<span class='ident'>dr</span>) <span class='op'>=&gt;</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>InputHandle</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='ident'>dr</span>, <span class='ident'>origin</span>)),
-                    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>()),
+                <span class="kw">match</span> <span class="ident">GzDecoder</span>::<span class="ident">new</span>(<span class="ident">ih</span>.<span class="ident">into_inner</span>()) {
+                    <span class="prelude-val">Ok</span>(<span class="ident">dr</span>) <span class="op">=&gt;</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">InputHandle</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="ident">dr</span>, <span class="ident">origin</span>)),
+                    <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()),
                 }
             },
-            _ <span class='op'>=&gt;</span> <span class='ident'>base</span>
+            _ <span class="op">=&gt;</span> <span class="ident">base</span>
         }
     }
 
-    <span class='comment'>// These functions are called from C via `io_api`:</span>
+    <span class="comment">// These functions are called from C via `io_api`:</span>
 
-    <span class='kw'>fn</span> <span class='ident'>output_open</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>is_gz</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OutputHandle</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>oh</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>io</span>.<span class='ident'>output_open_name</span>(<span class='ident'>name</span>) {
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>oh</span>) <span class='op'>=&gt;</span> <span class='ident'>oh</span>,
-            <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>(),
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;open of output {} failed&quot;</span>, <span class='ident'>name</span>.<span class='ident'>to_string_lossy</span>(); <span class='ident'>e</span>);
-                <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>()
+    <span class="kw">fn</span> <span class="ident">output_open</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">is_gz</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OutputHandle</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">oh</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">output_open_name</span>(<span class="ident">name</span>) {
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">oh</span>) <span class="op">=&gt;</span> <span class="ident">oh</span>,
+            <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;open of output {} failed&quot;</span>, <span class="ident">name</span>.<span class="ident">to_string_lossy</span>(); <span class="ident">e</span>);
+                <span class="kw">return</span> <span class="ident">ptr</span>::<span class="ident">null</span>()
             }
         };
 
-        <span class='kw'>if</span> <span class='ident'>is_gz</span> {
-            <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>oh</span>.<span class='ident'>name</span>().<span class='ident'>to_os_string</span>();
-            <span class='ident'>oh</span> <span class='op'>=</span> <span class='ident'>OutputHandle</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>, <span class='ident'>GzBuilder</span>::<span class='ident'>new</span>().<span class='ident'>write</span>(<span class='ident'>oh</span>, <span class='ident'>Compression</span>::<span class='ident'>Default</span>));
+        <span class="kw">if</span> <span class="ident">is_gz</span> {
+            <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">oh</span>.<span class="ident">name</span>().<span class="ident">to_os_string</span>();
+            <span class="ident">oh</span> <span class="op">=</span> <span class="ident">OutputHandle</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>, <span class="ident">GzBuilder</span>::<span class="ident">new</span>().<span class="ident">write</span>(<span class="ident">oh</span>.<span class="ident">into_inner</span>(), <span class="ident">Compression</span>::<span class="ident">Default</span>));
         }
 
-        <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>output_opened</span>(<span class='ident'>oh</span>.<span class='ident'>name</span>());
-        <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>oh</span>));
-        <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>output_handles</span>[<span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>]
+        <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">output_opened</span>(<span class="ident">oh</span>.<span class="ident">name</span>());
+        <span class="self">self</span>.<span class="ident">output_handles</span>.<span class="ident">push</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">oh</span>));
+        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">output_handles</span>[<span class="self">self</span>.<span class="ident">output_handles</span>.<span class="ident">len</span>()<span class="op">-</span><span class="number">1</span>]
     }
 
-    <span class='kw'>fn</span> <span class='ident'>output_open_stdout</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OutputHandle</span> {
-        <span class='kw'>let</span> <span class='ident'>oh</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>io</span>.<span class='ident'>output_open_stdout</span>() {
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>oh</span>) <span class='op'>=&gt;</span> <span class='ident'>oh</span>,
-            <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>(),
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;open of stdout failed&quot;</span>; <span class='ident'>e</span>);
-                <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>()
+    <span class="kw">fn</span> <span class="ident">output_open_stdout</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OutputHandle</span> {
+        <span class="kw">let</span> <span class="ident">oh</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">output_open_stdout</span>() {
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">oh</span>) <span class="op">=&gt;</span> <span class="ident">oh</span>,
+            <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;open of stdout failed&quot;</span>; <span class="ident">e</span>);
+                <span class="kw">return</span> <span class="ident">ptr</span>::<span class="ident">null</span>()
             }
         };
 
-        <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>stdout_opened</span>();
-        <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>oh</span>));
-        <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>output_handles</span>[<span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>]
+        <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">stdout_opened</span>();
+        <span class="self">self</span>.<span class="ident">output_handles</span>.<span class="ident">push</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">oh</span>));
+        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">output_handles</span>[<span class="self">self</span>.<span class="ident">output_handles</span>.<span class="ident">len</span>()<span class="op">-</span><span class="number">1</span>]
     }
 
-    <span class='kw'>fn</span> <span class='ident'>output_write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OutputHandle</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>OutputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>rhandle</span>.<span class='ident'>write_all</span>(<span class='ident'>buf</span>);
+    <span class="kw">fn</span> <span class="ident">output_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OutputHandle</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">OutputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">rhandle</span>.<span class="ident">write_all</span>(<span class="ident">buf</span>);
 
-        <span class='kw'>match</span> <span class='ident'>result</span> {
-            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;write failed&quot;</span>; <span class='ident'>e</span>.<span class='ident'>into</span>());
-                <span class='bool-val'>true</span>
+        <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="prelude-val">Ok</span>(_) <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;write failed&quot;</span>; <span class="ident">e</span>.<span class="ident">into</span>());
+                <span class="bool-val">true</span>
             }
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>output_flush</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OutputHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>OutputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>rhandle</span>.<span class='ident'>flush</span>();
+    <span class="kw">fn</span> <span class="ident">output_flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OutputHandle</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">OutputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">rhandle</span>.<span class="ident">flush</span>();
 
-        <span class='kw'>match</span> <span class='ident'>result</span> {
-            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;flush failed&quot;</span>; <span class='ident'>e</span>.<span class='ident'>into</span>());
-                <span class='bool-val'>true</span>
+        <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="prelude-val">Ok</span>(_) <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;flush failed&quot;</span>; <span class="ident">e</span>.<span class="ident">into</span>());
+                <span class="bool-val">true</span>
             }
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>output_close</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OutputHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>len</span>();
+    <span class="kw">fn</span> <span class="ident">output_close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OutputHandle</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_handles</span>.<span class="ident">len</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rv</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>len</span> {
-            <span class='kw'>let</span> <span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OutputHandle</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>output_handles</span>[<span class='ident'>i</span>];
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">len</span> {
+            <span class="kw">let</span> <span class="ident">p</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OutputHandle</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">output_handles</span>[<span class="ident">i</span>];
 
-            <span class='kw'>if</span> <span class='ident'>p</span> <span class='op'>==</span> <span class='ident'>handle</span> {
-                <span class='kw'>let</span> <span class='ident'>oh</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>output_handles</span>.<span class='ident'>swap_remove</span>(<span class='ident'>i</span>);
-                <span class='kw'>let</span> (<span class='ident'>name</span>, <span class='ident'>digest</span>) <span class='op'>=</span> <span class='ident'>oh</span>.<span class='ident'>into_name_digest</span>();
-                <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>output_closed</span>(<span class='ident'>name</span>, <span class='ident'>digest</span>);
-                <span class='kw'>break</span>;
+            <span class="kw">if</span> <span class="ident">p</span> <span class="op">==</span> <span class="ident">handle</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">oh</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">output_handles</span>.<span class="ident">swap_remove</span>(<span class="ident">i</span>);
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">oh</span>.<span class="ident">flush</span>() {
+                    <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;error when closing output {}&quot;</span>, <span class="ident">oh</span>.<span class="ident">name</span>().<span class="ident">to_string_lossy</span>(); <span class="ident">e</span>.<span class="ident">into</span>());
+                    <span class="ident">rv</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                }
+                <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">digest</span>) <span class="op">=</span> <span class="ident">oh</span>.<span class="ident">into_name_digest</span>();
+                <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">output_closed</span>(<span class="ident">name</span>, <span class="ident">digest</span>);
+                <span class="kw">break</span>;
             }
         }
 
-        <span class='bool-val'>false</span>
+        <span class="ident">rv</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_open</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='ident'>format</span>: <span class='ident'>FileFormat</span>, <span class='ident'>is_gz</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>InputHandle</span> {
-        <span class='kw'>let</span> <span class='ident'>ih</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>input_open_name_format_gz</span>(<span class='ident'>name</span>, <span class='ident'>format</span>, <span class='ident'>is_gz</span>) {
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Ok</span>(<span class='ident'>ih</span>) <span class='op'>=&gt;</span> <span class='ident'>ih</span>,
-            <span class='ident'>OpenResult</span>::<span class='ident'>NotAvailable</span> <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>input_not_available</span>(<span class='ident'>name</span>);
-                <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>();
+    <span class="kw">fn</span> <span class="ident">input_open</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">OsStr</span>, <span class="ident">format</span>: <span class="ident">FileFormat</span>, <span class="ident">is_gz</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">InputHandle</span> {
+        <span class="kw">let</span> <span class="ident">ih</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">input_open_name_format_gz</span>(<span class="ident">name</span>, <span class="ident">format</span>, <span class="ident">is_gz</span>) {
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">ih</span>) <span class="op">=&gt;</span> <span class="ident">ih</span>,
+            <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span> <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">input_not_available</span>(<span class="ident">name</span>);
+                <span class="kw">return</span> <span class="ident">ptr</span>::<span class="ident">null</span>();
             },
-            <span class='ident'>OpenResult</span>::<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;open of input {} failed&quot;</span>, <span class='ident'>name</span>.<span class='ident'>to_string_lossy</span>(); <span class='ident'>e</span>);
-                <span class='kw'>return</span> <span class='ident'>ptr</span>::<span class='ident'>null</span>();
+            <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;open of input {} failed&quot;</span>, <span class="ident">name</span>.<span class="ident">to_string_lossy</span>(); <span class="ident">e</span>);
+                <span class="kw">return</span> <span class="ident">ptr</span>::<span class="ident">null</span>();
             },
         };
 
-        <span class='comment'>// the file name may have had an extension added, so we use ih.name() here:</span>
-        <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>input_opened</span>(<span class='ident'>ih</span>.<span class='ident'>name</span>(), <span class='ident'>ih</span>.<span class='ident'>origin</span>());
-        <span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>ih</span>));
-        <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>input_handles</span>[<span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>]
+        <span class="comment">// the file name may have had an extension added, so we use ih.name() here:</span>
+        <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">input_opened</span>(<span class="ident">ih</span>.<span class="ident">name</span>(), <span class="ident">ih</span>.<span class="ident">origin</span>());
+        <span class="self">self</span>.<span class="ident">input_handles</span>.<span class="ident">push</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">ih</span>));
+        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">input_handles</span>[<span class="self">self</span>.<span class="ident">input_handles</span>.<span class="ident">len</span>()<span class="op">-</span><span class="number">1</span>]
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_get_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='kw'>match</span> <span class='ident'>rhandle</span>.<span class='ident'>get_size</span>() {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>s</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;failed to get the size of an input&quot;</span>; <span class='ident'>e</span>);
-                <span class='number'>0</span>
+    <span class="kw">fn</span> <span class="ident">input_get_size</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="kw">match</span> <span class="ident">rhandle</span>.<span class="ident">get_size</span>() {
+            <span class="prelude-val">Ok</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;failed to get the size of an input&quot;</span>; <span class="ident">e</span>);
+                <span class="number">0</span>
             }
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_seek</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>, <span class='ident'>pos</span>: <span class='ident'>SeekFrom</span>) <span class='op'>-&gt;</span> <span class='ident'>u64</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='kw'>match</span> <span class='ident'>rhandle</span>.<span class='ident'>try_seek</span>(<span class='ident'>pos</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>pos</span>) <span class='op'>=&gt;</span> <span class='ident'>pos</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>tt_warning</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>status</span>, <span class='string'>&quot;input seek failed&quot;</span>; <span class='ident'>e</span>);
-                <span class='number'>0</span>
+    <span class="kw">fn</span> <span class="ident">input_seek</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span>, <span class="ident">pos</span>: <span class="ident">SeekFrom</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="kw">match</span> <span class="ident">rhandle</span>.<span class="ident">try_seek</span>(<span class="ident">pos</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">pos</span>) <span class="op">=&gt;</span> <span class="ident">pos</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">status</span>, <span class="string">&quot;input seek failed&quot;</span>; <span class="ident">e</span>);
+                <span class="number">0</span>
             }
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='prelude-val'>Ok</span>(<span class='ident'>rhandle</span>.<span class='ident'>read_exact</span>(<span class='ident'>buf</span>)<span class='question-mark'>?</span>)
+    <span class="kw">fn</span> <span class="ident">input_read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="prelude-val">Ok</span>(<span class="ident">rhandle</span>.<span class="ident">read_exact</span>(<span class="ident">buf</span>)<span class="question-mark">?</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_getc</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='ident'>rhandle</span>.<span class='ident'>getc</span>()
+    <span class="kw">fn</span> <span class="ident">input_getc</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="ident">rhandle</span>.<span class="ident">getc</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_ungetc</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>, <span class='ident'>byte</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>rhandle</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>handle</span> };
-        <span class='ident'>rhandle</span>.<span class='ident'>ungetc</span>(<span class='ident'>byte</span>)
+    <span class="kw">fn</span> <span class="ident">input_ungetc</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span>, <span class="ident">byte</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">rhandle</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">handle</span> };
+        <span class="ident">rhandle</span>.<span class="ident">ungetc</span>(<span class="ident">byte</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>input_close</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>handle</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>InputHandle</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>len</span>();
+    <span class="kw">fn</span> <span class="ident">input_close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">InputHandle</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input_handles</span>.<span class="ident">len</span>();
 
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>len</span> {
-            <span class='kw'>let</span> <span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>InputHandle</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>input_handles</span>[<span class='ident'>i</span>];
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">len</span> {
+            <span class="kw">let</span> <span class="ident">p</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">InputHandle</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">input_handles</span>[<span class="ident">i</span>];
 
-            <span class='kw'>if</span> <span class='ident'>p</span> <span class='op'>==</span> <span class='ident'>handle</span> {
-                <span class='kw'>let</span> <span class='ident'>ih</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input_handles</span>.<span class='ident'>swap_remove</span>(<span class='ident'>i</span>);
-                <span class='kw'>let</span> (<span class='ident'>name</span>, <span class='ident'>digest_opt</span>) <span class='op'>=</span> <span class='ident'>ih</span>.<span class='ident'>into_name_digest</span>();
-                <span class='self'>self</span>.<span class='ident'>events</span>.<span class='ident'>input_closed</span>(<span class='ident'>name</span>, <span class='ident'>digest_opt</span>);
-                <span class='kw'>return</span> <span class='bool-val'>false</span>;
+            <span class="kw">if</span> <span class="ident">p</span> <span class="op">==</span> <span class="ident">handle</span> {
+                <span class="kw">let</span> <span class="ident">ih</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input_handles</span>.<span class="ident">swap_remove</span>(<span class="ident">i</span>);
+                <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">digest_opt</span>) <span class="op">=</span> <span class="ident">ih</span>.<span class="ident">into_name_digest</span>();
+                <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">input_closed</span>(<span class="ident">name</span>, <span class="ident">digest_opt</span>);
+                <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
 
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;unexpected handle {:?}&quot;</span>, <span class='ident'>handle</span>);
+        <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unexpected handle {:?}&quot;</span>, <span class="ident">handle</span>);
     }
 }
 
 
-<span class='comment'>// Here&#39;s the hacky framework for letting the C code get back an ExecutionState.</span>
+<span class="comment">// Here&#39;s the hacky framework for letting the C code get back an ExecutionState.</span>
 
-<span class='comment'>// note: ptr::null_mut() gives me a compile error related to const fns right now.</span>
-<span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>GLOBAL_ENGINE_PTR</span>: <span class='op'>*</span><span class='kw-2'>mut</span> () <span class='op'>=</span> <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _;
+<span class="comment">// note: ptr::null_mut() gives me a compile error related to const fns right now.</span>
+<span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">GLOBAL_ENGINE_PTR</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> () <span class="op">=</span> <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _;
 
-<span class='comment'>// This wraps a Rust function called by the C code via some ttstub_*() function.</span>
-<span class='kw'>fn</span> <span class='ident'>with_global_state</span><span class='op'>&lt;</span><span class='ident'>F</span>, <span class='ident'>T</span><span class='op'>&gt;</span> (<span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='ident'>IoStack</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-    <span class='kw'>unsafe</span> { <span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span>(<span class='ident'>GLOBAL_ENGINE_PTR</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='ident'>IoStack</span><span class='op'>&gt;</span>)) }
+<span class="comment">// This wraps a Rust function called by the C code via some ttstub_*() function.</span>
+<span class="kw">fn</span> <span class="ident">with_global_state</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span> (<span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">T</span> <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="ident">IoStack</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+    <span class="kw">unsafe</span> { <span class="ident">f</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="ident">GLOBAL_ENGINE_PTR</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="ident">IoStack</span><span class="op">&gt;</span>)) }
 }
 
-<span class='comment'>// This wraps any activities that cause the C code to spin up.</span>
-<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>assign_global_state</span><span class='op'>&lt;</span><span class='ident'>F</span>, <span class='ident'>T</span><span class='op'>&gt;</span> (<span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='ident'>IoStack</span><span class='op'>&gt;</span>, <span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-    <span class='ident'>GLOBAL_ENGINE_PTR</span> <span class='op'>=</span> <span class='ident'>state</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ExecutionState</span><span class='op'>&lt;</span><span class='ident'>IoStack</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> ();
-    <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='ident'>f</span>();
-    <span class='ident'>GLOBAL_ENGINE_PTR</span> <span class='op'>=</span> <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _;
-    <span class='ident'>rv</span>
+<span class="comment">// This wraps any activities that cause the C code to spin up.</span>
+<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">assign_global_state</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span> (<span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="ident">IoStack</span><span class="op">&gt;</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">T</span> <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">T</span> {
+    <span class="ident">GLOBAL_ENGINE_PTR</span> <span class="op">=</span> <span class="ident">state</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ExecutionState</span><span class="op">&lt;</span><span class="ident">IoStack</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> ();
+    <span class="kw">let</span> <span class="ident">rv</span> <span class="op">=</span> <span class="ident">f</span>();
+    <span class="ident">GLOBAL_ENGINE_PTR</span> <span class="op">=</span> <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _;
+    <span class="ident">rv</span>
 }
 </pre>
 </section>

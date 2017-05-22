@@ -9,6 +9,7 @@
 
     <title>file_format.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -97,60 +98,60 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
-</pre><pre class='rust '>
-<span class='comment'>// src/engines/file_format.rs -- different file formats that the C code cares about</span>
-<span class='comment'>// Copyright 2016-2017 the Tectonic Project</span>
-<span class='comment'>// Licensed under the MIT License.</span>
+</pre><pre class="rust ">
+<span class="comment">// src/engines/file_format.rs -- different file formats that the C code cares about</span>
+<span class="comment">// Copyright 2016-2017 the Tectonic Project</span>
+<span class="comment">// Licensed under the MIT License.</span>
 
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FileFormat</span> {
-    <span class='ident'>AFM</span>,
-    <span class='ident'>Bib</span>,
-    <span class='ident'>Bst</span>,
-    <span class='ident'>Cmap</span>,
-    <span class='ident'>Enc</span>,
-    <span class='ident'>Format</span>,
-    <span class='ident'>FontMap</span>,
-    <span class='ident'>MiscFonts</span>,
-    <span class='ident'>Ofm</span>,
-    <span class='ident'>OpenType</span>,
-    <span class='ident'>Ovf</span>,
-    <span class='ident'>Pict</span>,
-    <span class='ident'>Pk</span>,
-    <span class='ident'>ProgramData</span>,
-    <span class='ident'>Sfd</span>,
-    <span class='ident'>Tex</span>,
-    <span class='ident'>TexPsHeader</span>,
-    <span class='ident'>TFM</span>,
-    <span class='ident'>TrueType</span>,
-    <span class='ident'>Type1</span>,
-    <span class='ident'>Vf</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Copy</span>,<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FileFormat</span> {
+    <span class="ident">AFM</span>,
+    <span class="ident">Bib</span>,
+    <span class="ident">Bst</span>,
+    <span class="ident">Cmap</span>,
+    <span class="ident">Enc</span>,
+    <span class="ident">Format</span>,
+    <span class="ident">FontMap</span>,
+    <span class="ident">MiscFonts</span>,
+    <span class="ident">Ofm</span>,
+    <span class="ident">OpenType</span>,
+    <span class="ident">Ovf</span>,
+    <span class="ident">Pict</span>,
+    <span class="ident">Pk</span>,
+    <span class="ident">ProgramData</span>,
+    <span class="ident">Sfd</span>,
+    <span class="ident">Tex</span>,
+    <span class="ident">TexPsHeader</span>,
+    <span class="ident">TFM</span>,
+    <span class="ident">TrueType</span>,
+    <span class="ident">Type1</span>,
+    <span class="ident">Vf</span>,
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>format_to_extension</span> (<span class='ident'>format</span>: <span class='ident'>FileFormat</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> {
-    <span class='kw'>match</span> <span class='ident'>format</span> {
-        <span class='ident'>FileFormat</span>::<span class='ident'>AFM</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.afm&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>Bib</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.bib&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>Bst</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.bst&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>Cmap</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.cmap&quot;</span>, <span class='comment'>/* XXX: kpathsea doesn&#39;t define any suffixes for this */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Enc</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.enc&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>Format</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.fmt&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>FontMap</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.map&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>MiscFonts</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.miscfonts&quot;</span>, <span class='comment'>/* XXX: no kpathsea suffixes */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Ofm</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.ofm&quot;</span>, <span class='comment'>/* XXX: also .tfm */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>OpenType</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.otf&quot;</span>, <span class='comment'>/* XXX: also OTF */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Ovf</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.ovf&quot;</span>, <span class='comment'>/* XXX: also .vf */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Pict</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.pdf&quot;</span>, <span class='comment'>/* XXX: also .eps, .epsi, ... */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Pk</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.pk&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>ProgramData</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.programdata&quot;</span>, <span class='comment'>/* XXX no suffixes */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Sfd</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.sfd&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>Tex</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.tex&quot;</span>, <span class='comment'>/* also .{sty,cls,fd,aux,bbl,def,clo,ldf} */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>TexPsHeader</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.pro&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>TFM</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.tfm&quot;</span>,
-        <span class='ident'>FileFormat</span>::<span class='ident'>TrueType</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.ttf&quot;</span>, <span class='comment'>/* XXX: also .ttc, .TTF, .TTC, .dfont */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Type1</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.pfa&quot;</span>, <span class='comment'>/* XXX: also .pfb */</span>
-        <span class='ident'>FileFormat</span>::<span class='ident'>Vf</span> <span class='op'>=&gt;</span> <span class='string'>&quot;.vf&quot;</span>,
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">format_to_extension</span> (<span class="ident">format</span>: <span class="ident">FileFormat</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">match</span> <span class="ident">format</span> {
+        <span class="ident">FileFormat</span>::<span class="ident">AFM</span> <span class="op">=&gt;</span> <span class="string">&quot;.afm&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">Bib</span> <span class="op">=&gt;</span> <span class="string">&quot;.bib&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">Bst</span> <span class="op">=&gt;</span> <span class="string">&quot;.bst&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">Cmap</span> <span class="op">=&gt;</span> <span class="string">&quot;.cmap&quot;</span>, <span class="comment">/* XXX: kpathsea doesn&#39;t define any suffixes for this */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Enc</span> <span class="op">=&gt;</span> <span class="string">&quot;.enc&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">Format</span> <span class="op">=&gt;</span> <span class="string">&quot;.fmt.gz&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">FontMap</span> <span class="op">=&gt;</span> <span class="string">&quot;.map&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">MiscFonts</span> <span class="op">=&gt;</span> <span class="string">&quot;.miscfonts&quot;</span>, <span class="comment">/* XXX: no kpathsea suffixes */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Ofm</span> <span class="op">=&gt;</span> <span class="string">&quot;.ofm&quot;</span>, <span class="comment">/* XXX: also .tfm */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">OpenType</span> <span class="op">=&gt;</span> <span class="string">&quot;.otf&quot;</span>, <span class="comment">/* XXX: also OTF */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Ovf</span> <span class="op">=&gt;</span> <span class="string">&quot;.ovf&quot;</span>, <span class="comment">/* XXX: also .vf */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Pict</span> <span class="op">=&gt;</span> <span class="string">&quot;.pdf&quot;</span>, <span class="comment">/* XXX: also .eps, .epsi, ... */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Pk</span> <span class="op">=&gt;</span> <span class="string">&quot;.pk&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">ProgramData</span> <span class="op">=&gt;</span> <span class="string">&quot;.programdata&quot;</span>, <span class="comment">/* XXX no suffixes */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Sfd</span> <span class="op">=&gt;</span> <span class="string">&quot;.sfd&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">Tex</span> <span class="op">=&gt;</span> <span class="string">&quot;.tex&quot;</span>, <span class="comment">/* also .{sty,cls,fd,aux,bbl,def,clo,ldf} */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">TexPsHeader</span> <span class="op">=&gt;</span> <span class="string">&quot;.pro&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">TFM</span> <span class="op">=&gt;</span> <span class="string">&quot;.tfm&quot;</span>,
+        <span class="ident">FileFormat</span>::<span class="ident">TrueType</span> <span class="op">=&gt;</span> <span class="string">&quot;.ttf&quot;</span>, <span class="comment">/* XXX: also .ttc, .TTF, .TTC, .dfont */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Type1</span> <span class="op">=&gt;</span> <span class="string">&quot;.pfa&quot;</span>, <span class="comment">/* XXX: also .pfb */</span>
+        <span class="ident">FileFormat</span>::<span class="ident">Vf</span> <span class="op">=&gt;</span> <span class="string">&quot;.vf&quot;</span>,
     }
 }
 </pre>

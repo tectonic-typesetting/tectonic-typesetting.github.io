@@ -9,6 +9,7 @@
 
     <title>tectonic::engines::IoEventBackend - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,19 +43,19 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>tectonic</a>::<wbr><a href='index.html'>engines</a>::<wbr><a class='trait' href=''>IoEventBackend</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>tectonic</a>::<wbr><a href='index.html'>engines</a>::<wbr><a class="trait" href=''>IoEventBackend</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/tectonic/engines/mod.rs.html#49-76' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait IoEventBackend {
-    fn <a href='#method.output_opened' class='fnname'>output_opened</a>(&amp;mut self, _name: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>) { ... }
+    fn <a href='#method.output_opened' class='fnname'>output_opened</a>(&amp;mut self, _name: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>) { ... }
     fn <a href='#method.stdout_opened' class='fnname'>stdout_opened</a>(&amp;mut self) { ... }
-    fn <a href='#method.output_closed' class='fnname'>output_closed</a>(&amp;mut self, _name: <a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html' title='std::ffi::os_str::OsString'>OsString</a>, _digest: <a class='struct' href='../../tectonic/digest/struct.DigestData.html' title='tectonic::digest::DigestData'>DigestData</a>) { ... }
-    fn <a href='#method.input_opened' class='fnname'>input_opened</a>(&amp;mut self, _name: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>, _origin: <a class='enum' href='../../tectonic/io/enum.InputOrigin.html' title='tectonic::io::InputOrigin'>InputOrigin</a>) { ... }
-    fn <a href='#method.input_not_available' class='fnname'>input_not_available</a>(&amp;mut self, _name: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>) { ... }
-    fn <a href='#method.input_closed' class='fnname'>input_closed</a>(&amp;mut self, _name: <a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html' title='std::ffi::os_str::OsString'>OsString</a>, _digest: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../tectonic/digest/struct.DigestData.html' title='tectonic::digest::DigestData'>DigestData</a>&gt;) { ... }
+    fn <a href='#method.output_closed' class='fnname'>output_closed</a>(&amp;mut self, _name: <a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>, _digest: <a class="struct" href="../../tectonic/digest/struct.DigestData.html" title="struct tectonic::digest::DigestData">DigestData</a>) { ... }
+    fn <a href='#method.input_opened' class='fnname'>input_opened</a>(&amp;mut self, _name: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>, _origin: <a class="enum" href="../../tectonic/io/enum.InputOrigin.html" title="enum tectonic::io::InputOrigin">InputOrigin</a>) { ... }
+    fn <a href='#method.input_not_available' class='fnname'>input_not_available</a>(&amp;mut self, _name: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>) { ... }
+    fn <a href='#method.input_closed' class='fnname'>input_closed</a>(&amp;mut self, _name: <a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>, _digest: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../tectonic/digest/struct.DigestData.html" title="struct tectonic::digest::DigestData">DigestData</a>&gt;) { ... }
 }</pre><div class='docblock'><p>The IoEventBackend trait allows the program driving the TeX engines to
 track its input and output access patterns. The CLI program uses this
 information to intelligently decide when to rerun the TeX engine, to
@@ -65,17 +66,17 @@ describing the dependency of the outputs on the inputs.</p>
 </div>
             <h2 id='provided-methods'>Provided Methods</h2>
             <div class='methods'>
-        <h3 id='method.output_opened' class='method stab '><span id='output_opened.v' class='invisible'><code>fn <a href='#method.output_opened' class='fnname'>output_opened</a>(&amp;mut self, _name: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>)</code></span></h3><div class='docblock'><p>This function is called when a file is opened for output.</p>
-</div><h3 id='method.stdout_opened' class='method stab '><span id='stdout_opened.v' class='invisible'><code>fn <a href='#method.stdout_opened' class='fnname'>stdout_opened</a>(&amp;mut self)</code></span></h3><div class='docblock'><p>This function is called when the wrapped &quot;standard output&quot;
+        <h3 id='method.output_opened' class='method'><span id='output_opened.v' class='invisible'><code>fn <a href='#method.output_opened' class='fnname'>output_opened</a>(&amp;mut self, _name: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>)</code></span></h3><div class='docblock'><p>This function is called when a file is opened for output.</p>
+</div><h3 id='method.stdout_opened' class='method'><span id='stdout_opened.v' class='invisible'><code>fn <a href='#method.stdout_opened' class='fnname'>stdout_opened</a>(&amp;mut self)</code></span></h3><div class='docblock'><p>This function is called when the wrapped &quot;standard output&quot;
 (&quot;console&quot;, &quot;terminal&quot;) stream is opened.</p>
-</div><h3 id='method.output_closed' class='method stab '><span id='output_closed.v' class='invisible'><code>fn <a href='#method.output_closed' class='fnname'>output_closed</a>(&amp;mut self, _name: <a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html' title='std::ffi::os_str::OsString'>OsString</a>, _digest: <a class='struct' href='../../tectonic/digest/struct.DigestData.html' title='tectonic::digest::DigestData'>DigestData</a>)</code></span></h3><div class='docblock'><p>This function is called when an output file is closed. The &quot;digest&quot;
+</div><h3 id='method.output_closed' class='method'><span id='output_closed.v' class='invisible'><code>fn <a href='#method.output_closed' class='fnname'>output_closed</a>(&amp;mut self, _name: <a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>, _digest: <a class="struct" href="../../tectonic/digest/struct.DigestData.html" title="struct tectonic::digest::DigestData">DigestData</a>)</code></span></h3><div class='docblock'><p>This function is called when an output file is closed. The &quot;digest&quot;
 argument specifies the cryptographic digest of the data that were
 written. Note that this function takes ownership of the name and
 digest.</p>
-</div><h3 id='method.input_opened' class='method stab '><span id='input_opened.v' class='invisible'><code>fn <a href='#method.input_opened' class='fnname'>input_opened</a>(&amp;mut self, _name: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>, _origin: <a class='enum' href='../../tectonic/io/enum.InputOrigin.html' title='tectonic::io::InputOrigin'>InputOrigin</a>)</code></span></h3><div class='docblock'><p>This function is called when a file is opened for input.</p>
-</div><h3 id='method.input_not_available' class='method stab '><span id='input_not_available.v' class='invisible'><code>fn <a href='#method.input_not_available' class='fnname'>input_not_available</a>(&amp;mut self, _name: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html' title='std::ffi::os_str::OsStr'>OsStr</a>)</code></span></h3><div class='docblock'><p>This function is called when the engine attempted to open a file of
+</div><h3 id='method.input_opened' class='method'><span id='input_opened.v' class='invisible'><code>fn <a href='#method.input_opened' class='fnname'>input_opened</a>(&amp;mut self, _name: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>, _origin: <a class="enum" href="../../tectonic/io/enum.InputOrigin.html" title="enum tectonic::io::InputOrigin">InputOrigin</a>)</code></span></h3><div class='docblock'><p>This function is called when a file is opened for input.</p>
+</div><h3 id='method.input_not_available' class='method'><span id='input_not_available.v' class='invisible'><code>fn <a href='#method.input_not_available' class='fnname'>input_not_available</a>(&amp;mut self, _name: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>)</code></span></h3><div class='docblock'><p>This function is called when the engine attempted to open a file of
 the specified name but it was not available.</p>
-</div><h3 id='method.input_closed' class='method stab '><span id='input_closed.v' class='invisible'><code>fn <a href='#method.input_closed' class='fnname'>input_closed</a>(&amp;mut self, _name: <a class='struct' href='https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html' title='std::ffi::os_str::OsString'>OsString</a>, _digest: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../tectonic/digest/struct.DigestData.html' title='tectonic::digest::DigestData'>DigestData</a>&gt;)</code></span></h3><div class='docblock'><p>This function is called when an input file is closed. The &quot;digest&quot;
+</div><h3 id='method.input_closed' class='method'><span id='input_closed.v' class='invisible'><code>fn <a href='#method.input_closed' class='fnname'>input_closed</a>(&amp;mut self, _name: <a class="struct" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html" title="struct std::ffi::os_str::OsString">OsString</a>, _digest: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../tectonic/digest/struct.DigestData.html" title="struct tectonic::digest::DigestData">DigestData</a>&gt;)</code></span></h3><div class='docblock'><p>This function is called when an input file is closed. The &quot;digest&quot;
 argument specifies the cryptographic digest of the data that were
 read, if available. This digest is not always available, if the engine
 used seeks while reading the file. Note that this function takes
@@ -83,7 +84,7 @@ ownership of the name and digest.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl IoEventBackend for <a class='struct' href='../../tectonic/engines/struct.NoopIoEventBackend.html' title='tectonic::engines::NoopIoEventBackend'>NoopIoEventBackend</a></code></li>
+    <li><code>impl IoEventBackend for <a class="struct" href="../../tectonic/engines/struct.NoopIoEventBackend.html" title="struct tectonic::engines::NoopIoEventBackend">NoopIoEventBackend</a></code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/tectonic/engines/trait.IoEventBackend.js">
                  </script></section>

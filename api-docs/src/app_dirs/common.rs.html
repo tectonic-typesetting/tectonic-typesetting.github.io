@@ -9,6 +9,7 @@
 
     <title>common.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -153,116 +154,116 @@
 <span id="109">109</span>
 <span id="110">110</span>
 <span id="111">111</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>;
 
-<span class='doccomment'>/// Struct that holds information about your app.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// It&#39;s recommended to create a single `const` instance of `AppInfo`:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>/// use app_dirs::AppInfo;</span>
-<span class='doccomment'>/// const APP_INFO: AppInfo = AppInfo{name: &quot;Awesome App&quot;, author: &quot;Dedicated Dev&quot;};</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Caveats</span>
-<span class='doccomment'>/// Functions in this library sanitize any characters that could be</span>
-<span class='doccomment'>/// non-filename-safe from `name` and `author`. The resulting paths will be</span>
-<span class='doccomment'>/// more human-readable if you stick to **letters, numbers, spaces, hyphens,</span>
-<span class='doccomment'>/// underscores, and periods** for both properties.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The `author` property is currently only used by Windows, as macOS and *nix</span>
-<span class='doccomment'>/// specifications don&#39;t require it. Make sure your `name` string is unique!</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AppInfo</span> {
-    <span class='doccomment'>/// Name of your app (e.g. &quot;Hearthstone&quot;).</span>
-    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>,
-    <span class='doccomment'>/// Author of your app (e.g. &quot;Blizzard&quot;).</span>
-    <span class='kw'>pub</span> <span class='ident'>author</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>,
+<span class="doccomment">/// Struct that holds information about your app.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// It&#39;s recommended to create a single `const` instance of `AppInfo`:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use app_dirs::AppInfo;</span>
+<span class="doccomment">/// const APP_INFO: AppInfo = AppInfo{name: &quot;Awesome App&quot;, author: &quot;Dedicated Dev&quot;};</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Caveats</span>
+<span class="doccomment">/// Functions in this library sanitize any characters that could be</span>
+<span class="doccomment">/// non-filename-safe from `name` and `author`. The resulting paths will be</span>
+<span class="doccomment">/// more human-readable if you stick to **letters, numbers, spaces, hyphens,</span>
+<span class="doccomment">/// underscores, and periods** for both properties.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The `author` property is currently only used by Windows, as macOS and *nix</span>
+<span class="doccomment">/// specifications don&#39;t require it. Make sure your `name` string is unique!</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AppInfo</span> {
+    <span class="doccomment">/// Name of your app (e.g. &quot;Hearthstone&quot;).</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
+    <span class="doccomment">/// Author of your app (e.g. &quot;Blizzard&quot;).</span>
+    <span class="kw">pub</span> <span class="ident">author</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
 }
 
-<span class='doccomment'>/// Enum specifying the type of app data you want to store.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// **Different platforms are NOT guaranteed to distinguish between each data</span>
-<span class='doccomment'>/// type.** Keep this in mind when choosing data file paths.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Example: Windows does not supported shared application data and does not</span>
-<span class='doccomment'>/// distinguish between config and data. Therefore, on Windows, all variants</span>
-<span class='doccomment'>/// except `UserCache` return the same path.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AppDataType</span> {
-    <span class='doccomment'>/// User-specific app configuration data.</span>
-    <span class='ident'>UserConfig</span>,
-    <span class='doccomment'>/// User-specific arbitrary app data.</span>
-    <span class='ident'>UserData</span>,
-    <span class='doccomment'>/// User-specific app cache data.</span>
-    <span class='ident'>UserCache</span>,
-    <span class='doccomment'>/// System-wide arbitrary app data.</span>
-    <span class='ident'>SharedData</span>,
-    <span class='doccomment'>/// System-wide app configuration data.</span>
-    <span class='ident'>SharedConfig</span>,
+<span class="doccomment">/// Enum specifying the type of app data you want to store.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// **Different platforms are NOT guaranteed to distinguish between each data</span>
+<span class="doccomment">/// type.** Keep this in mind when choosing data file paths.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Example: Windows does not supported shared application data and does not</span>
+<span class="doccomment">/// distinguish between config and data. Therefore, on Windows, all variants</span>
+<span class="doccomment">/// except `UserCache` return the same path.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AppDataType</span> {
+    <span class="doccomment">/// User-specific app configuration data.</span>
+    <span class="ident">UserConfig</span>,
+    <span class="doccomment">/// User-specific arbitrary app data.</span>
+    <span class="ident">UserData</span>,
+    <span class="doccomment">/// User-specific app cache data.</span>
+    <span class="ident">UserCache</span>,
+    <span class="doccomment">/// System-wide arbitrary app data.</span>
+    <span class="ident">SharedData</span>,
+    <span class="doccomment">/// System-wide app configuration data.</span>
+    <span class="ident">SharedConfig</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>AppDataType</span> {
-    <span class='doccomment'>/// Returns `true` for non-user-specific data types.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_shared</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>use</span> <span class='ident'>AppDataType</span>::<span class='op'>*</span>;
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>SharedData</span> <span class='op'>|</span> <span class='ident'>SharedConfig</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+<span class="kw">impl</span> <span class="ident">AppDataType</span> {
+    <span class="doccomment">/// Returns `true` for non-user-specific data types.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_shared</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">use</span> <span class="ident">AppDataType</span>::<span class="kw-2">*</span>;
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">SharedData</span> <span class="op">|</span> <span class="ident">SharedConfig</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 }
 
-<span class='kw'>const</span> <span class='ident'>ERR_NOT_SUPPORTED</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;App data directories not supported&quot;</span>;
-<span class='kw'>const</span> <span class='ident'>ERR_INVALID_APP_INFO</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Invalid app name or author&quot;</span>;
+<span class="kw">const</span> <span class="ident">ERR_NOT_SUPPORTED</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;App data directories not supported&quot;</span>;
+<span class="kw">const</span> <span class="ident">ERR_INVALID_APP_INFO</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;Invalid app name or author&quot;</span>;
 
-<span class='doccomment'>/// Error type for any `app_dirs` operation.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AppDirsError</span> {
-    <span class='doccomment'>/// An I/O error occurred during the operation.</span>
-    <span class='ident'>Io</span>(<span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Error</span>),
-    <span class='doccomment'>/// App-specific directories are not properly supported by the system</span>
-    <span class='doccomment'>/// (e.g. required environment variables don&#39;t exist).</span>
-    <span class='ident'>NotSupported</span>,
-    <span class='doccomment'>/// App info given to this library was invalid (e.g. app name or author</span>
-    <span class='doccomment'>/// were empty).</span>
-    <span class='ident'>InvalidAppInfo</span>,
+<span class="doccomment">/// Error type for any `app_dirs` operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AppDirsError</span> {
+    <span class="doccomment">/// An I/O error occurred during the operation.</span>
+    <span class="ident">Io</span>(<span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Error</span>),
+    <span class="doccomment">/// App-specific directories are not properly supported by the system</span>
+    <span class="doccomment">/// (e.g. required environment variables don&#39;t exist).</span>
+    <span class="ident">NotSupported</span>,
+    <span class="doccomment">/// App info given to this library was invalid (e.g. app name or author</span>
+    <span class="doccomment">/// were empty).</span>
+    <span class="ident">InvalidAppInfo</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>AppDirsError</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>use</span> <span class='ident'>AppDirsError</span>::<span class='op'>*</span>;
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='ident'>e</span>.<span class='ident'>fmt</span>(<span class='ident'>f</span>),
-            <span class='ident'>NotSupported</span> <span class='op'>=&gt;</span> <span class='ident'>f</span>.<span class='ident'>write_str</span>(<span class='ident'>ERR_NOT_SUPPORTED</span>),
-            <span class='ident'>InvalidAppInfo</span> <span class='op'>=&gt;</span> <span class='ident'>f</span>.<span class='ident'>write_str</span>(<span class='ident'>ERR_INVALID_APP_INFO</span>),
+<span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">AppDirsError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="ident">AppDirsError</span>::<span class="kw-2">*</span>;
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">fmt</span>(<span class="ident">f</span>),
+            <span class="ident">NotSupported</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">ERR_NOT_SUPPORTED</span>),
+            <span class="ident">InvalidAppInfo</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">ERR_INVALID_APP_INFO</span>),
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='kw'>for</span> <span class='ident'>AppDirsError</span> {
-    <span class='kw'>fn</span> <span class='ident'>description</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {
-        <span class='kw'>use</span> <span class='ident'>AppDirsError</span>::<span class='op'>*</span>;
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='ident'>e</span>.<span class='ident'>description</span>(),
-            <span class='ident'>NotSupported</span> <span class='op'>=&gt;</span> <span class='string'>&quot;App data directories not supported&quot;</span>,
-            <span class='ident'>InvalidAppInfo</span> <span class='op'>=&gt;</span> <span class='string'>&quot;Invalid app name or author&quot;</span>,
+<span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">AppDirsError</span> {
+    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="kw">use</span> <span class="ident">AppDirsError</span>::<span class="kw-2">*</span>;
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">description</span>(),
+            <span class="ident">NotSupported</span> <span class="op">=&gt;</span> <span class="string">&quot;App data directories not supported&quot;</span>,
+            <span class="ident">InvalidAppInfo</span> <span class="op">=&gt;</span> <span class="string">&quot;Invalid app name or author&quot;</span>,
         }
     }
-    <span class='kw'>fn</span> <span class='ident'>cause</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>use</span> <span class='ident'>AppDirsError</span>::<span class='op'>*</span>;
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>e</span>),
-            <span class='ident'>NotSupported</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-            <span class='ident'>InvalidAppInfo</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="ident">AppDirsError</span>::<span class="kw-2">*</span>;
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
+            <span class="ident">NotSupported</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">InvalidAppInfo</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>AppDirsError</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>e</span>: <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>AppDirsError</span>::<span class='ident'>Io</span>(<span class='ident'>e</span>)
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AppDirsError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">AppDirsError</span>::<span class="ident">Io</span>(<span class="ident">e</span>)
     }
 }
 </pre>

@@ -9,6 +9,7 @@
 
     <title>errors.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -135,97 +136,97 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
-</pre><pre class='rust '>
-<span class='comment'>// src/errors.rs -- error types</span>
-<span class='comment'>// Copyright 2016 the Tectonic Project</span>
-<span class='comment'>// Licensed under the MIT License.</span>
+</pre><pre class="rust ">
+<span class="comment">// src/errors.rs -- error types</span>
+<span class="comment">// Copyright 2016 the Tectonic Project</span>
+<span class="comment">// Licensed under the MIT License.</span>
 
-<span class='kw'>use</span> <span class='ident'>app_dirs</span>;
-<span class='kw'>use</span> <span class='ident'>flate2</span>;
-<span class='kw'>use</span> <span class='ident'>hyper</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>convert</span>, <span class='ident'>ffi</span>, <span class='ident'>io</span>, <span class='ident'>num</span>, <span class='ident'>str</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
-<span class='kw'>use</span> <span class='ident'>toml</span>;
-<span class='kw'>use</span> <span class='ident'>zip</span>::<span class='ident'>result</span>::<span class='ident'>ZipError</span>;
+<span class="kw">use</span> <span class="ident">app_dirs</span>;
+<span class="kw">use</span> <span class="ident">flate2</span>;
+<span class="kw">use</span> <span class="ident">hyper</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>, <span class="ident">ffi</span>, <span class="ident">io</span>, <span class="ident">num</span>, <span class="ident">str</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
+<span class="kw">use</span> <span class="ident">toml</span>;
+<span class="kw">use</span> <span class="ident">zip</span>::<span class="ident">result</span>::<span class="ident">ZipError</span>;
 
-<span class='macro'>error_chain</span><span class='macro'>!</span> {
-    <span class='ident'>types</span> {
-        <span class='ident'>Error</span>, <span class='ident'>ErrorKind</span>, <span class='ident'>ResultExt</span>, <span class='prelude-ty'>Result</span>;
+<span class="macro">error_chain</span><span class="macro">!</span> {
+    <span class="ident">types</span> {
+        <span class="ident">Error</span>, <span class="ident">ErrorKind</span>, <span class="ident">ResultExt</span>, <span class="prelude-ty">Result</span>;
     }
 
-    <span class='ident'>foreign_links</span> {
-        <span class='ident'>AppDirs</span>(<span class='ident'>app_dirs</span>::<span class='ident'>AppDirsError</span>);
-        <span class='ident'>Flate2</span>(<span class='ident'>flate2</span>::<span class='ident'>DataError</span>);
-        <span class='ident'>Hyper</span>(<span class='ident'>hyper</span>::<span class='ident'>Error</span>);
-        <span class='ident'>Io</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>);
-        <span class='ident'>Nul</span>(<span class='ident'>ffi</span>::<span class='ident'>NulError</span>);
-        <span class='ident'>ParseInt</span>(<span class='ident'>num</span>::<span class='ident'>ParseIntError</span>);
-        <span class='ident'>TomlDe</span>(<span class='ident'>toml</span>::<span class='ident'>de</span>::<span class='ident'>Error</span>);
-        <span class='ident'>Utf8</span>(<span class='ident'>str</span>::<span class='ident'>Utf8Error</span>);
-        <span class='ident'>Zip</span>(<span class='ident'>ZipError</span>);
+    <span class="ident">foreign_links</span> {
+        <span class="ident">AppDirs</span>(<span class="ident">app_dirs</span>::<span class="ident">AppDirsError</span>);
+        <span class="ident">Flate2</span>(<span class="ident">flate2</span>::<span class="ident">DataError</span>);
+        <span class="ident">Hyper</span>(<span class="ident">hyper</span>::<span class="ident">Error</span>);
+        <span class="ident">Io</span>(<span class="ident">io</span>::<span class="ident">Error</span>);
+        <span class="ident">Nul</span>(<span class="ident">ffi</span>::<span class="ident">NulError</span>);
+        <span class="ident">ParseInt</span>(<span class="ident">num</span>::<span class="ident">ParseIntError</span>);
+        <span class="ident">TomlDe</span>(<span class="ident">toml</span>::<span class="ident">de</span>::<span class="ident">Error</span>);
+        <span class="ident">Utf8</span>(<span class="ident">str</span>::<span class="ident">Utf8Error</span>);
+        <span class="ident">Zip</span>(<span class="ident">ZipError</span>);
     }
 
-    <span class='ident'>errors</span> {
-        <span class='ident'>BadLength</span>(<span class='ident'>expected</span>: <span class='ident'>usize</span>, <span class='ident'>observed</span>: <span class='ident'>usize</span>) {
-            <span class='ident'>description</span>(<span class='string'>&quot;the item is not the expected length&quot;</span>)
-            <span class='ident'>display</span>(<span class='string'>&quot;expected length {}; found {}&quot;</span>, <span class='ident'>expected</span>, <span class='ident'>observed</span>)
+    <span class="ident">errors</span> {
+        <span class="ident">BadLength</span>(<span class="ident">expected</span>: <span class="ident">usize</span>, <span class="ident">observed</span>: <span class="ident">usize</span>) {
+            <span class="ident">description</span>(<span class="string">&quot;the item is not the expected length&quot;</span>)
+            <span class="ident">display</span>(<span class="string">&quot;expected length {}; found {}&quot;</span>, <span class="ident">expected</span>, <span class="ident">observed</span>)
         }
 
-        <span class='ident'>NotSeekable</span> {
-            <span class='ident'>description</span>(<span class='string'>&quot;this stream is not seekable&quot;</span>)
-            <span class='ident'>display</span>(<span class='string'>&quot;this stream is not seekable&quot;</span>)
+        <span class="ident">NotSeekable</span> {
+            <span class="ident">description</span>(<span class="string">&quot;this stream is not seekable&quot;</span>)
+            <span class="ident">display</span>(<span class="string">&quot;this stream is not seekable&quot;</span>)
         }
 
-        <span class='ident'>NotSizeable</span> {
-            <span class='ident'>description</span>(<span class='string'>&quot;the size of this stream cannot be determined&quot;</span>)
-            <span class='ident'>display</span>(<span class='string'>&quot;the size of this stream cannot be determined&quot;</span>)
+        <span class="ident">NotSizeable</span> {
+            <span class="ident">description</span>(<span class="string">&quot;the size of this stream cannot be determined&quot;</span>)
+            <span class="ident">display</span>(<span class="string">&quot;the size of this stream cannot be determined&quot;</span>)
         }
 
-        <span class='ident'>PathForbidden</span>(<span class='ident'>path</span>: <span class='ident'>String</span>) {
-            <span class='ident'>description</span>(<span class='string'>&quot;access to this file path is forbidden&quot;</span>)
-            <span class='ident'>display</span>(<span class='string'>&quot;access to the path {} is forbidden&quot;</span>, <span class='ident'>path</span>)
+        <span class="ident">PathForbidden</span>(<span class="ident">path</span>: <span class="ident">String</span>) {
+            <span class="ident">description</span>(<span class="string">&quot;access to this file path is forbidden&quot;</span>)
+            <span class="ident">display</span>(<span class="string">&quot;access to the path {} is forbidden&quot;</span>, <span class="ident">path</span>)
         }
-    }
-}
-
-
-<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>ctry</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>op</span>:<span class='ident'>expr</span> ; $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>chain_fmt_args</span>:<span class='ident'>expr</span> ),<span class='op'>*</span>) <span class='op'>=&gt;</span> {
-        <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>op</span>.<span class='ident'>chain_err</span>(<span class='op'>||</span> <span class='macro'>format</span><span class='macro'>!</span>($( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>chain_fmt_args</span> ),<span class='op'>*</span>))<span class='question-mark'>?</span>
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>convert</span>::<span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>io</span>::<span class='ident'>Error</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>err</span>: <span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='ident'>Error</span> {
-        <span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>err</span>))
     }
 }
 
 
-<span class='kw'>impl</span> <span class='ident'>Error</span> {
-    <span class='doccomment'>/// Write the information contained in this object to standard error in a</span>
-    <span class='doccomment'>/// somewhat user-friendly form.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The `error_chain` crate provides a Display impl for its Error objects</span>
-    <span class='doccomment'>/// that ought to provide this functionality, but I have had enormous</span>
-    <span class='doccomment'>/// trouble being able to use it. So instead we emulate their code. This</span>
-    <span class='doccomment'>/// function is also paralleled by the implementation in</span>
-    <span class='doccomment'>/// `status::termcolor::TermcolorStatusBackend`, which adds the sugar of</span>
-    <span class='doccomment'>/// providing nice colorization if possible. This function should only be</span>
-    <span class='doccomment'>/// used if a `StatusBackend` is not yet available in the running program.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dump_uncolorized</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prefix</span> <span class='op'>=</span> <span class='string'>&quot;error:&quot;</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='ident'>stderr</span>();
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">ctry</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span> ; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chain_fmt_args</span>:<span class="ident">expr</span> ),<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>.<span class="ident">chain_err</span>(<span class="op">||</span> <span class="macro">format</span><span class="macro">!</span>($( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chain_fmt_args</span> ),<span class="kw-2">*</span>))<span class="question-mark">?</span>
+    }
+}
 
-        <span class='kw'>for</span> <span class='ident'>item</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>iter</span>() {
-            <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>prefix</span>, <span class='ident'>item</span>).<span class='ident'>expect</span>(<span class='string'>&quot;write to stderr failed&quot;</span>);
-            <span class='ident'>prefix</span> <span class='op'>=</span> <span class='string'>&quot;caused by:&quot;</span>;
+<span class="kw">impl</span> <span class="ident">convert</span>::<span class="ident">From</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">io</span>::<span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="ident">Error</span> {
+        <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>))
+    }
+}
+
+
+<span class="kw">impl</span> <span class="ident">Error</span> {
+    <span class="doccomment">/// Write the information contained in this object to standard error in a</span>
+    <span class="doccomment">/// somewhat user-friendly form.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The `error_chain` crate provides a Display impl for its Error objects</span>
+    <span class="doccomment">/// that ought to provide this functionality, but I have had enormous</span>
+    <span class="doccomment">/// trouble being able to use it. So instead we emulate their code. This</span>
+    <span class="doccomment">/// function is also paralleled by the implementation in</span>
+    <span class="doccomment">/// `status::termcolor::TermcolorStatusBackend`, which adds the sugar of</span>
+    <span class="doccomment">/// providing nice colorization if possible. This function should only be</span>
+    <span class="doccomment">/// used if a `StatusBackend` is not yet available in the running program.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dump_uncolorized</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prefix</span> <span class="op">=</span> <span class="string">&quot;error:&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">stderr</span>();
+
+        <span class="kw">for</span> <span class="ident">item</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">iter</span>() {
+            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="string">&quot;{} {}&quot;</span>, <span class="ident">prefix</span>, <span class="ident">item</span>).<span class="ident">expect</span>(<span class="string">&quot;write to stderr failed&quot;</span>);
+            <span class="ident">prefix</span> <span class="op">=</span> <span class="string">&quot;caused by:&quot;</span>;
         }
 
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>backtrace</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>backtrace</span>() {
-            <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;debugging: backtrace follows:&quot;</span>).<span class='ident'>expect</span>(<span class='string'>&quot;write to stderr failed&quot;</span>);
-            <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>backtrace</span>).<span class='ident'>expect</span>(<span class='string'>&quot;write to stderr failed&quot;</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">backtrace</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">backtrace</span>() {
+            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="string">&quot;debugging: backtrace follows:&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;write to stderr failed&quot;</span>);
+            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="ident">backtrace</span>).<span class="ident">expect</span>(<span class="string">&quot;write to stderr failed&quot;</span>);
         }
     }
 }

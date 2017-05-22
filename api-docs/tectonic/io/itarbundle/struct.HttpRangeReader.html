@@ -9,6 +9,7 @@
 
     <title>tectonic::io::itarbundle::HttpRangeReader - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,17 +43,17 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>tectonic</a>::<wbr><a href='../index.html'>io</a>::<wbr><a href='index.html'>itarbundle</a>::<wbr><a class='struct' href=''>HttpRangeReader</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>tectonic</a>::<wbr><a href='../index.html'>io</a>::<wbr><a href='index.html'>itarbundle</a>::<wbr><a class="struct" href=''>HttpRangeReader</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/tectonic/io/itarbundle.rs.html#30-33' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct HttpRangeReader { /* fields omitted */ }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../tectonic/io/itarbundle/struct.HttpRangeReader.html' title='tectonic::io::itarbundle::HttpRangeReader'>HttpRangeReader</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/tectonic/io/itarbundle.rs.html#36-45' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(url: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../../tectonic/io/itarbundle/struct.HttpRangeReader.html' title='tectonic::io::itarbundle::HttpRangeReader'>HttpRangeReader</a></code></span></h4>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../../tectonic/io/itarbundle/trait.RangeRead.html' title='tectonic::io::itarbundle::RangeRead'>RangeRead</a> for <a class='struct' href='../../../tectonic/io/itarbundle/struct.HttpRangeReader.html' title='tectonic::io::itarbundle::HttpRangeReader'>HttpRangeReader</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/tectonic/io/itarbundle.rs.html#48-66' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='associatedtype.InnerRead' class='type'><span id='InnerRead.t' class='invisible'><code>type <a href='../../../tectonic/io/itarbundle/trait.RangeRead.html#associatedtype.InnerRead' class='type'>InnerRead</a> = <a class='struct' href='../../../hyper/client/response/struct.Response.html' title='hyper::client::response::Response'>Response</a></code></span></h4>
-<h4 id='method.read_range' class='method'><span id='read_range.v' class='invisible'><code>fn <a href='../../../tectonic/io/itarbundle/trait.RangeRead.html#tymethod.read_range' class='fnname'>read_range</a>(&amp;mut self, offset: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>, length: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../../tectonic/errors/type.Result.html' title='tectonic::errors::Result'>Result</a>&lt;<a class='struct' href='../../../hyper/client/response/struct.Response.html' title='hyper::client::response::Response'>Response</a>&gt;</code></span></h4>
+               </span><a class='srclink' href='../../../src/tectonic/io/itarbundle.rs.html#32-35' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct HttpRangeReader { /* fields omitted */ }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../tectonic/io/itarbundle/struct.HttpRangeReader.html" title="struct tectonic::io::itarbundle::HttpRangeReader">HttpRangeReader</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/tectonic/io/itarbundle.rs.html#38-49' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(url: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="../../../tectonic/io/itarbundle/struct.HttpRangeReader.html" title="struct tectonic::io::itarbundle::HttpRangeReader">HttpRangeReader</a></code></span></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="../../../tectonic/io/itarbundle/trait.RangeRead.html" title="trait tectonic::io::itarbundle::RangeRead">RangeRead</a> for <a class="struct" href="../../../tectonic/io/itarbundle/struct.HttpRangeReader.html" title="struct tectonic::io::itarbundle::HttpRangeReader">HttpRangeReader</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/tectonic/io/itarbundle.rs.html#52-70' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.InnerRead' class="type"><span id='InnerRead.t' class='invisible'><code>type <a href='../../../tectonic/io/itarbundle/trait.RangeRead.html#associatedtype.InnerRead' class="type">InnerRead</a> = <a class="struct" href="../../../hyper/client/response/struct.Response.html" title="struct hyper::client::response::Response">Response</a></code></span></h4>
+<h4 id='method.read_range' class="method"><span id='read_range.v' class='invisible'><code>fn <a href='../../../tectonic/io/itarbundle/trait.RangeRead.html#tymethod.read_range' class='fnname'>read_range</a>(&amp;mut self, offset: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>, length: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="type" href="../../../tectonic/errors/type.Result.html" title="type tectonic::errors::Result">Result</a>&lt;<a class="struct" href="../../../hyper/client/response/struct.Response.html" title="struct hyper::client::response::Response">Response</a>&gt;</code></span></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

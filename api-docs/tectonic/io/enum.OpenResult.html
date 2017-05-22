@@ -9,6 +9,7 @@
 
     <title>tectonic::io::OpenResult - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc enum">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,18 +43,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content enum">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>tectonic</a>::<wbr><a href='index.html'>io</a>::<wbr><a class='enum' href=''>OpenResult</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>tectonic</a>::<wbr><a href='index.html'>io</a>::<wbr><a class="enum" href=''>OpenResult</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#242-246' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/tectonic/io/mod.rs.html#256-260' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum OpenResult&lt;T&gt; {
     Ok(T),
     NotAvailable,
-    Err(<a class='struct' href='../../tectonic/errors/struct.Error.html' title='tectonic::errors::Error'>Error</a>),
+    Err(<a class="struct" href="../../tectonic/errors/struct.Error.html" title="struct tectonic::errors::Error">Error</a>),
 }</pre><h2 class='variants'>Variants</h2>
-<span id='variant.Ok' class='variant'><span id='Ok.v' class='invisible'><code>Ok(T)</code></span></span><span id='variant.NotAvailable' class='variant'><span id='NotAvailable.v' class='invisible'><code>NotAvailable</code></span></span><span id='variant.Err' class='variant'><span id='Err.v' class='invisible'><code>Err(<a class='struct' href='../../tectonic/errors/struct.Error.html' title='tectonic::errors::Error'>Error</a>)</code></span></span></section>
+<span id='variant.Ok' class='variant'><span id='Ok.v' class='invisible'><code>Ok(T)</code></span></span><span id='variant.NotAvailable' class='variant'><span id='NotAvailable.v' class='invisible'><code>NotAvailable</code></span></span><span id='variant.Err' class='variant'><span id='Err.v' class='invisible'><code>Err(<a class="struct" href="../../tectonic/errors/struct.Error.html" title="struct tectonic::errors::Error">Error</a>)</code></span></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class="enum" href="../../tectonic/io/enum.OpenResult.html" title="enum tectonic::io::OpenResult">OpenResult</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/tectonic/io/mod.rs.html#263-279' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.unwrap' class="method"><span id='unwrap.v' class='invisible'><code>fn <a href='#method.unwrap' class='fnname'>unwrap</a>(self) -&gt; T</code></span></h4>
+<h4 id='method.is_not_available' class="method"><span id='is_not_available.v' class='invisible'><code>fn <a href='#method.is_not_available' class='fnname'>is_not_available</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns true if this result is of the NotAvailable variant.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../tectonic/io/enum.OpenResult.html" title="enum tectonic::io::OpenResult">OpenResult</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/tectonic/io/mod.rs.html#255' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
