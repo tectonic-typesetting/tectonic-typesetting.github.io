@@ -47,7 +47,6 @@ Building Tectonic requires:
   - harfbuzz
   - ICU
   - libpng
-  - poppler
   - zlib
 - On Linux only:
   - fontconfig

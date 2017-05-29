@@ -14,6 +14,12 @@ recommended installation method is based on
 [Continuum Analytics](https://www.continuum.io/)’ Anaconda Python framework,
 even though nothing in Tectonic uses Python.
 
+<p class="bs-callout bs-callout-warning">Suggestions for alternate
+installation methods are welcomed! We are happy to provide other installers
+but are not sure what the community needs. Please express your preferences at
+<a href="https://github.com/tectonic-typesetting/tectonic/issues/4">GitHub
+issue #4</a>.</p>
+
 
 ## If you already have Anaconda Python installed:
 
