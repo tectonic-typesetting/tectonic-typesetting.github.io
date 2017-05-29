@@ -48,8 +48,15 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/tectonic/engines/mod.rs.html#5-350' title='goto source code'>[src]</a></span></h1>
-<h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+               </span><a class='srclink' href='../../src/tectonic/engines/mod.rs.html#5-758' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>The Engines module provides access to the various processing backends used
+by Tectonic: bibtex, TeX, and xdvipdfmx. The API for each of these is defined
+in a sub-module with the corresponding name.</p>
+
+<p>Due to the way Rust&#39;s visibility rules work, this module contains a
+substantial private API that defines the interface between Tectonic&#39;s Rust
+code and the C/C++ code that the backends are (currently) implemented in.</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use self::<a class="mod"
                                            href="./tex/index.html">tex</a>::<a class="struct" href="../../tectonic/engines/tex/struct.TexEngine.html" title="struct tectonic::engines::tex::TexEngine">TexEngine</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
                                            href="./xdvipdfmx/index.html">xdvipdfmx</a>::<a class="struct" href="../../tectonic/engines/xdvipdfmx/struct.XdvipdfmxEngine.html" title="struct tectonic::engines::xdvipdfmx::XdvipdfmxEngine">XdvipdfmxEngine</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
@@ -58,27 +65,6 @@
                        <tr class=' module-item'>
                            <td><a class="mod" href="bibtex/index.html"
                                   title='mod tectonic::engines::bibtex'>bibtex</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="mod" href="io_api/index.html"
-                                  title='mod tectonic::engines::io_api'>io_api</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="mod" href="kpse_api/index.html"
-                                  title='mod tectonic::engines::kpse_api'>kpse_api</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="mod" href="md5_api/index.html"
-                                  title='mod tectonic::engines::md5_api'>md5_api</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

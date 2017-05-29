@@ -279,6 +279,37 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
 </pre><pre class="rust ">
 <span class="comment">// src/io/itarbundle.rs -- I/O on files in an indexed tar file &quot;bundle&quot;</span>
 <span class="comment">// Copyright 2017 the Tectonic Project</span>
@@ -295,9 +326,12 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">OsStr</span>, <span class="ident">OsString</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufRead</span>, <span class="ident">BufReader</span>, <span class="ident">Cursor</span>, <span class="ident">Read</span>};
 
-<span class="kw">use</span> <span class="ident">errors</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">ResultExt</span>};
+<span class="kw">use</span> <span class="ident">errors</span>::{<span class="ident">Error</span>, <span class="ident">ErrorKind</span>, <span class="prelude-ty">Result</span>, <span class="ident">ResultExt</span>};
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">InputHandle</span>, <span class="ident">InputOrigin</span>, <span class="ident">IoProvider</span>, <span class="ident">OpenResult</span>};
 <span class="kw">use</span> <span class="ident">status</span>::<span class="ident">StatusBackend</span>;
+
+
+<span class="kw">const</span> <span class="ident">MAX_HTTP_ATTEMPTS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
 
 
 <span class="comment">// A simple way to read chunks out of a big seekable byte stream. You could</span>
@@ -428,21 +462,49 @@
         <span class="comment">// lifetime-related issues. So for now we just slurp the whole thing</span>
         <span class="comment">// into RAM.</span>
 
-        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">index</span>.<span class="ident">get</span> (<span class="ident">name</span>) {
+        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">index</span>.<span class="ident">get</span>(<span class="ident">name</span>) {
             <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=&gt;</span> <span class="ident">i</span>,
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="ident">NotAvailable</span>,
         };
 
         <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">report_fetch</span>(<span class="ident">name</span>, <span class="ident">status</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>().<span class="ident">read_range</span>(<span class="ident">info</span>.<span class="ident">offset</span>, <span class="ident">info</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>())
-        };
+        <span class="comment">// When fetching a bunch of resource files (i.e., on the first</span>
+        <span class="comment">// invocation), bintray will sometimes drop connections. The error</span>
+        <span class="comment">// manifests itself in a way that has a not-so-nice user experience.</span>
+        <span class="comment">// Our solution: retry the HTTP a few times in case it was a transient</span>
+        <span class="comment">// problem.</span>
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">info</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>);
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>) {
-            <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">overall_failed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">any_failed</span> <span class="op">=</span> <span class="bool-val">false</span>;
+
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">MAX_HTTP_ATTEMPTS</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>().<span class="ident">read_range</span>(<span class="ident">info</span>.<span class="ident">offset</span>, <span class="ident">info</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                    <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="string">&quot;failure requesting \&quot;{}\&quot; from network&quot;</span>, <span class="ident">name</span>.<span class="ident">to_string_lossy</span>(); <span class="ident">e</span>.<span class="ident">into</span>());
+                    <span class="ident">any_failed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                    <span class="kw">continue</span>;
+                },
+            };
+
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>) {
+                <span class="macro">tt_warning</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="string">&quot;failure downloading \&quot;{}\&quot; from network&quot;</span>, <span class="ident">name</span>.<span class="ident">to_string_lossy</span>(); <span class="ident">e</span>.<span class="ident">into</span>());
+                <span class="ident">any_failed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                <span class="kw">continue</span>;
+            }
+
+            <span class="ident">overall_failed</span> <span class="op">=</span> <span class="bool-val">false</span>;
+            <span class="kw">break</span>;
+        }
+
+        <span class="kw">if</span> <span class="ident">overall_failed</span> {
+            <span class="comment">// Note: can&#39;t save &amp; reuse the hyper errors since they&#39;re not cloneable</span>
+            <span class="kw">return</span> <span class="ident">OpenResult</span>::<span class="prelude-val">Err</span>(<span class="ident">ErrorKind</span>::<span class="ident">Msg</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;failed to retrieve \&quot;{}\&quot; from the network&quot;</span>,
+                                                          <span class="ident">name</span>.<span class="ident">to_string_lossy</span>())).<span class="ident">into</span>());
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">any_failed</span> {
+            <span class="macro">tt_note</span><span class="macro">!</span>(<span class="ident">status</span>, <span class="string">&quot;download succeeded after retry&quot;</span>);
         }
 
         <span class="ident">OpenResult</span>::<span class="prelude-val">Ok</span>(<span class="ident">InputHandle</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">buf</span>), <span class="ident">InputOrigin</span>::<span class="ident">Other</span>))

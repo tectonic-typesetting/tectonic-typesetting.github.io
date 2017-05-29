@@ -1,12 +1,10 @@
 (function() {var implementors = {};
 implementors["antidote"] = [];
-implementors["cpp_demangle"] = [];
 implementors["error_chain"] = [];
 implementors["flate2"] = [];
 implementors["hyper"] = [];
 implementors["libc"] = [];
 implementors["openssl"] = [];
-implementors["rand"] = [];
 implementors["serde"] = [];
 implementors["syn"] = [];
 implementors["tectonic"] = [];

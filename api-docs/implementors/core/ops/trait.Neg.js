@@ -1,6 +1,5 @@
 (function() {var implementors = {};
 implementors["antidote"] = [];
-implementors["cpp_demangle"] = [];
 implementors["error_chain"] = [];
 implementors["flate2"] = [];
 implementors["hyper"] = ["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html\" title=\"trait core::ops::Neg\">Neg</a> for <a class=\"struct\" href=\"time/duration/struct.Duration.html\" title=\"struct time::duration::Duration\">Duration</a>",];
