@@ -36,9 +36,27 @@ In fact, just one. For now!
 
 ## Arch Linux:
 
-There is a `tectonic` package on
-[AUR](https://aur.archlinux.org/packages/tectonic/). **TODO**: we should add
-some terse installation instructions.
+There is a `tectonic` package in the
+[AUR](https://aur.archlinux.org/packages/tectonic/).
+Follow
+[The instructions on the Arch Wiki](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages)
+to download and install it.
+
+First, make sure you have the
+[prerequisites](https://wiki.archlinux.org/index.php/Arch_User_Repository#Prerequisites)
+installed.
+Download the build files using
+```
+git clone https://aur.archlinux.org/tectonic.git
+```
+It is good practice to carefully check the `PKGBUILD`
+and any `.install` files for malicious commands.
+Then install the package and any dependencies
+by running `makepkg` in the package directory
+```
+cd tectonic
+makepkg -si
+```
 
 <p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
 
