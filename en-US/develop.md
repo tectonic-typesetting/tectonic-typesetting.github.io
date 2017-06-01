@@ -22,6 +22,12 @@ includes
 [its issue tracker](https://www.github.com/tectonic-typesetting/tectonic/issues/)
 through which you can report bugs and suggest enhancements.
 
+An important part of this open development process is Tectonic’s
+[Code of Conduct](https://github.com/tectonic-typesetting/tectonic/blob/master/CODE_OF_CONDUCT.md).
+In summary, it says that you should not act like a jerk. Good-faith efforts to
+follow the letter and spirit of the Code of Conduct are *required* of all
+Tectonic community members.
+
 The [API documentation](../api-docs/tectonic/) for Tectonic’s Rust frontend is
 available at this website.
 
