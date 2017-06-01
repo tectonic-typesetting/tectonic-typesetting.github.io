@@ -36,8 +36,8 @@ In fact, just one. For now!
 
 ## Arch Linux:
 
-There is a `tectonic` package in the 
-[AUR](https://aur.archlinux.org/packages/tectonic/). 
+There is a `tectonic` package in the
+[AUR](https://aur.archlinux.org/packages/tectonic/).
 Follow
 [The instructions on the Arch Wiki](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages)
 to download and install it.
