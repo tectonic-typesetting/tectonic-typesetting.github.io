@@ -38,21 +38,21 @@ Building Tectonic requires:
   through [rustup.rs](https://www.rustup.rs).
 - C and C++ compilers.
 - [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/).
-- For the time being, the following system libraries. On Macs these can all be
-  installed with [Homebrew](http://brew.sh), but `harfbuzz` needs to have the
-  `--with-graphite2` option enabled. On Linux machines they should be
-  installable with your system package manager.
-  - freetype2
-  - graphite2
-  - harfbuzz
-  - ICU
-  - libpng
-  - zlib
-- On Linux only:
-  - fontconfig
+- The following system libraries, which can be installed through whichever means are
+  standard for your OS:
+  - [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/) (Linux only)
+  - [freetype2](https://www.freetype.org/)
+  - [harfbuzz](https://www.freedesktop.org/wiki/Software/HarfBuzz/)
+  - [graphite2](http://graphite.sil.org/)
+  - [libpng](http://www.libpng.org/)
+  - [ICU](http://site.icu-project.org/)
+  - [zlib](https://www.zlib.net/)
 
-Once you have these, you should be able to build the executable just by
-running `cargo build` in the usual way.
+To build your own version of Tectonic, clone the repository to your local
+machine, then follow
+[the `cargo install` method for installing](install.html#the-cargo-install-method),
+but use the command `cargo build` instead of `cargo install`, running it from
+the cloned repository directory.
 
 
 ## Testing Your Build

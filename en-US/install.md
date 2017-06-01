@@ -5,21 +5,138 @@ title: Installation — The Tectonic Project
 
 # Installing Tectonic
 
-We distribute Tectonic for both Linux and MacOS machines. Installation
-requires that you be comfortable with using a terminal. So does using Tectonic
-itself, for that matter.
+There are several options for installing Tectonic. The best choice depends on
+your computing environment.
 
-Because Tectonic relies on a somewhat broad set of support libraries, the
-recommended installation method is based on
+- [Pre-built binary packages](#pre-built-binary-packages)
+  - Only supported for Arch Linux at the moment
+- [The `cargo install` method](#the-cargo-install-method)
+  - Easiest if you already have C++ and Rust development tools installed
+  - Currently the only method available for Windows users
+- [The Anaconda method](#the-anaconda-method)
+  - Reliable and cross-platform
+
+If unsure, try [the Anaconda method](#the-anaconda-method). It involves a few
+steps in the command line and a few downloads, but it is straightforward and
+reliable.
+
+<p class="bs-callout bs-callout-warning">Suggestions for additional
+installation methods are welcomed! We are happy to provide other installers
+but are not sure what the community needs. Please express your preferences <a
+href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/1">on
+GitHub</a>.</p>
+
+<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
+
+
+# Pre-built binary packages
+
+These are specific to your operating system. We only provide a few right now.
+In fact, just one. For now!
+
+## Arch Linux:
+
+There is a `tectonic` package on
+[AUR](https://aur.archlinux.org/packages/tectonic/). **TODO**: we should add
+some terse installation instructions.
+
+<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
+
+
+# The `cargo install` method
+
+If your system has C++ and Rust compilers installed, you can install Tectonic
+using Rust’s packaging tool, [cargo](http://doc.crates.io/index.html).
+Tectonic currently requires various system support libraries to be installed,
+so you must do some setup before attempting the installation. The various
+steps are broken out by operating system below.
+
+## Debian and Ubuntu Linux:
+
+Ensure that the requisite packages are installed with the following command:
+
+```
+sudo apt-get install libfontconfig1-dev libharfbuzz-dev zlib1g-dev
+```
+
+Once that is done, the following should be sufficient to download and install
+the latest Tectonic release:
+
+```
+cargo install tectonic
+```
+
+You can then run Tectonic with:
+
+```
+cargo run tectonic
+```
+
+## RHEL, CentOS, or Fedora Linux:
+
+Ensure that the requisite packages are installed with the following command:
+
+```
+sudo dnf install fontconfig-devel harfbuzz-devel libicu-devel openssl-devel zlib-devel
+```
+
+Once that is done, the following should be sufficient to download and install
+the latest Tectonic release:
+
+```
+cargo install tectonic
+```
+
+You can then run Tectonic with:
+
+```
+cargo run tectonic
+```
+
+## MacOS / OS X with Homebrew:
+
+The recommended way to install the required dependencies is with
+[Homebrew](http://brew.sh). The following commands will install the required
+libraries; please note that an unusual argument is needed for `harfbuzz`:
+
+```
+brew install freetype graphite2 icu4c libpng openssl pkg-config
+brew install harfbuzz --with-graphite2
+```
+
+The `cargo` invocation is then as normal, but requires some auxiliary
+environment variables as well:
+
+```
+export DEP_OPENSSL_INCLUDE=$(brew --prefix openssl)/include
+export PKG_CONFIG_PATH=/usr/local/opt/icu4c/lib/pkgconfig
+cargo install tectonic
+```
+
+You can then run Tectonic with:
+
+```
+cargo run tectonic
+```
+
+## Windows:
+
+It *may* be possible to install Tectonic using the Ubuntu Linux instructions
+above if you have enabled the *Windows Subsystem for Linux*. Please
+[file a GitHub issue on this website](https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues)
+with instructions or a correction if you attempt this!
+
+<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
+
+
+# The Anaconda method
+
+If the other installation methods do not or cannot work for you, another
+reliable installation method is based on
 [Continuum Analytics](https://www.continuum.io/)’ Anaconda Python framework,
 even though nothing in Tectonic uses Python.
 
-<p class="bs-callout bs-callout-warning">Suggestions for alternate
-installation methods are welcomed! We are happy to provide other installers
-but are not sure what the community needs. Please express your preferences at
-<a href="https://github.com/tectonic-typesetting/tectonic/issues/4">GitHub
-issue #4</a>.</p>
-
+This method works for Linux and MacOS computers.
 
 ## If you already have Anaconda Python installed:
 
@@ -47,7 +164,6 @@ conda config --add channels pkgw-forge
 conda install tectonic
 tectonic --help # test that the program works
 ```
-
 
 ## If you need to install both Tectonic and Anaconda Python:
 
