@@ -65,6 +65,8 @@ makepkg -si
 
 If your system has C++ and Rust compilers installed, you can install Tectonic
 using Rust’s packaging tool, [cargo](http://doc.crates.io/index.html).
+Make sure that Rust's `bin` folder (`$HOME/.cargo/bin` by default) is in
+your `$PATH`.
 Tectonic currently requires various system support libraries to be installed,
 so you must do some setup before attempting the installation. The various
 steps are broken out by operating system below.
@@ -87,7 +89,7 @@ cargo install tectonic
 You can then run Tectonic with:
 
 ```
-cargo run tectonic
+tectonic
 ```
 
 ## RHEL, CentOS, or Fedora Linux:
@@ -108,7 +110,7 @@ cargo install tectonic
 You can then run Tectonic with:
 
 ```
-cargo run tectonic
+tectonic
 ```
 
 ## MacOS / OS X with Homebrew:
@@ -134,7 +136,7 @@ cargo install tectonic
 You can then run Tectonic with:
 
 ```
-cargo run tectonic
+tectonic
 ```
 
 ## Windows:
