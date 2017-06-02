@@ -106,10 +106,12 @@ hr {
 
 /* "basic.html" layout stuff */
 
-.content h1.title {
+h1.title {
   font-size: 2.5em;
   line-height: 1.5em;
-  margin-top: 0em;
+  border-top: 2px solid #dedede;
+  margin-top: 0.8em;
+  padding-top: 0.8em;
   margin-bottom: 1rem;
   font-weight: 400;
   position: relative;
@@ -117,10 +119,7 @@ hr {
 
 
 .content {
-  border-top: 2px solid #dedede;
-  margin-top: 2em;
   margin-bottom: 8em;
-  padding-top: 2em;
 }
 
 .content p,
