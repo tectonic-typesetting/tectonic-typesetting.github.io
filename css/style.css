@@ -106,6 +106,16 @@ hr {
 
 /* "basic.html" layout stuff */
 
+.content h1.title {
+  font-size: 2.5em;
+  line-height: 1.5em;
+  margin-top: 0em;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  position: relative;
+}
+
+
 .content {
   border-top: 2px solid #dedede;
   margin-top: 2em;
@@ -124,7 +134,7 @@ hr {
 .content h1 {
   font-size: 2.5em;
   line-height: 1.5em;
-  margin-top: 0;
+  margin-top: 2.85em;
   margin-bottom: 1rem;
   font-weight: 400;
   position: relative;

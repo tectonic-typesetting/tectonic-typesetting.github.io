@@ -1,9 +1,7 @@
 ---
 layout: default
-title: Installation — The Tectonic Project
+title: Installing Tectonic
 ---
-
-# Installing Tectonic
 
 There are several options for installing Tectonic. The best choice depends on
 your computing environment.
@@ -25,9 +23,6 @@ installation methods are welcomed! We are happy to provide other installers
 but are not sure what the community needs. Please express your preferences <a
 href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/1">on
 GitHub</a>.</p>
-
-<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
-
 
 # Pre-built binary packages
 
@@ -57,9 +52,6 @@ by running `makepkg` in the package directory
 cd tectonic
 makepkg -si
 ```
-
-<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
-
 
 # The `cargo install` method
 
@@ -145,9 +137,6 @@ It *may* be possible to install Tectonic using the Ubuntu Linux instructions
 above if you have enabled the *Windows Subsystem for Linux*. Please
 [file a GitHub issue on this website](https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues)
 with instructions or a correction if you attempt this!
-
-<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p> <!-- sigh -->
-
 
 # The Anaconda method
 
