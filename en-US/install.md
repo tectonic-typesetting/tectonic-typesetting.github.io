@@ -120,7 +120,7 @@ The recommended way to install the required dependencies is with
 libraries; please note that an unusual argument is needed for `harfbuzz`:
 
 ```
-brew install freetype graphite2 icu4c libpng openssl pkg-config
+brew install freetype graphite2 icu4c libpng openssl pkg-config zlib
 brew install harfbuzz --with-graphite2
 ```
 
