@@ -1,9 +1,7 @@
 ---
 layout: default
-title: For Developers — The Tectonic Project
+title: Developing Tectonic
 ---
-
-# Developing Tectonic
 
 Due to its historical baggage, Tectonic is written in a combination of C, C++,
 and [Rust](https://www.rust-lang.org/). The aim is to eventually transition it
