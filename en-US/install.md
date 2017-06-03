@@ -24,6 +24,12 @@ but are not sure what the community needs. Please express your preferences <a
 href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/1">on
 GitHub</a>.</p>
 
+<p class="bs-callout bs-callout-warning">If any of these instructions don’t
+work for you or can be clarified, please <a
+href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/">file
+an issue</a> on GitHub.</p>
+
+
 # Pre-built binary packages
 
 These are specific to your operating system. We only provide a few right now.
