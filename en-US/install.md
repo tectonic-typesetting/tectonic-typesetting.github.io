@@ -10,7 +10,6 @@ your computing environment.
   - Only supported for Arch Linux at the moment
 - [The `cargo install` method](#the-cargo-install-method)
   - Easiest if you already have C++ and Rust development tools installed
-  - Currently the only method available for Windows users
 - [The Anaconda method](#the-anaconda-method)
   - Reliable and cross-platform
 
@@ -28,6 +27,13 @@ GitHub</a>.</p>
 work for you or can be clarified, please <a
 href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/">file
 an issue</a> on GitHub.</p>
+
+
+# Installing Tectonic on Windows
+
+Tectonic does not yet support Windows, though work is underway to rectify this.
+In the mean time, if you install the Windows Subsystem for Linux, you get a
+complete Ubuntu installation, and the instructions for Ubuntu work.
 
 
 # Pre-built binary packages
@@ -136,13 +142,6 @@ You can then run Tectonic with:
 ```
 tectonic
 ```
-
-## Windows:
-
-It *may* be possible to install Tectonic using the Ubuntu Linux instructions
-above if you have enabled the *Windows Subsystem for Linux*. Please
-[file a GitHub issue on this website](https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues)
-with instructions or a correction if you attempt this!
 
 # The Anaconda method
 
