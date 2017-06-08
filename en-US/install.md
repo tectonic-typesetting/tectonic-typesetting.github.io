@@ -74,7 +74,7 @@ steps are broken out by operating system below.
 Ensure that the requisite packages are installed with the following command:
 
 ```
-sudo apt-get install libfontconfig1-dev libgraphite2-dev libharfbuzz-dev zlib1g-dev
+sudo apt-get install libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev zlib1g-dev
 ```
 
 Once that is done, the following should be sufficient to download and install
