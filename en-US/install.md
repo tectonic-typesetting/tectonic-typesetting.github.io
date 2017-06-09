@@ -175,6 +175,7 @@ installation, run these commands:
 
 ```
 conda config --add channels pkgw-forge
+conda update --all
 conda install tectonic
 tectonic --help # test that the program works
 ```
