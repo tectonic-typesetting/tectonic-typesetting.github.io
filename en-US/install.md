@@ -101,7 +101,7 @@ tectonic
 Ensure that the requisite packages are installed with the following command:
 
 ```
-sudo dnf install fontconfig-devel harfbuzz-devel libicu-devel openssl-devel zlib-devel
+sudo dnf install fontconfig-devel graphite2-devel harfbuzz-devel libicu-devel openssl-devel zlib-devel
 ```
 
 Once that is done, the following should be sufficient to download and install
