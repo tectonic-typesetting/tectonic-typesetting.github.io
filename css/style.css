@@ -104,6 +104,11 @@ hr {
   background-color: #fcf8e3;
 }
 
+.bs-callout-info {
+  background-color: #f0f7fd;
+  border-color: #d0e3f0;
+}
+
 /* "basic.html" layout stuff */
 
 h1.title {
