@@ -17,16 +17,15 @@ If unsure, try [the Anaconda method](#the-anaconda-method). It involves a few
 steps in the command line and a few downloads, but it is straightforward and
 reliable.
 
-<p class="bs-callout bs-callout-warning">Suggestions for additional
-installation methods are welcomed! We are happy to provide other installers
-but are not sure what the community needs. Please express your preferences <a
-href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/1">on
-GitHub</a>.</p>
+<p class="bs-callout bs-callout-warning">We’re actively working to provide
+additional methods to install Tectonic! If there’s a new method that you would
+like to see or can help provide, please mention it on <a
+href="https://tectonic.newton.cx/">the forums</a>.</p>
 
 <p class="bs-callout bs-callout-warning">If any of these instructions don’t
 work for you or can be clarified, please <a
 href="https://github.com/tectonic-typesetting/tectonic-typesetting.github.io/issues/">file
-an issue</a> on GitHub.</p>
+an issue</a> on this website’s GitHub issue tracker.</p>
 
 
 # Installing Tectonic on Windows
