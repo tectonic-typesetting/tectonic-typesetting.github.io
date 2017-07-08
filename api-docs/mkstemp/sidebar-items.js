@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["TempFile","Temporary file"]]});
