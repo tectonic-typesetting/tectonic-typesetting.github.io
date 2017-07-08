@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Tectonic Project</title>
+    <script type="text/javascript">
+      // This is all cribbed from www.rust-lang.org.
+      var languages = {
+        "en": "en-US",
+        "en-US": "en-US",
+      };
+      var code = window.navigator.language || window.navigator.userLanguage || "en";
+      var language = languages[code];
+      if (!language) { language = "en-US"; }
+      document.location = "/" + language + '/contribute.html';
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=/en-US/contribute.html">
+    </noscript>
+  </head>
+  <body>
+    <p><a href="/en-US/contribute.html">Click here</a> to be redirected.</p>
+  </body>
+</html>
