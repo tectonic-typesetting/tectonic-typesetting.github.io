@@ -7,7 +7,7 @@ There are several options for installing Tectonic. The best choice depends on
 your computing environment.
 
 - [Pre-built binary packages](#pre-built-binary-packages)
-  - Currently available for Arch Linux and Homebrew on MacOS/OS X
+  - Currently available for Arch Linux and Homebrew on macOS/OS X
 - [The `cargo install` method](#the-cargo-install-method)
   - Easiest if you already have C++ and Rust development tools installed
 - [The Anaconda method](#the-anaconda-method)
@@ -63,7 +63,7 @@ cd tectonic
 makepkg -si
 ```
 
-## Homebrew on MacOS/OS X
+## Homebrew on macOS/OS X
 
 There is a `tectonic` package in [Homebrew](https://brew.sh/). If you already
 have Homebrew installed, installing Tectonic should be as simple as:
@@ -125,15 +125,21 @@ You can then run Tectonic with:
 tectonic
 ```
 
-## MacOS / OS X with Homebrew:
+## macOS / OS X with Homebrew:
 
 The recommended way to install the required dependencies is with
 [Homebrew](http://brew.sh). The following commands will install the required
-libraries; please note that an unusual argument is needed for `harfbuzz`:
+formulae:
 
 ```
-brew install freetype graphite2 icu4c libpng openssl pkg-config zlib
-brew install harfbuzz --with-graphite2
+brew install --only-dependencies tectonic
+brew install pkg-config
+```
+
+If you're not using `rustup` you should also
+
+```
+brew install rust
 ```
 
 The `cargo` invocation is then as normal, but requires some auxiliary
@@ -143,6 +149,12 @@ environment variables as well:
 export DEP_OPENSSL_INCLUDE=$(brew --prefix openssl)/include
 export PKG_CONFIG_PATH=/usr/local/opt/icu4c/lib/pkgconfig
 cargo install tectonic
+```
+
+Alternatively, you can build tectonic from source by running
+
+```
+brew install --build-from-source tectonic
 ```
 
 You can then run Tectonic with:
@@ -158,7 +170,7 @@ reliable installation method is based on
 [Continuum Analytics](https://www.continuum.io/)’ Anaconda Python framework,
 even though nothing in Tectonic uses Python.
 
-This method works for Linux and MacOS computers.
+This method works for Linux and macOS computers.
 
 ## If you already have Anaconda Python installed:
 
