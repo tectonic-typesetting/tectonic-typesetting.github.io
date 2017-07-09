@@ -7,7 +7,7 @@ There are several options for installing Tectonic. The best choice depends on
 your computing environment.
 
 - [Pre-built binary packages](#pre-built-binary-packages)
-  - Only supported for Arch Linux at the moment
+  - Currently available for Arch Linux and Homebrew on MacOS/OS X
 - [The `cargo install` method](#the-cargo-install-method)
   - Easiest if you already have C++ and Rust development tools installed
 - [The Anaconda method](#the-anaconda-method)
@@ -38,7 +38,6 @@ complete Ubuntu installation, and the instructions for Ubuntu work.
 # Pre-built binary packages
 
 These are specific to your operating system. We only provide a few right now.
-In fact, just one. For now!
 
 ## Arch Linux:
 
@@ -63,6 +62,16 @@ by running `makepkg` in the package directory
 cd tectonic
 makepkg -si
 ```
+
+## Homebrew on MacOS/OS X
+
+There is a `tectonic` package in [Homebrew](https://brew.sh/). If you already
+have Homebrew installed, installing Tectonic should be as simple as:
+
+```
+brew install tectonic
+```
+
 
 # The `cargo install` method
 
