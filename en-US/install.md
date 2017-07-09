@@ -129,11 +129,17 @@ tectonic
 
 The recommended way to install the required dependencies is with
 [Homebrew](http://brew.sh). The following commands will install the required
-libraries; please note that an unusual argument is needed for `harfbuzz`:
+formulae:
 
 ```
-brew install freetype graphite2 icu4c libpng openssl pkg-config zlib
-brew install harfbuzz --with-graphite2
+brew install --only-dependencies tectonic
+brew install pkg-config
+```
+
+If you're not using `rustup` you should also
+
+```
+brew install rust
 ```
 
 The `cargo` invocation is then as normal, but requires some auxiliary
@@ -143,6 +149,12 @@ environment variables as well:
 export DEP_OPENSSL_INCLUDE=$(brew --prefix openssl)/include
 export PKG_CONFIG_PATH=/usr/local/opt/icu4c/lib/pkgconfig
 cargo install tectonic
+```
+
+Alternatively, you can build tectonic from source by running
+
+```
+brew install --build-from-source tectonic
 ```
 
 You can then run Tectonic with:
