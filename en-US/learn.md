@@ -50,19 +50,19 @@ TeX is a full-fledged computer programming language. You can write documents
 without knowing its details, but you can achieve some very powerful effects if
 you learn them.
 
-The canonical reference is
-[The TeXBook](https://www.amazon.com/TeXbook-Donald-Knuth/dp/0201134489),
-written by the creator of TeX himself, Donald Knuth. You don’t have to buy a
-hard copy: the book is, of course, written in TeX, so it can be
-[obtained in PDF file format](http://www.ctex.org/documents/shredder/src/texbook.pdf)
-as well. Please be warned, though, that various parts of The TeXBook *are not
+The canonical reference is *The TeXbook*, written by the creator of TeX
+himself, Donald Knuth. You can find it
+[on Amazon](https://www.amazon.com/TeXbook-Donald-Knuth/dp/0201134489) and
+probably at
+[your local library](https://www.worldcat.org/title/texbook-describes-tex-version-30/oclc/826569026&referer=brief_results)
+too. Please be warned, though, that various parts of The TeXbook *are not
 applicable to Tectonic* because it inherits numerous extensions to the
 traditional TeX language provided by
 [e-TeX](https://www.ctan.org/pkg/etex?lang=en),
 [pdftex](https://www.ctan.org/pkg/pdftex?lang=en), and
 [XeTeX](http://xetex.sourceforge.net/).
 
-Also please know that **many people find The TeXBook to be extremely
+Also please know that **many people find The TeXbook to be extremely
 unhelpful**. You can tell that it’s written by a mathematician, that’s for
 sure. Unfortunately, we’re not aware of any alternatives that explain the
 language in any comparable detail.
