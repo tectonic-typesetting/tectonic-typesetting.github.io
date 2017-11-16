@@ -189,12 +189,9 @@ Otherwise, run this command to enable conda-forge in your installation:
 conda config --add channels conda-forge
 ```
 
-The pre-compiled Tectonic installation is distributed through a separate
-“channel” that provides the necessary dependencies. To complete the
-installation, run these commands:
+To complete the installation, run these commands:
 
 ```
-conda config --add channels pkgw-forge
 conda update --all
 conda install tectonic
 tectonic --help # test that the program works
