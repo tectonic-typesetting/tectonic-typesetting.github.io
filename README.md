@@ -10,13 +10,13 @@ Testing Locally
 To install the Ruby tools needed to build the website:
 
 ```
-bundle install
+bundle install --binstubs=_bin
 ```
 
 To run this website as a developer:
 
 ```
-jekyll serve
+_bin/jekyll serve
 ```
 
 This will serve the site at [localhost:4000](http://localhost:4000/).
