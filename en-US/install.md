@@ -7,7 +7,7 @@ There are several options for installing Tectonic. The best choice depends on
 your computing environment.
 
 - [Pre-built binary packages](#pre-built-binary-packages)
-  - Currently available for Arch Linux and Homebrew on macOS/OS X
+  - Currently available for Arch Linux and MacPorts/Homebrew on macOS/OS X
 - [The `cargo install` method](#the-cargo-install-method)
   - Easiest if you already have C++ and Rust development tools installed
 - [The Anaconda method](#the-anaconda-method)
@@ -67,6 +67,15 @@ makepkg -si
 Void Linux has a `tectonic` package in the [void-packages](https://github.com/voidlinux/void-packages/blob/5f56a5b1d872c021ca871c2fa9c5aa7ad20ba343/srcpkgs/tectonic/template) repository. To install it, just run
 ```
 sudo xbps-install -S tectonic
+```
+
+## MacPorts on macOS/OS X
+
+There is a `tectonic` port in [MacPorts](https://www.macports.org/). If you
+already have MacPorts installed, installing Tectonic should be as simple as:
+
+```
+sudo port install tectonic
 ```
 
 ## Homebrew on macOS/OS X
