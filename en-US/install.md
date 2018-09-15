@@ -30,9 +30,9 @@ an issue</a> on this website’s GitHub issue tracker.</p>
 
 # Installing Tectonic on Windows
 
-Tectonic does not yet support Windows, though work is underway to rectify this.
-In the mean time, if you install the Windows Subsystem for Linux, you get a
-complete Ubuntu installation, and the instructions for Ubuntu work.
+The latest release of Tectonic now supports Windows! If you can help with
+providing binary packages to ease installation on this platform, please
+[get in touch](https://tectonic.newton.cx/).
 
 
 # Pre-built binary packages
