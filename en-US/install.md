@@ -7,7 +7,7 @@ There are several options for installing Tectonic. The best choice depends on
 your computing environment.
 
 - [Pre-built binary packages](#pre-built-binary-packages)
-  - Currently available for Arch Linux and MacPorts/Homebrew on macOS/OS X
+  - Currently available for Arch Linux, [nixpkgs, nixOS](https://nixos.org/nixos/packages.html#tectonic) and MacPorts/Homebrew on macOS/OS X
 - [The `cargo install` method](#the-cargo-install-method)
   - Easiest if you already have C++ and Rust development tools installed
 - [The Anaconda method](#the-anaconda-method)
@@ -62,6 +62,22 @@ by running `makepkg` in the package directory
 cd tectonic
 makepkg -si
 ```
+## nix or nixOS
+You can imperatively install `tectonic` by calling `nix-env -iA nixos.tectonic` in your shell.
+You can also do so declaratively in 2 steps:
+1. create a `shell.nix` in some directory:
+```nix
+with import <nixpkgs> {};
+
+pkgs.mkShell {
+  buildInputs = [
+    tectonic
+  ];
+}
+```
+2. invoke `nix-shell`
+
+You should be dropped into a shell and now be able to use `tectonic` successfully.
 ## Void Linux:
 
 Void Linux has a `tectonic` package in the [void-packages](https://github.com/voidlinux/void-packages/blob/5f56a5b1d872c021ca871c2fa9c5aa7ad20ba343/srcpkgs/tectonic/template) repository. To install it, just run
