@@ -64,18 +64,10 @@ makepkg -si
 ```
 ## nix or nixOS
 You can imperatively install `tectonic` by calling `nix-env -iA nixos.tectonic` in your shell.
-You can also do so declaratively in 2 steps:
-1. create a `shell.nix` in some directory:
-```nix
-with import <nixpkgs> {};
-
-pkgs.mkShell {
-  buildInputs = [
-    tectonic
-  ];
-}
+You can also create a temporary environment using [`nix-shell`](https://nixos.org/nix/manual/#sec-nix-shell):
 ```
-2. invoke `nix-shell`
+$ nix-shell '<nixpkgs>' -A tectonic
+```
 
 You should be dropped into a shell and now be able to use `tectonic` successfully.
 ## Void Linux:
