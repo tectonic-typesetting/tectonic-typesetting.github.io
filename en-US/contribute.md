@@ -23,11 +23,11 @@ The TeX/LaTeX ecosystem is powerful but complex, which means that even
 longtime users will run into problems that they can’t solve on their own. The
 [TeX/LaTeX StackExchange](https://tex.stackexchange.com/) site is a great
 resource, but we’ve also set up the
-[Tectonic forum site](https://tectonic.newton.cx/) as a place for dicussions
+[Tectonic forum site](https://tectonic.newton.cx/) as a place for discussions
 that are more specific to Tectonic: release announcements, ideas for new
 features, and of course bugs and problems that might be Tectonic-specific. A
 great way to start getting more involved in the Tectonic community is to
-become an active paricipant on [the forum](https://tectonic.newton.cx/)!
+become an active participant on [the forum](https://tectonic.newton.cx/)!
 
 
 # Working on the Source Code
@@ -45,7 +45,7 @@ with, but it is technically *excellent*. It would have been *massively* more
 challenging implement Tectonic’s web-based bundle functionality in a language
 like C. By porting more and more of Tectonic to Rust, we hope to eventually be
 able to deploy it over more of the target systems that Rust supports, like
-[WebAssembly](http://webassembly.org/).
+[WebAssembly](https://webassembly.org/).
 
 Tectonic is developed in the open
 [on GitHub](https://www.github.com/tectonic-typesetting/tectonic/). This
@@ -65,7 +65,7 @@ Improvements are of course welcome!
 ## Building Tectonic
 
 Being a Rust program, Tectonic is built with that language’s standard
-[cargo](http://doc.crates.io/) tool. However, various additional tools and
+[cargo](https://doc.crates.io/) tool. However, various additional tools and
 libraries are needed due to Tectonic’s aforementioned historical baggage.
 Building Tectonic requires:
 
@@ -79,7 +79,7 @@ Building Tectonic requires:
   - [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/) (Linux only)
   - [freetype2](https://www.freetype.org/)
   - [harfbuzz](https://www.freedesktop.org/wiki/Software/HarfBuzz/)
-  - [graphite2](http://graphite.sil.org/)
+  - [graphite2](https://scripts.sil.org/cms/scripts/page.php?site_id=projects&item_id=graphite_home)
   - [libpng](http://www.libpng.org/)
   - [ICU](http://site.icu-project.org/)
   - [zlib](https://www.zlib.net/)
