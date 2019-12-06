@@ -4,8 +4,14 @@ title: Learn about TeX, LaTeX, and Tectonic
 ---
 
 Tectonic is just one piece of the huge and venerable TeX/LaTeX ecosystem.
-There’s a lot to learn! This website can’t possibly cover it all, but here
-are some topics to get you started.
+There’s a lot to learn!
+
+<p class="bs-callout bs-callout-info">We have begun work on <b><a
+href="/book/">The Tectonic Book</a></b>, which we hope will one day serve as
+the definitive Tectonic manual and reference. It is currently quite sparse —
+requests for content are welcome!</p>
+
+While we work on the book, here are some topics to get you started.
 
 - [Learn how to write LaTeX documents](#how-to-write-latex-documents)
 - [Learn about the TeX programming language](#the-tex-programming-language)
