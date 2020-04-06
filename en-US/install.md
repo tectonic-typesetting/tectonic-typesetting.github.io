@@ -72,7 +72,7 @@ $ nix-shell '<nixpkgs>' -A tectonic
 You should be dropped into a shell and now be able to use `tectonic` successfully.
 ## Void Linux:
 
-Void Linux has a `tectonic` package in the [void-packages](https://github.com/voidlinux/void-packages/blob/5f56a5b1d872c021ca871c2fa9c5aa7ad20ba343/srcpkgs/tectonic/template) repository. To install it, just run
+Void Linux has a `tectonic` package in the [void-packages](https://github.com/void-linux/void-packages/blob/master/srcpkgs/tectonic/template) repository. To install it, just run
 ```
 sudo xbps-install -S tectonic
 ```
