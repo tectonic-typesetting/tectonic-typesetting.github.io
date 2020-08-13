@@ -120,7 +120,7 @@ command.
 
 ```
 TECTONIC_DEP_BACKEND=vcpkg\
-    RUSTFLAGS=-Ctarget-feature=+crt-static\
+    RUSTFLAGS="-Ctarget-feature=+crt-static"\
     cargo build --release
 ```
 
@@ -129,7 +129,7 @@ In Powershell you will need to set the Variables for the whole terminal session
 
 ```
 set TECTONIC_DEP_BACKEND vcpkg
-set RUSTFLAGS=-Ctarget-feature=+crt-static
+set RUSTFLAGS "-Ctarget-feature=+crt-static"
 cargo build --release
 ```
 
