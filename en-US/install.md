@@ -34,6 +34,7 @@ The latest release of Tectonic now supports Windows! If you can help with
 providing binary packages to ease installation on this platform, please
 [get in touch](https://tectonic.newton.cx/).
 
+For building your own Windows binary, see [here]({{site.baseurl }}/en-US/contribute.html#building-under-windows).
 
 # Pre-built binary packages
 

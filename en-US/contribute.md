@@ -90,6 +90,52 @@ machine, then follow
 but use the command `cargo build` instead of `cargo install`, running it from
 the cloned repository directory.
 
+## Building under Windows
+
+Obtaining the required libraries is a bit more cumbersome compared to other
+platforms. the Windows build can use the vcpkg tool to achieve this.
+Installing vcpkg and the Microsoft C++ Build Tools on your
+system is required. For more info see
+[github.com/microsoft/vcpkg](https://github.com/microsoft/vcpkg).  
+Make sure your
+vcpkg install set the Environment Variable `%VCPKG_ROOT%` correctly. If not, see [the
+microsoft
+documentation](https://docs.microsoft.com/en-US/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14))
+for setting your system wide Environment Variables under Windows. In the example
+the `Path` variable is modified, apply this for any variable name you need.
+
+Install the libraries in your preferred terminal application. 
+
+```
+vcpkg install --triplet x64-windows-static\
+    fontconfig\
+    freetype\
+    harfbuzz[icu,graphite2]
+```
+
+And finally build Tectonic.  
+Using a unix-like terminal application under Windows, like the one msys2
+provides, you can simply specify your Environment Variables in front of your
+command.
+
+```
+TECTONIC_DEP_BACKEND=vcpkg\
+    RUSTFLAGS=-Ctarget-feature=+crt-static\
+    cargo build --release
+```
+
+In Powershell you will need to set the Variables for the whole terminal session
+(until the window is closed).
+
+```
+set TECTONIC_DEP_BACKEND vcpkg
+set RUSTFLAGS=-Ctarget-feature=+crt-static
+cargo build --release
+```
+
+ Alternatively use the same method as described for `%VCPKG_ROOT%` to set them system wide.
+ 
+ The produced executable, located in `tectonic\target\release\tectonic.exe`, is statically linked and does not depend and having vcpkg installed.
 
 ## Testing Your Build
 
