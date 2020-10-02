@@ -41,6 +41,7 @@
     font-style: normal;
 }
 
+
 /* General setup */
 
 body {
@@ -85,6 +86,7 @@ hr {
   border-top: 2px solid #dedede;
 }
 
+
 /* more theft from Bootstrap */
 
 .bs-callout {
@@ -109,6 +111,7 @@ hr {
   border-color: #d0e3f0;
 }
 
+
 /* "basic.html" layout stuff */
 
 h1.title {
@@ -127,11 +130,7 @@ h1.title {
   margin-bottom: 8em;
 }
 
-.content p,
-.content ul,
-.content ol,
-.content blockquote,
-.content pre {
+.content p, .content ul, .content ol, .content blockquote, .content pre {
   margin: 0 0 1rem;
 }
 
@@ -213,6 +212,7 @@ footer a {
   display: inline-block;
   font-weight: bold;
 }
+
 
 /* index.html specializations */
 
