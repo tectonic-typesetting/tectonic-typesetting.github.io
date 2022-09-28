@@ -5,7 +5,20 @@ This repository contains the source files for the Tectonic website.
 
 ## Testing Locally
 
-To install the Ruby tools needed to build the website:
+This site is based on a standard [Jekyll] static site system. As of this writing
+(September 2022), Jekyll is [stuck on Ruby 2.7][ref1], while most of the rest of
+the world has moved on to the Ruby 3.x series. You may need to set up and use a
+custom environment with Ruby 2.7 (and C/C++ compilers for building binary gems),
+e.g.:
+
+```
+conda activate ruby27
+```
+
+[Jekyll]: https://jekyllrb.com/
+[ref1]: https://talk.jekyllrb.com/t/error-no-implicit-conversion-of-hash-into-integer/5890/4
+
+Once you’ve dealt with that, run:
 
 ```
 bundle install --binstubs=_bin
