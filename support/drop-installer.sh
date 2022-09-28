@@ -46,6 +46,10 @@ main() {
     ensure downloader "$_url" "$_file" "$_arch"
     ensure tar xzf "$_file"
     ignore rm "$_file"
+
+    echo
+    say "woohoo, the \`tectonic\` program has been unpacked into the current directory!"
+    say "consider moving it to a directory in \$PATH so that it can be run from anywhere"
     return 0
 }
 
