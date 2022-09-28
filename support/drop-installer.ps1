@@ -82,7 +82,7 @@ try {
   # installed (.NET 4.5 is an in-place upgrade).
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
 } catch {
-  Write-Output 'Unable to set PowerShell to use TLS 1.2.'
+  Write-Output "Unable to set PowerShell to use TLS 1.2."
 }
 
 function Get-Downloader {
@@ -158,7 +158,7 @@ $7zaExe = Join-Path $pwd '7za.exe'
 $unzipMethod = '7zip'
 $useWindowsCompression = $env:chocolateyUseWindowsCompression
 if ($useWindowsCompression -ne $null -and $useWindowsCompression -eq 'true') {
-  Write-Output 'tectonic(drop-installer.ps1): using built-in compression to unzip'
+  Write-Output "tectonic(drop-installer.ps1): using built-in compression to unzip"
   $unzipMethod = 'builtin'
 } elseif (-Not (Test-Path ($7zaExe))) {
   Write-Output "tectonic(drop-installer.ps1): downloading 7-Zip commandline tool prior to extraction."
@@ -209,3 +209,7 @@ if ($unzipMethod -eq '7zip') {
 }
 
 Remove-Item "$file"
+
+Write-Output ""
+Write-Output "tectonic(drop-installer.ps1): woohoo, the ``tectonic.exe`` program has been unpacked into the current directory!"
+Write-Output "tectonic(drop-installer.ps1): consider moving it to a directory in `%PATH`% so that it can be run from anywhere"
