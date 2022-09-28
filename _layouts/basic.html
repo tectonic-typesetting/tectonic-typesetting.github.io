@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <!-- Page last generated {{ site.time }} -->
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if page.title%}{{ " — " | prepend: page.title | append: site.name }}{% else %}{{ site.name }}{% endif %}</title>
-    <meta name="keywords" content="Tectonic, Tectonic Typesetting, TeX, LaTeX">
-    <meta name="description" content="A modernized, complete, standalone TeX/LaTeX engine.">
 
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/style.css">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title%}{{ " — " | prepend: page.title | append: site.name }}{% else %}{{ site.name }}{% endif %}
+  </title>
+  <meta name="keywords" content="Tectonic, Tectonic Typesetting, TeX, LaTeX">
+  <meta name="description" content="A modernized, complete, standalone TeX/LaTeX engine.">
 
-  <body class="container">
-    <a href="https://github.com/tectonic-typesetting/tectonic">
-      <img class="ribbon" style="display: none" src="/img/forkme.svg" alt="Fork me on GitHub" width="298" height="298">
-    </a>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
 
-    <header>
-      <ul class="row menu">
-	<li class="col-xs-12 col-md-10 menu">
-	  <h2><a href="/en-US/index.html">Tectonic</a></h2>
-	  <h2><a href="/en-US/install.html">Install</a></h2>
-	  <h2><a href="/en-US/learn.html">Learn</a></h2>
-	  <h2><a href="/en-US/contribute.html">Contribute</a></h2>
-	</li>
-      </ul>
-      <h1 class="title">{{ page.title }}</h1>
-    </header>
+<body class="container">
+  <a href="https://github.com/tectonic-typesetting/tectonic">
+    <img class="ribbon" style="display: none" src="/img/forkme.svg" alt="Fork me on GitHub" width="298" height="298">
+  </a>
 
-    {{ content }}
+  <header>
+    <ul class="row menu">
+      <li class="col-xs-12 col-md-10 menu">
+        <h2><a href="/en-US/index.html">Tectonic</a></h2>
+        <h2><a href="/en-US/install.html">Install</a></h2>
+        <h2><a href="/en-US/learn.html">Learn</a></h2>
+        <h2><a href="/en-US/contribute.html">Contribute</a></h2>
+      </li>
+    </ul>
+    <h1 class="title">{{ page.title }}</h1>
+  </header>
 
-    <footer>
-      <p>Site design cribbed
-        from <a href="https://www.rust-lang.org/">Rust</a>. Copyright 2017–2021 The
-        Tectonic Project.</p>
-    </footer>
-  </body>
+  {{ content }}
+
+  <footer>
+    <p>Site design cribbed
+      from <a href="https://www.rust-lang.org/">Rust</a>. Copyright 2017–2021 The
+      Tectonic Project.</p>
+  </footer>
+</body>
+
 </html>
