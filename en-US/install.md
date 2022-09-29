@@ -8,6 +8,8 @@ stack is that all of Tectonic’s functionality is delivered in a single
 executable file — not the usual tree of thousands of interlocking data files and
 binary tools.
 
+{% include installer-ui.html %}
+
 The Tectonic Book provides [detailed instructions][book-install] for installing
 the Tectonic executable. The short version is:
 
