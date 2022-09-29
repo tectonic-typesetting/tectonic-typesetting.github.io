@@ -16,7 +16,7 @@ title: The Tectonic Typesetting System
     <a class="release-button" href="/book/latest/installation/">
       <div class="release-version">Install Tectonic <span>{{ site.latest }}</span></div>
     </a>
-    <div class="release-date">{{ site.latest_date | date: "%B %-d, %Y" }} • 
+    <div class="release-date">{{ site.latest_date | date: "%B %-d, %Y" }} •
       <a href="https://github.com/tectonic-typesetting/tectonic/blob/release/CHANGELOG.md">Changelog</a>
     </div>
   </div>
@@ -31,13 +31,6 @@ title: The Tectonic Typesetting System
   into <a href="https://en.wikipedia.org/wiki/Portable_Document_Format">PDF</a>
   files.</p>
 
-<p class="bs-callout bs-callout-warning">Tectonic is <b>beta software</b> but
-  has been demonstrated to work well in a variety of real-world situations.
-  <a href="/contribute.html">Contributions</a> in any form — documentation,
-  bug reports, test cases, new features — are most welcome.
-  The <a href="https://tectonic.newton.cx/">user forum</a> is the place to
-  start.</p>
-
 <h1>What’s in it for me?</h1>
 <ul>
   <li>Tectonic <b>automatically downloads support files</b> so you don’t have
@@ -45,11 +38,11 @@ title: The Tectonic Typesetting System
     using a new LaTeX package, Tectonic just pulls down the files it needs and
     continues processing. The underyling “bundle” technology allows
     for <b>completely reproducible document compiles</b>. <i>Thanks
-    to <a href="https://dataverse.org/">the Dataverse Project</a> for hosting
-    the large LaTeX resource files!</i></li>
+      to <a href="https://dataverse.org/">the Dataverse Project</a> for hosting
+      the large LaTeX resource files!</i></li>
   <li>Tectonic has sophisticated logic and <b>automatically loops TeX and
       BibTeX</b> as needed, and only as much as needed. In its default mode
-      it <b>doesn’t write TeX’s intermediate files</b> and <b>always produces
+    it <b>doesn’t write TeX’s intermediate files</b> and <b>always produces
       a fully-processed document</b>.
   <li>The <tt>tectonic</tt> command-line program is <b>quiet and never
       stops to ask for input</b>.</li>
@@ -57,17 +50,19 @@ title: The Tectonic Typesetting System
       fonts</b> and is <b>fully Unicode-enabled</b>.</li>
   <li>The Tectonic engine has been extracted into a <b>completely
       self-contained library</b> so that it can be embedded in other
-      applications.</li>
+    applications.</li>
   <li>Tectonic has been forked from the old-fashioned WEB2C implementation
     of TeX and is <b>developed in the open</b>
     on <a href="https://github.com/tectonic-typesetting/tectonic/">GitHub</a>
     using modern tools like <a href="https://www.rust-lang.org/">the Rust
-    language</a>.</li>
+      language</a>.</li>
   <li>Tectonic can be used from Github Actions to typeset your documents whenever a change to them is made:
-      <ul>
-		<li><a href="https://github.com/marketplace/actions/setup-tectonic">setup-tectonic</a> - Use tectonic in your github action workflows (supports caching and optionally biber)</li>
-		<li><a href="https://github.com/marketplace/actions/compile-latex">compile-latex</a> - <i>Thanks to <a href="https://github.com/vinay0410">Vinay Sharma</a> for creating the action.</i></li>
-	  </ul>
+    <ul>
+      <li><a href="https://github.com/marketplace/actions/setup-tectonic">setup-tectonic</a> - Use tectonic in your
+        github action workflows (supports caching and optionally biber)</li>
+      <li><a href="https://github.com/marketplace/actions/compile-latex">compile-latex</a> - <i>Thanks to <a
+            href="https://github.com/vinay0410">Vinay Sharma</a> for creating the action.</i></li>
+    </ul>
   </li>
 </ul>
 
@@ -94,7 +89,8 @@ title: The Tectonic Typesetting System
   <a href="https://www.tug.org/texlive/">TeXLive</a>,
   <a href="http://xetex.sourceforge.net/">XeTeX</a>,
   and <a href="http://project.ktug.org/dvipdfmx/">(x)dvipdfm-x</a>. We stand
-  on the shoulders of giants!</p>
+  on the shoulders of giants!
+</p>
 
 <p><a href="https://dataverse.org/">The Dataverse Project</a> kindly hosts the
   large bundles of LaTeX resource files that enable Tectonic’s web-download
