@@ -98,7 +98,7 @@ function process_copy_button_click(platform) {
         navigator.clipboard.writeText(command).then(() =>
             document.getElementById(message_id).style.opacity = '1');
 
-        setTimeout(() => document.getElementById(id).style.opacity = '0', 3000);
+        setTimeout(() => document.getElementById(message_id).style.opacity = '0', 3000);
     } catch (e) {
         console.log('Hit a snag when copying to clipboard: ', e);
     }

@@ -3,8 +3,10 @@
     the following command in your terminal:</p>
 
   <div class="iui-copy-container">
+    <pre class="iui-command-style iui-command-caret">$</pre>
+
     <pre id="command-unix"
-      class="iui-command">curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh</pre>
+      class="iui-command-style iui-command">curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh</pre>
 
     <button id="copy-button-unix" class="iui-copy-button" title="Copy curl command to clipboard to install Tectonic"
       type="button">
@@ -22,7 +24,7 @@
   </div>
 
   <p>This will place the <code>tectonic</code> program in the directory where
-    you ran it. And that’s all you need!</p>
+    you ran the command. After that, you’re done!</p>
 </div>
 
 <div id="platform-instructions-win64" class="iui-instructions iui-display-none">
@@ -30,7 +32,9 @@
     to run the following commands in a PowerShell terminal:</p>
 
   <div class="iui-copy-container">
-    <pre id="command-win64" class="iui-command">[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    <pre class="iui-command-style iui-command-caret">&gt;</pre>
+
+    <pre id="command-win64" class="iui-command-style iui-command">[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
 iex ((New-Object System.Net.WebClient).DownloadString('https://drop-ps1.fullyjustified.net'))</pre>
 
     <button id="copy-button-win64" class="iui-copy-button"
@@ -50,7 +54,7 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://drop-ps1.fullyjus
   </div>
 
   <p>This will place the <code>tectonic.exe</code> program in the directory where
-    you ran it. And that’s all you need!</p>
+    you ran the commands. After that, you’re done!</p>
 </div>
 
 <div id="platform-instructions-unknown" class="iui-instructions iui-display-none">

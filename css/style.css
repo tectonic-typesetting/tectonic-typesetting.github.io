@@ -317,31 +317,34 @@ p.pitch {
   margin: 0;
 }
 
-.iui-command::before {
-  color: #999;
-  content: " $ ";
-  margin-left: 15px;
+.iui-command-style {
+  font-size: 13px;
+  text-align: left;
+  background-color: #515151;
+  color: white;
+  height: 60px;
+}
+
+.iui-command-caret {
+  border-right: none;
+
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .iui-command {
   flex: 1;
-
-  background-color: #515151;
-  color: white;
   padding: 1rem 1rem 1rem 0;
-
-  border-radius: 3px 0 0 3px;
-  box-shadow: inset 0px 0px 20px 0px #333333;
-
-  height: 42px;
-
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre;
+  border-left: none;
 }
 
-.content pre.iui-command {
+.content pre.iui-command-style {
   /* Needed to override general content.pre styling */
   margin: 0;
+  border-radius: 0;
 }
 
 div.iui-copy-container {
@@ -353,9 +356,9 @@ div.iui-copy-container {
 #platform-instructions-unix button.iui-copy-button,
 #platform-instructions-win64 button.iui-copy-button,
 #platform-instructions-unknown button.iui-copy-button {
-  height: 42px;
+  height: 60px;
   margin: 0;
-  padding: 0 5px 0 5px;
+  padding: 0 5px 5px 5px;
   border-radius: 0 3px 3px 0;
   border-left-width: 0px;
   border-left-style: solid;
@@ -382,5 +385,5 @@ div.iui-copy-container {
   width: 41px;
   height: 15px;
   position: relative;
-  top: 5px;
+  top: 10px;
 }
