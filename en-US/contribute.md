@@ -22,12 +22,14 @@ Tectonic community members.
 The TeX/LaTeX ecosystem is powerful but complex, which means that even
 longtime users will run into problems that they can’t solve on their own. The
 [TeX/LaTeX StackExchange](https://tex.stackexchange.com/) site is a great
-resource, but we’ve also set up the
-[Tectonic forum site](https://tectonic.newton.cx/) as a place for discussions
+resource, but we’ve also set up a
+[Tectonic discussion forum site][forum] on GitHub as a place for discussions
 that are more specific to Tectonic: release announcements, ideas for new
 features, and of course bugs and problems that might be Tectonic-specific. A
 great way to start getting more involved in the Tectonic community is to
-become an active participant on [the forum](https://tectonic.newton.cx/)!
+become an active participant on [the forum][forum]!
+
+[forum]: https://github.com/tectonic-typesetting/tectonic/discussions/
 
 
 # Working on the Source Code
