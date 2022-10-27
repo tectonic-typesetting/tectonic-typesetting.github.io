@@ -53,6 +53,14 @@ main() {
     return 0
 }
 
+check_proc() {
+    # Check for /proc by looking for the /proc/self/exe link
+    # This is only run on Linux
+    if ! test -L /proc/self/exe ; then
+        err "fatal: Unable to find /proc/self/exe.  Is /proc mounted?  Installation cannot proceed without /proc."
+    fi
+}
+
 get_bitness() {
     need_cmd head
     # Architecture detection without dependencies beyond coreutils.
@@ -121,6 +129,7 @@ get_architecture() {
             ;;
 
         Linux)
+            check_proc
             _ostype=unknown-linux-$_clibtype
             _bitness=$(get_bitness)
             ;;
@@ -141,7 +150,7 @@ get_architecture() {
             _ostype=apple-darwin
             ;;
 
-        MINGW* | MSYS* | CYGWIN*)
+        MINGW* | MSYS* | CYGWIN* | Windows_NT)
             _ostype=pc-windows-gnu
             ;;
 
@@ -182,7 +191,7 @@ get_architecture() {
             fi
             ;;
 
-        aarch64)
+        aarch64 | arm64)
             _cputype=aarch64
             ;;
 
