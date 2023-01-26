@@ -31,20 +31,22 @@ main() {
     downloader --check
     need_cmd uname
     need_cmd rm
-    need_cmd tar
-    need_cmd unzip
+
+    local _ext=".tar.gz"
+    case "$_arch" in
+        *windows*)
+            need_cmd unzip
+            _ext=".zip"
+            ;;
+        *)
+            need_cmd tar
+            ;;
+    esac
 
     get_architecture || return 1
     local _arch="$RETVAL"
     assert_nz "$_arch" "arch"
     say "downloading version ${_version} for architecture ${_arch}"
-
-    local _ext=".tar.gz"
-    case "$_arch" in
-        *windows*)
-            _ext=".zip"
-            ;;
-    esac
 
     local _url="https://github.com/tectonic-typesetting/tectonic/releases/download/"
     _url="${_url}tectonic%40${_version}/tectonic-${_version}-${_arch}${_ext}"
