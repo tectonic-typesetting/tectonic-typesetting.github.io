@@ -32,6 +32,10 @@ main() {
     need_cmd uname
     need_cmd rm
 
+    get_architecture || return 1
+    local _arch="$RETVAL"
+    assert_nz "$_arch" "arch"
+
     local _ext=".tar.gz"
     case "$_arch" in
         *windows*)
@@ -42,10 +46,6 @@ main() {
             need_cmd tar
             ;;
     esac
-
-    get_architecture || return 1
-    local _arch="$RETVAL"
-    assert_nz "$_arch" "arch"
     say "downloading version ${_version} for architecture ${_arch}"
 
     local _url="https://github.com/tectonic-typesetting/tectonic/releases/download/"
